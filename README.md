@@ -1,0 +1,50 @@
+# CloudCrud
+
+The CloudCrud project is based on GCP Spanner database and Rest api.
+You are able to use this project by sending requests and getting responces.
+
+Using this project, you can retrieve different sets of person's data like their details, 
+personal information or posts that they've posted.
+At the same time you can get person with details or person with posts. 
+For example, you can use person and posts for outputting different cards with person's data 
+or use person and their details for the profile page or the dashboard.
+
+Shorcuts: 
+
+
+          person with details = pwd
+
+          person with posts = pwp
+          
+          person's details = pd
+          
+Structure of person:
+
+          {
+             "id": 1,
+             "firstName": "Denys",
+             "lastName": "Matsenko",
+             "email": "idanchik47@gmail.com"
+          }
+          
+Structure of person's details:
+
+          {
+             "detailsId": 1,
+             "userId": 1,
+             "address": "some address",
+             "phoneNumber": "3548590348",
+          }         
+          
+          
+To retrieve person with posts - https://cloudcrud.herokuapp.com/pwp/{person_id}
+
+To retrieve person with details - https://cloudcrud.herokuapp.com/pwd/{person_id}
+
+To retrieve a person - https://cloudcrud.herokuapp.com/persons/{person_id}
+
+To retrieve person's details - https://cloudcrud.herokuapp.com/pd/{person_id}
+
+To retrieve person's posts - https://cloudcrud.herokuapp.com/posts/{person_id}
+
+# You can manipulate perons' data with different request methods (POST, GET, DELETE, PUT)
