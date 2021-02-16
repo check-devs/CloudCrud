@@ -11,6 +11,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.saintukrainian.cloudcrud.entities.Post;
 
+import com.github.saintukrainian.cloudcrud.service.PersonService;
+import com.github.saintukrainian.cloudcrud.service.PostsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,32 +23,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/posts")
 public class PostsController {
 
-    private static String SOURCE_URL = "https://jsonplaceholder.typicode.com/posts/";
+
+    @Autowired
+    private PostsService postsService;
+
 
     @GetMapping("/{id}")
-    public List<Post> getByUserId(@PathVariable int id) throws IOException, InterruptedException {
-        List<Post> posts;
-        ObjectMapper mapper = new ObjectMapper();
+    public List<Post> getByUserId(@PathVariable int id) throws IllegalArgumentException, IOException, InterruptedException {
+        List<Post> posts = postsService.getPostsByUserId(id);
 
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().GET().header("accept", "application/json")
-                .uri(URI.create(SOURCE_URL + "?userId=" + id)).build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
-        });
-        return posts;
+        if(posts.size() == 0) {
+            throw new IllegalArgumentException();
+        } else {
+            return posts;
+        }
     }
 
     @GetMapping("/")
     public List<Post> getPosts() throws IOException, InterruptedException {
-        List<Post> posts;
-        ObjectMapper mapper = new ObjectMapper();
-
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().GET().header("accept", "application/json")
-                .uri(URI.create(SOURCE_URL)).build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {});
-        return posts;
+        return postsService.getAllPosts();
     }
 }

@@ -28,39 +28,22 @@ public class PersonsController {
     @Autowired
     private PersonService personService;
 
-    @ExceptionHandler
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public HttpStatus notFound(IllegalArgumentException e) {
-        return HttpStatus.NOT_FOUND;
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public HttpStatus BadRequest(IllegalStateException e) {
-        return HttpStatus.BAD_REQUEST;
-    }
-
     @GetMapping("/")
     public Iterable<Person> getAllPersons() {
         return personService.findAllPersons();
     }
 
     @GetMapping("/{id}")
-    public Person getByid(@PathVariable int id) {
+    public Person getPersonById(@PathVariable int id) {
         return personService.findPersonById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                            .orElseThrow(IllegalArgumentException::new);
     }
 
     @PostMapping("/")
     public String addPerson(@RequestBody Person person) {
         if (person.getId() == 0) {
-            Iterator<Person> iterator = personService.findAllPersons()
-                    .iterator();
-            int tempId = 0;
-            while (iterator.hasNext()) {
-                tempId = iterator.next().getId();
-            }
-            person.setId(tempId + 1);
+            int latestUserId = personService.findLatestPersonEntry().getId();
+            person.setId(latestUserId);
         } else {
             throw new IllegalStateException();
         }
@@ -76,8 +59,8 @@ public class PersonsController {
     public String deletePerson(@PathVariable int id) {
         try {
             personService.deletePersonById(id);
-            personService.findPersonDetailsById(id).ifPresent(
-                    personDetails -> personService.deletePersonDetailsById(id));
+            personService.findPersonDetailsById(id)
+                         .ifPresent(personDetails -> personService.deletePersonDetailsById(id));
         } catch (Exception e) {
             return "Not Found";
         }

@@ -32,7 +32,8 @@ public class PersonWithInfoTest {
     public void testGetPersonById() {
         when(personRepository.findById(1)).thenReturn(java.util.Optional
                 .of(new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com")));
-        Person person = personService.findPersonById(1).get();
+        Person person = personService.findPersonById(1).orElse(null);
+        assert person != null;
         assertEquals(1, person.getId());
     }
 
@@ -40,7 +41,8 @@ public class PersonWithInfoTest {
     public void testGetPersonDetailsById() {
         when(peronsDetailsRepository.findById(1)).thenReturn(java.util.Optional
                 .of(new PersonDetails(1, 1,"some steet", "49543975348")));
-        PersonDetails personDetails = personService.findPersonDetailsById(1).get();
+        PersonDetails personDetails = personService.findPersonDetailsById(1).orElse(null);
+        assert personDetails != null;
         assertEquals(1, personDetails.getUserId());
     }
 }

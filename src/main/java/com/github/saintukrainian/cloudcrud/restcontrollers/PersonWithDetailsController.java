@@ -21,21 +21,13 @@ public class PersonWithDetailsController {
     @Autowired
     private PersonService personService;
 
-    @ExceptionHandler
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public HttpStatus notFound(IllegalArgumentException e) {
-        return HttpStatus.NOT_FOUND;
-    }
-
     @GetMapping("/")
     public List<PersonWithDetails> getFullPerson() {
-        List<PersonWithDetails> persons = personService.getAllPersonsWithDetails();
-        return persons;
+        return personService.getAllPersonsWithDetails();
     }
 
     @GetMapping("/{id}")
     public PersonWithDetails getFullPersonById(@PathVariable int id) {
-        PersonWithDetails person = personService.getPersonWithDetailsById(id);
-        return person;
+        return personService.getPersonWithDetailsById(id);
     }
 }
