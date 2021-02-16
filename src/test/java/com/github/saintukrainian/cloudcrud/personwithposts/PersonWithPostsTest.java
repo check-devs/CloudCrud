@@ -2,21 +2,16 @@ package com.github.saintukrainian.cloudcrud.personwithposts;
 
 import com.github.saintukrainian.cloudcrud.entities.PersonWithPosts;
 import com.github.saintukrainian.cloudcrud.entities.Post;
-import com.github.saintukrainian.cloudcrud.restcontrollers.PostsController;
-import com.github.saintukrainian.cloudcrud.service.PostsService;
+import com.github.saintukrainian.cloudcrud.service.PostService;
 import com.github.saintukrainian.cloudcrud.spanner.AbstractTest;
-import org.apache.catalina.core.ApplicationContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PersonWithPostsTest extends AbstractTest {
 
     @Autowired
-    PostsService postsService;
+    PostService postService;
 
     private static final String PWP_URL = "http://localhost:8080/pwp/";
     private static final String POSTS_URL = "http://localhost:8080/posts/";

@@ -22,12 +22,17 @@ import com.google.cloud.spring.data.spanner.core.SpannerQueryOptions;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
+@PropertySource("classpath:url.properties")
 public class PersonService {
 
-    private static final String POSTS_URL = "https://jsonplaceholder.typicode.com/posts/";
+    @Value("${url.posts}")
+    private String POSTS_URL;
+
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private PeronsDetailsRepository peronsDetailsRepository;
