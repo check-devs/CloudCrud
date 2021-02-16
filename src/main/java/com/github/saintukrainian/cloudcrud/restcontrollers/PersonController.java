@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/persons")
-public class PersonsController {
+public class PersonController {
 
     @Autowired
     private PersonService personService;

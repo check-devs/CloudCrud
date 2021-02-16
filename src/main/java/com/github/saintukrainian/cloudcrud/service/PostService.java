@@ -14,7 +14,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 @Service
-public class PostsService {
+public class PostService {
 
     private static final String SOURCE_URL = "https://jsonplaceholder.typicode.com/posts/";
     private final static ObjectMapper mapper = new ObjectMapper();
