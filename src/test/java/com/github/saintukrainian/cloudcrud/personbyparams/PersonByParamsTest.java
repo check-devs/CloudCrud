@@ -1,10 +1,11 @@
-package com.github.saintukrainian.cloudcrud.spanner;
+package com.github.saintukrainian.cloudcrud.personbyparams;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.saintukrainian.cloudcrud.entities.Person;
 
+import com.github.saintukrainian.cloudcrud.spanner.AbstractTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

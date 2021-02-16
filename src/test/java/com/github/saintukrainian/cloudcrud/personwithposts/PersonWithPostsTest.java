@@ -64,7 +64,6 @@ public class PersonWithPostsTest extends AbstractTest {
     }
 
     @Test
-    @Order(value = 10)
     public void getPostsByUserId() throws Exception {
         int userId = 1;
         MvcResult mvcResult = mvc

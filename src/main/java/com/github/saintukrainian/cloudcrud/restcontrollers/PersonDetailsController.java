@@ -2,7 +2,9 @@ package com.github.saintukrainian.cloudcrud.restcontrollers;
 
 import com.github.saintukrainian.cloudcrud.entities.PersonDetails;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
+import org.checkerframework.checker.lock.qual.Holding;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +21,8 @@ public class PersonDetailsController {
     }
 
     @PostMapping("/")
-    public String addDetails(@RequestBody PersonDetails personDetails) {
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public HttpStatus addDetails(@RequestBody PersonDetails personDetails) {
         if(personDetails.getDetailsId() != 0) {
             throw new IllegalStateException();
         }
@@ -27,7 +30,7 @@ public class PersonDetailsController {
         if (personService.checkIfPersonExistsById(personDetails.getUserId())) {
             personDetails.setDetailsId(personDetails.getUserId());
             personService.savePersonDetails(personDetails);
-            return "Details added";
+            return HttpStatus.CREATED;
         } else {
             throw new IllegalArgumentException();
         }
@@ -35,10 +38,11 @@ public class PersonDetailsController {
     }
 
     @PutMapping("/")
-    public String updateDetails(@RequestBody PersonDetails personDetails) {
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public HttpStatus updateDetails(@RequestBody PersonDetails personDetails) {
         if (personService.checkIfPersonDetailsExistById(personDetails.getDetailsId())) {
             personService.savePersonDetails(personDetails);
-            return "Details updated";
+            return HttpStatus.ACCEPTED;
         } else {
             throw new IllegalArgumentException();
         }

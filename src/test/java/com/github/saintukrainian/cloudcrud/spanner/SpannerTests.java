@@ -1,6 +1,8 @@
 package com.github.saintukrainian.cloudcrud.spanner;
 
-import com.github.saintukrainian.cloudcrud.entities.*;
+import com.github.saintukrainian.cloudcrud.entities.Person;
+import com.github.saintukrainian.cloudcrud.entities.PersonDetails;
+import com.github.saintukrainian.cloudcrud.entities.PersonWithDetails;
 import com.github.saintukrainian.cloudcrud.repositories.PeronsDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
@@ -78,8 +80,8 @@ public class SpannerTests extends AbstractTest {
         int status = mvcResult.getResponse().getStatus();
         String content = mvcResult.getResponse().getContentAsString();
 
-        assertEquals(200, status);
-        assertEquals(content, "Accepted");
+        assertEquals(201, status);
+        assertEquals(content, "\"CREATED\"");
     }
 
     @Test
@@ -97,8 +99,8 @@ public class SpannerTests extends AbstractTest {
 
         int status = mvcResult.getResponse().getStatus();
         String response = mvcResult.getResponse().getContentAsString();
-        assertEquals(200, status);
-        assertEquals("Details added", response);
+        assertEquals(201, status);
+        assertEquals("\"CREATED\"", response);
     }
 
     @Test
@@ -116,8 +118,8 @@ public class SpannerTests extends AbstractTest {
 
         int status = mvcResult.getResponse().getStatus();
         String response = mvcResult.getResponse().getContentAsString();
-        assertEquals(200, status);
-        assertEquals("Details updated", response);
+        assertEquals(202, status);
+        assertEquals("\"ACCEPTED\"", response);
     }
 
     @Test
@@ -136,8 +138,8 @@ public class SpannerTests extends AbstractTest {
 
         int status = mvcResult.getResponse().getStatus();
         String content = mvcResult.getResponse().getContentAsString();
-        assertEquals(200, status);
-        assertEquals(content, "Accepted");
+        assertEquals(202, status);
+        assertEquals(content, "\"ACCEPTED\"");
     }
 
     @Test
@@ -151,11 +153,11 @@ public class SpannerTests extends AbstractTest {
                 .andReturn();
 
         assertEquals(200, mvcResult.getResponse().getStatus());
-        assertEquals("Gone", mvcResult.getResponse().getContentAsString());
+        assertEquals("\"OK\"", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
-    @Order(value = 11)
+    @Order(value = 8)
     public void getPersonWithDetailsById() throws Exception {
         int userId = 1;
         MvcResult mvcResult = mvc
@@ -170,7 +172,7 @@ public class SpannerTests extends AbstractTest {
     }
 
     @Test
-    @Order(value = 12)
+    @Order(value = 9)
     public void getPersonDetailsById() throws Exception {
         int userId = personService.findLatestPersonDetailsEntry().getUserId();
         MvcResult mvcResult = mvc

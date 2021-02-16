@@ -40,47 +40,41 @@ public class PersonsController {
     }
 
     @PostMapping("/")
-    public String addPerson(@RequestBody Person person) {
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public HttpStatus addPerson(@RequestBody Person person) {
         if (person.getId() == 0) {
             int latestUserId = personService.findLatestPersonEntry().getId();
-            person.setId(latestUserId);
+            person.setId(latestUserId + 1);
         } else {
             throw new IllegalStateException();
         }
-        try {
-            personService.savePerson(person);
-        } catch (Exception e) {
-            return "Bad Request";
-        }
-        return "Accepted";
+        personService.savePerson(person);
+        return HttpStatus.CREATED;
     }
 
     @DeleteMapping("/{id}")
-    public String deletePerson(@PathVariable int id) {
-        try {
-            personService.deletePersonById(id);
-            personService.findPersonDetailsById(id)
+    @ResponseStatus(code = HttpStatus.OK)
+    public HttpStatus deletePerson(@PathVariable int id) {
+        personService.deletePersonById(id);
+        personService.findPersonDetailsById(id)
                          .ifPresent(personDetails -> personService.deletePersonDetailsById(id));
-        } catch (Exception e) {
-            return "Not Found";
-        }
-        return "Gone";
+        return HttpStatus.OK;
     }
 
     @PutMapping("/")
-    public String updatePerson(@RequestBody Person updatedPerson) {
-        try {
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public HttpStatus updatePerson(@RequestBody Person updatedPerson) {
+        if(personService.checkIfPersonExistsById(updatedPerson.getId())) {
             personService.savePerson(updatedPerson);
-        } catch (Exception e) {
-            return "Not Found";
+        } else {
+            throw new IllegalArgumentException();
         }
-        return "Accepted";
+        return HttpStatus.ACCEPTED;
     }
 
     @GetMapping("/search")
     public List<Person> getPersonsByFirstName(@RequestParam Map<String, String> params) {
-        String firstName = params.get("firstName");
-        return personService.getAllPersonsByFirstName(firstName);
+        return personService.getAllPersonsByFirstName(params.get("firstName"));
     }
 
 }
