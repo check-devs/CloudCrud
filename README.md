@@ -47,4 +47,6 @@ To retrieve person's details by id - curl https://cloudcrud.herokuapp.com/pd/1
 
 To retrieve person's posts by id - curl https://cloudcrud.herokuapp.com/posts/1
 
+Test endpoints using Swagger UI - https://cloudcrud.herokuapp.com/swagger-ui.html
+
 # You can manipulate perons' data with different request methods (POST, GET, DELETE, PUT)
