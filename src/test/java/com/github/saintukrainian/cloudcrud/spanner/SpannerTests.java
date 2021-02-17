@@ -3,12 +3,14 @@ package com.github.saintukrainian.cloudcrud.spanner;
 import com.github.saintukrainian.cloudcrud.entities.Person;
 import com.github.saintukrainian.cloudcrud.entities.PersonDetails;
 import com.github.saintukrainian.cloudcrud.entities.PersonWithDetails;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,7 +33,7 @@ public class SpannerTests extends AbstractTest {
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
         Person[] persons = super.mapFromJson(content, Person[].class);
-        Assertions.assertTrue(persons.length > 0);
+        Assertions.assertNotNull(persons);
     }
 
     @Test
@@ -46,34 +48,45 @@ public class SpannerTests extends AbstractTest {
         String content = mvcResult.getResponse().getContentAsString();
         Person person = super.mapFromJson(content, Person.class);
         assertEquals(person.getId(), id);
+        assertEquals(person.getFirstName(), "Denys");
+        assertEquals(person.getLastName(), "Matsenko");
+        assertEquals(person.getEmail(), "idanchik47@gmail.com");
     }
 
     @Test
     public void getPersonWithDetailsById() throws Exception {
         int userId = 1;
         MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.get(PWD_URL + userId).accept(MediaType.APPLICATION_JSON_VALUE))
+                .perform(MockMvcRequestBuilders.get(PWD_URL + userId)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
         PersonWithDetails pwd = super.mapFromJson(content, PersonWithDetails.class);
-        Assertions.assertTrue(pwd.getUserId() == userId && pwd.getDetailsId() == userId);
+        assertEquals(pwd.getUserId(), userId);
+        assertEquals(pwd.getDetailsId(), userId);
+        assertEquals(pwd.getAddress(), "some address");
+        assertEquals(pwd.getPhoneNumber(), "4445435465");
     }
 
     @Test
     public void getPersonDetailsById() throws Exception {
-        int userId = personService.findLatestPersonDetailsEntry().getUserId();
+        int userId = 1;
         MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.get(PD_URL + userId).accept(MediaType.APPLICATION_JSON_VALUE))
+                .perform(MockMvcRequestBuilders.get(PD_URL + userId)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
         PersonDetails pd = super.mapFromJson(content, PersonDetails.class);
-        Assertions.assertTrue(pd.getDetailsId() == userId && pd.getUserId() == userId);
+        assertEquals(pd.getUserId(), userId);
+        assertEquals(pd.getDetailsId(), userId);
+        assertEquals(pd.getAddress(), "some address");
+        assertEquals(pd.getPhoneNumber(), "4445435465");
     }
 
     @Nested
@@ -86,7 +99,6 @@ public class SpannerTests extends AbstractTest {
         }
 
         @Test
-        @Transactional
         public void addPerson() throws Exception {
             Person person = new Person();
             person.setFirstName("Test");
@@ -95,7 +107,9 @@ public class SpannerTests extends AbstractTest {
 
             String inputJson = super.mapToJson(person);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(PERSONS_URL)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+                    .andReturn();
 
             int status = mvcResult.getResponse().getStatus();
             String content = mvcResult.getResponse().getContentAsString();
@@ -113,7 +127,9 @@ public class SpannerTests extends AbstractTest {
 
             String inputJson = super.mapToJson(personDetails);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(PD_URL)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+                    .andReturn();
 
             int status = mvcResult.getResponse().getStatus();
             String response = mvcResult.getResponse().getContentAsString();
@@ -122,7 +138,6 @@ public class SpannerTests extends AbstractTest {
         }
 
         @Test
-        @Transactional
         public void updatePersonDetails() throws Exception {
             PersonDetails personDetails = new PersonDetails();
             personDetails.setAddress("new address");
@@ -131,7 +146,9 @@ public class SpannerTests extends AbstractTest {
 
             String inputJson = super.mapToJson(personDetails);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PD_URL + id)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+                    .andReturn();
 
             int status = mvcResult.getResponse().getStatus();
             String response = mvcResult.getResponse().getContentAsString();
@@ -140,7 +157,6 @@ public class SpannerTests extends AbstractTest {
         }
 
         @Test
-        @Transactional
         public void updatePerson() throws Exception {
             int userId = personService.findLatestPersonEntry().getId();
             Person person = new Person();
@@ -150,7 +166,9 @@ public class SpannerTests extends AbstractTest {
 
             String inputJson = super.mapToJson(person);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PERSONS_URL + userId)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+                    .andReturn();
 
             int status = mvcResult.getResponse().getStatus();
             String content = mvcResult.getResponse().getContentAsString();
@@ -159,20 +177,11 @@ public class SpannerTests extends AbstractTest {
         }
 
         @Test
-        @Transactional
         public void deletePersonAndDetailsIfExist() throws Exception {
-            int userId;
             MvcResult mvcResult;
 
             Person person = personService.findLatestPersonEntry();
-            if(person.getFirstName().equals("Test")) {
-                userId = person.getId();
-            } else {
-                personService.savePerson(new Person("jlkhhjkhjkhjkh", "Test", "test@gmail.com"));
-                userId = personService.findLatestPersonEntry().getId();
-            }
-
-            mvcResult = mvc.perform(MockMvcRequestBuilders.delete(PERSONS_URL + userId))
+            mvcResult = mvc.perform(MockMvcRequestBuilders.delete(PERSONS_URL + person.getId()))
                     .andReturn();
 
             assertEquals(200, mvcResult.getResponse().getStatus());
