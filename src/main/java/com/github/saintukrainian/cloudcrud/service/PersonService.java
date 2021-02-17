@@ -21,12 +21,15 @@ import com.google.cloud.spanner.Statement;
 import com.google.cloud.spring.data.spanner.core.SpannerQueryOptions;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 @PropertySource("classpath:url.properties")
 public class PersonService {
 
@@ -35,17 +38,10 @@ public class PersonService {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private PeronsDetailsRepository peronsDetailsRepository;
-    private PersonRepository personRepository;
-    private SpannerTemplate spannerTemplate;
+    private final PeronsDetailsRepository peronsDetailsRepository;
+    private final PersonRepository personRepository;
+    private final SpannerTemplate spannerTemplate;
 
-    @Autowired
-    public PersonService(PersonRepository personRepository, PeronsDetailsRepository peronsDetailsRepository,
-            SpannerTemplate spannerTemplate) {
-        this.personRepository = personRepository;
-        this.peronsDetailsRepository = peronsDetailsRepository;
-        this.spannerTemplate = spannerTemplate;
-    }
 
     public Optional<Person> findPersonById(int id) {
         return personRepository.findById(id);
@@ -79,7 +75,26 @@ public class PersonService {
     }
 
     public void savePersonDetails(PersonDetails personDetails) {
-        peronsDetailsRepository.save(personDetails);
+        if(personDetails.getDetailsId() != 0) {
+            throw new IllegalStateException();
+        }
+
+        if (this.checkIfPersonExistsById(personDetails.getUserId())) {
+            personDetails.setDetailsId(personDetails.getUserId());
+            peronsDetailsRepository.save(personDetails);
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void updatePersonDetails(int id, PersonDetails personDetails) {
+        if (this.checkIfPersonDetailsExistById(id)) {
+            personDetails.setUserId(id);
+            personDetails.setDetailsId(id);
+            peronsDetailsRepository.save(personDetails);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public void deletePersonById(int id) {

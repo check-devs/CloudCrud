@@ -126,13 +126,12 @@ public class SpannerTests extends AbstractTest {
         @Transactional
         public void updatePersonDetails() throws Exception {
             PersonDetails personDetails = new PersonDetails();
-            personDetails.setDetailsId(personService.findLatestPersonDetailsEntry().getDetailsId());
-            personDetails.setUserId(personService.findLatestPersonDetailsEntry().getUserId());
             personDetails.setAddress("new address");
             personDetails.setPhoneNumber("45894365846");
+            int id = personService.findLatestPersonDetailsEntry().getDetailsId();
 
             String inputJson = super.mapToJson(personDetails);
-            MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PD_URL)
+            MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PD_URL + id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
             int status = mvcResult.getResponse().getStatus();
@@ -146,14 +145,12 @@ public class SpannerTests extends AbstractTest {
         public void updatePerson() throws Exception {
             int userId = personService.findLatestPersonEntry().getId();
             Person person = new Person();
-            System.out.println(userId);
-            person.setId(userId);
             person.setFirstName("Test");
             person.setLastName("NewTest");
             person.setEmail("test@gmail.com");
 
             String inputJson = super.mapToJson(person);
-            MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PERSONS_URL)
+            MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PERSONS_URL + userId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
             int status = mvcResult.getResponse().getStatus();

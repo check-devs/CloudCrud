@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.saintukrainian.cloudcrud.entities.Person;
+import com.github.saintukrainian.cloudcrud.entities.SearchParams;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,11 +24,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/persons")
 public class PersonController {
 
-    @Autowired
-    private PersonService personService;
+    private final PersonService personService;
 
     @GetMapping("/")
     public Iterable<Person> getAllPersons() {
@@ -62,9 +64,9 @@ public class PersonController {
         return HttpStatus.ACCEPTED;
     }
 
-    @GetMapping("/search")
-    public List<Person> getPersonsByFirstName(@RequestParam Map<String, String> params) {
-        return personService.getAllPersonsByFirstName(params.get("firstName"));
+    @PostMapping("/search")
+    public List<Person> getPersonsByFirstName(@RequestBody SearchParams searchParams) {
+        return personService.getAllPersonsByFirstName(searchParams.getFirstName());
     }
 
 }
