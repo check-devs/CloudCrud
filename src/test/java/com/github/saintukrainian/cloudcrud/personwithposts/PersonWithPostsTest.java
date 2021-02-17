@@ -6,6 +6,7 @@ import com.github.saintukrainian.cloudcrud.service.PostService;
 import com.github.saintukrainian.cloudcrud.spanner.AbstractTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,4 +72,5 @@ public class PersonWithPostsTest extends AbstractTest {
         Post[] posts = super.mapFromJson(content, Post[].class);
         assertEquals(userId, posts[0].getUserId());
     }
+
 }
