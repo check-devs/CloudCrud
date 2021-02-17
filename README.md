@@ -37,14 +37,14 @@ Structure of person's details:
           }         
           
           
-To retrieve person with posts - curl https://cloudcrud.herokuapp.com/pwp/1
+To retrieve person with posts by id - curl https://cloudcrud.herokuapp.com/pwp/1
 
-To retrieve person with details - curl https://cloudcrud.herokuapp.com/pwd/1
+To retrieve person with details by id - curl https://cloudcrud.herokuapp.com/pwd/1
 
-To retrieve a person - curl https://cloudcrud.herokuapp.com/persons/1
+To retrieve a person by id - curl https://cloudcrud.herokuapp.com/persons/1
 
-To retrieve person's details - curl https://cloudcrud.herokuapp.com/pd/1
+To retrieve person's details by id - curl https://cloudcrud.herokuapp.com/pd/1
 
-To retrieve person's posts - curl https://cloudcrud.herokuapp.com/posts/1
+To retrieve person's posts by id - curl https://cloudcrud.herokuapp.com/posts/1
 
 # You can manipulate perons' data with different request methods (POST, GET, DELETE, PUT)
