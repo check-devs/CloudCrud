@@ -1,6 +1,7 @@
 package com.github.saintukrainian.cloudcrud.restcontrollers;
 
 import com.github.saintukrainian.cloudcrud.entities.PersonDetails;
+import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ public class PersonDetailsController {
     @GetMapping("/{id}")
     public PersonDetails getById(@PathVariable int id) {
         return personService.findPersonDetailsById(id)
-                            .orElseThrow(IllegalArgumentException::new);
+                            .orElseThrow(PersonNotFoundException::new);
     }
 
     @PostMapping("/")

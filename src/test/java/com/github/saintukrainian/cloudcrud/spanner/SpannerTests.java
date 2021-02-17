@@ -105,7 +105,6 @@ public class SpannerTests extends AbstractTest {
         }
 
         @Test
-        @Transactional
         public void addPersonDetails() throws Exception {
             PersonDetails personDetails = new PersonDetails();
             personDetails.setUserId(personService.findLatestPersonEntry().getId());
