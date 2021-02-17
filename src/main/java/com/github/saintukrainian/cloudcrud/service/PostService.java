@@ -3,6 +3,7 @@ package com.github.saintukrainian.cloudcrud.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.saintukrainian.cloudcrud.entities.Post;
+import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class PostService {
         List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
         });
         if (posts.size() == 0) {
-            throw new IllegalArgumentException();
+            throw new PersonNotFoundException();
         } else {
             return posts;
         }
