@@ -1,17 +1,15 @@
 package com.github.saintukrainian.cloudcrud.restcontrollers;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.github.saintukrainian.cloudcrud.entities.Post;
-
 import com.github.saintukrainian.cloudcrud.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     private final PostService postService;
-
 
     @GetMapping("/{id}")
     public List<Post> getPostsByUserId(@PathVariable int id) throws IllegalArgumentException, IOException, InterruptedException {

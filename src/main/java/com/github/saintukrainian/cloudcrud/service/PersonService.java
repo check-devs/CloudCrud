@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,14 +18,18 @@ import com.github.saintukrainian.cloudcrud.entities.PersonWithPosts;
 import com.github.saintukrainian.cloudcrud.entities.Post;
 import com.github.saintukrainian.cloudcrud.repositories.PeronsDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
+import com.google.cloud.spanner.Options;
 import com.google.cloud.spanner.Statement;
 import com.google.cloud.spring.data.spanner.core.SpannerQueryOptions;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
 
+import com.google.cloud.spring.data.spanner.repository.query.Query;
+import com.google.cloud.spring.data.spanner.repository.query.SpannerStatementQueryExecutor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +71,7 @@ public class PersonService {
     }
 
     public void updatePerson(int userId, Person person) {
-        if(this.checkIfPersonExistsById(userId)) {
+        if (this.checkIfPersonExistsById(userId)) {
             person.setId(userId);
             personRepository.save(person);
         } else {
@@ -75,7 +80,7 @@ public class PersonService {
     }
 
     public void savePersonDetails(PersonDetails personDetails) {
-        if(personDetails.getDetailsId() != 0) {
+        if (personDetails.getDetailsId() != 0) {
             throw new IllegalStateException();
         }
 
@@ -110,10 +115,12 @@ public class PersonService {
     }
 
     public List<Person> getAllPersonsByFirstName(String firstName) {
-        String statement = "SELECT * FROM persons WHERE first_name=\"" + firstName + "\"";
+        Statement statement = Statement.newBuilder("SELECT * FROM persons WHERE first_name=@firstName;")
+                .bind("firstName")
+                .to(firstName)
+                .build();
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        return spannerTemplate.query(Person.class,
-                Statement.of(statement), queryOptions);
+        return spannerTemplate.query(Person.class, statement, queryOptions);
     }
 
     public List<PersonWithDetails> getAllPersonsWithDetails() {
@@ -124,11 +131,13 @@ public class PersonService {
     }
 
     public PersonWithDetails getPersonWithDetailsById(int id) throws IllegalArgumentException {
-        if(personRepository.existsById(id)) {
+        if (personRepository.existsById(id)) {
             SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-            String statement = "select p.id, p.first_name, p.last_name, p.email, pd.details_id, pd.address, pd.phone_number from persons p left join person_details pd on p.id=pd.user_id where p.id="+ id + " limit 1;";
-            return spannerTemplate.query(PersonWithDetails.class, Statement.of(statement), queryOptions)
-                    .get(0);
+            Statement statement = Statement.newBuilder("select p.id, p.first_name, p.last_name, p.email, pd.details_id, pd.address, pd.phone_number from persons p left join person_details pd on p.id=pd.user_id where p.id=@id;")
+                    .bind("id")
+                    .to(id)
+                    .build();
+            return spannerTemplate.query(PersonWithDetails.class, statement, queryOptions).get(0);
         } else {
             throw new IllegalArgumentException();
         }
@@ -140,29 +149,28 @@ public class PersonService {
         PersonWithPosts personWithPosts = new PersonWithPosts();
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                                    .newBuilder()
-                                    .GET()
-                                    .header("accept", "application/json")
-                                    .uri(URI.create(POSTS_URL + "?userId=" + id))
-                                    .build();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .header("accept", "application/json")
+                .uri(URI.create(POSTS_URL + "?userId=" + id))
+                .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {});
 
-
+        posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+        });
         personWithPosts.setFieldsWithPersonInfo(personRepository.findById(id)
-                                                                .orElseThrow(IllegalArgumentException::new));
+                .orElseThrow(IllegalArgumentException::new));
         personWithPosts.setPosts(posts);
         return personWithPosts;
     }
 
-    public Person findLatestPersonEntry() throws IndexOutOfBoundsException{
+    public Person findLatestPersonEntry() throws IndexOutOfBoundsException {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         String statement = "select * from persons order by id desc limit 1;";
         return spannerTemplate.query(Person.class, Statement.of(statement), queryOptions).get(0);
     }
 
-    public PersonDetails findLatestPersonDetailsEntry() throws IndexOutOfBoundsException{
+    public PersonDetails findLatestPersonDetailsEntry() throws IndexOutOfBoundsException {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         String statement = "select * from person_details order by details_id desc limit 1;";
         return spannerTemplate.query(PersonDetails.class, Statement.of(statement), queryOptions).get(0);

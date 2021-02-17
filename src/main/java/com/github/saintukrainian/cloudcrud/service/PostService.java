@@ -25,15 +25,15 @@ public class PostService {
 
     public List<Post> getPostsByUserId(int id) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder()
+        HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .header("accept", "application/json")
                 .uri(URI.create(POSTS_URL + "?userId=" + id))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {});
-        if(posts.size() == 0) {
+        List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+        });
+        if (posts.size() == 0) {
             throw new IllegalArgumentException();
         } else {
             return posts;
@@ -42,13 +42,13 @@ public class PostService {
 
     public List<Post> getAllPosts() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder()
+        HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .header("accept", "application/json")
                 .uri(URI.create(POSTS_URL))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return mapper.readValue(response.body(), new TypeReference<List<Post>>() {});
+        return mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+        });
     }
 }
