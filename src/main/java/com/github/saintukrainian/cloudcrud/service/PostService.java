@@ -32,7 +32,12 @@ public class PostService {
                 .uri(URI.create(POSTS_URL + "?userId=" + id))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return mapper.readValue(response.body(), new TypeReference<List<Post>>() {});
+        List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {});
+        if(posts.size() == 0) {
+            throw new IllegalArgumentException();
+        } else {
+            return posts;
+        }
     }
 
     public List<Post> getAllPosts() throws IOException, InterruptedException {

@@ -22,14 +22,8 @@ public class PostController {
 
 
     @GetMapping("/{id}")
-    public List<Post> getByUserId(@PathVariable int id) throws IllegalArgumentException, IOException, InterruptedException {
-        List<Post> posts = postService.getPostsByUserId(id);
-
-        if(posts.size() == 0) {
-            throw new IllegalArgumentException();
-        } else {
-            return posts;
-        }
+    public List<Post> getPostsByUserId(@PathVariable int id) throws IllegalArgumentException, IOException, InterruptedException {
+        return postService.getPostsByUserId(id);
     }
 
     @GetMapping("/")
