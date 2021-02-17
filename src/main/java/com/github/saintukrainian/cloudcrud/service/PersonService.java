@@ -59,8 +59,22 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public void savePerson(Person person) {
+    public void savePerson(Person person) throws IllegalStateException {
+        if (person.getId() == 0) {
+            int latestUserId = this.findLatestPersonEntry().getId();
+            person.setId(latestUserId + 1);
+        } else {
+            throw new IllegalStateException();
+        }
         personRepository.save(person);
+    }
+
+    public void updatePerson(Person person) {
+        if(this.checkIfPersonExistsById(person.getId())) {
+            personRepository.save(person);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public void savePersonDetails(PersonDetails personDetails) {

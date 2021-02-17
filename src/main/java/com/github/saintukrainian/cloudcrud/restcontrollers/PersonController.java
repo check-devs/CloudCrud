@@ -42,12 +42,6 @@ public class PersonController {
     @PostMapping("/")
     @ResponseStatus(code = HttpStatus.CREATED)
     public HttpStatus addPerson(@RequestBody Person person) {
-        if (person.getId() == 0) {
-            int latestUserId = personService.findLatestPersonEntry().getId();
-            person.setId(latestUserId + 1);
-        } else {
-            throw new IllegalStateException();
-        }
         personService.savePerson(person);
         return HttpStatus.CREATED;
     }
@@ -64,11 +58,7 @@ public class PersonController {
     @PutMapping("/")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public HttpStatus updatePerson(@RequestBody Person updatedPerson) {
-        if(personService.checkIfPersonExistsById(updatedPerson.getId())) {
-            personService.savePerson(updatedPerson);
-        } else {
-            throw new IllegalArgumentException();
-        }
+        personService.updatePerson(updatedPerson);
         return HttpStatus.ACCEPTED;
     }
 
