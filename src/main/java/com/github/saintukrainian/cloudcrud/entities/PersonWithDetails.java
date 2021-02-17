@@ -1,15 +1,16 @@
 package com.github.saintukrainian.cloudcrud.entities;
 
-import com.github.saintukrainian.cloudcrud.entities.builder.PersonWithDetailsBuilder;
 import com.google.cloud.spring.data.spanner.core.mapping.Column;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class PersonWithDetails {
     
     @Column(name = "id")
@@ -32,10 +33,4 @@ public class PersonWithDetails {
 
     @Column(name = "phone_number")
     private String phoneNumber;
-
-    public static PersonWithDetailsBuilder builder() {
-        return new PersonWithDetailsBuilder();
-    }
-    
-    
 }

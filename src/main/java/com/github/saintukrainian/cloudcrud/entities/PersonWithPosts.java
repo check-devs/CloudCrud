@@ -2,11 +2,14 @@ package com.github.saintukrainian.cloudcrud.entities;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PersonWithPosts {
     private int id;
 

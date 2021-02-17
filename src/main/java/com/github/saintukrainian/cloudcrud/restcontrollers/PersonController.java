@@ -55,10 +55,10 @@ public class PersonController {
         return HttpStatus.OK;
     }
 
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public HttpStatus updatePerson(@RequestBody Person updatedPerson) {
-        personService.updatePerson(updatedPerson);
+    public HttpStatus updatePerson(@PathVariable("id") int userId ,@RequestBody Person updatedPerson) {
+        personService.updatePerson(userId,updatedPerson);
         return HttpStatus.ACCEPTED;
     }
 

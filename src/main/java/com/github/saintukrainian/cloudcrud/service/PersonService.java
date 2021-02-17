@@ -69,8 +69,9 @@ public class PersonService {
         personRepository.save(person);
     }
 
-    public void updatePerson(Person person) {
-        if(this.checkIfPersonExistsById(person.getId())) {
+    public void updatePerson(int userId, Person person) {
+        if(this.checkIfPersonExistsById(userId)) {
+            person.setId(userId);
             personRepository.save(person);
         } else {
             throw new IllegalArgumentException();
