@@ -16,6 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        export_default_credentials: true
+
     - name: Checking Docker
       run: docker pull gcr.io/cloud-spanner-emulator/emulator
     - name: Set up JDK 11
