@@ -65,6 +65,7 @@ public class SpannerTests extends AbstractTest {
         System.setProperty("SPANNER_EMULATOR_HOST", "http://localhost:9010/");
 
         logger.info("Starting container >>>>>>>>");
+        dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator:latest").start();
         CreateContainerResponse containerResponse = dockerClient.createContainerCmd("gcr.io/cloud-spanner-emulator/emulator:latest")
                 .withPortBindings(PortBinding.parse("9010:9010"), PortBinding.parse("9020:9020"))
                 .exec();
