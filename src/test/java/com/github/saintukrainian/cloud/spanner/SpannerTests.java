@@ -2,7 +2,8 @@ package com.github.saintukrainian.cloud.spanner;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.model.PortBinding;
+import com.github.dockerjava.api.command.PullImageResultCallback;
+import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
@@ -19,6 +20,7 @@ import com.google.cloud.spanner.*;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
 import com.google.spanner.admin.database.v1.CreateDatabaseMetadata;
 import com.google.spanner.admin.instance.v1.CreateInstanceMetadata;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +31,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,11 +63,20 @@ public class SpannerTests extends AbstractTest {
 
 
     @BeforeAll
-    public static void setupDockerSpannerInstanceDatabase() {
+    public static void setupDockerSpannerInstanceDatabase() throws InterruptedException {
 
         // setting up docker
         System.setProperty("SPANNER_EMULATOR_HOST", "http://localhost:9010/");
 
+        // pulling emulator image
+        logger.info("Pulling emulator image...");
+        dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator")
+                .withAuthConfig(new AuthConfig())
+                .exec(new PullImageResultCallback())
+                .awaitCompletion(60, TimeUnit.SECONDS);
+        logger.info("Emulator image has been pulled!");
+
+        // starting emulator container
         logger.info("Starting container >>>>>>>>");
         dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator:latest").start();
         CreateContainerResponse containerResponse = dockerClient.createContainerCmd("gcr.io/cloud-spanner-emulator/emulator:latest")
@@ -100,10 +113,10 @@ public class SpannerTests extends AbstractTest {
         try {
             // Wait for the createInstance operation to finish.
             Instance instance = operation.get();
-            logger.info("Instance " + instance.getId() +" was successfully created");
+            logger.info("Instance " + instance.getId() + " was successfully created");
         } catch (ExecutionException e) {
             logger.warning(
-                    "Error: Creating instance " + instanceInfo.getId() +" failed with error message " + e.getMessage());
+                    "Error: Creating instance " + instanceInfo.getId() + " failed with error message " + e.getMessage());
         } catch (InterruptedException e) {
             logger.warning("Error: Waiting for createInstance operation to finish was interrupted");
         }
@@ -387,7 +400,7 @@ public class SpannerTests extends AbstractTest {
         @Test
         public void testGetPersonDetailsById() {
             when(peronsDetailsRepository.findById(1)).thenReturn(java.util.Optional
-                    .of(new PersonDetails(1, 1,"some steet", "49543975348")));
+                    .of(new PersonDetails(1, 1, "some steet", "49543975348")));
             PersonDetails personDetails = personService.findPersonDetailsById(1).orElse(null);
             assertNotNull(personDetails);
             assertEquals(1, personDetails.getUserId());
