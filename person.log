@@ -1,0 +1,18 @@
+Feb 23, 2021 8:21:37 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonWithPostsById
+INFO: Finding all posts for person with id=1
+Feb 23, 2021 8:22:37 AM com.github.saintukrainian.cloudcrud.service.PersonService findPersonById
+INFO: Finding person with id=1
+Feb 23, 2021 8:22:38 AM com.github.saintukrainian.cloudcrud.service.PersonService findPersonById
+INFO: Person found. Time taken: 292 milliseconds
+Feb 23, 2021 8:25:17 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonWithPostsById
+INFO: Finding all posts for person with id=1
+Feb 23, 2021 8:25:17 AM com.github.saintukrainian.cloudcrud.service.PersonService findPersonById
+INFO: Finding person with id=1
+Feb 23, 2021 8:25:17 AM com.github.saintukrainian.cloudcrud.service.PersonService findPersonById
+INFO: Person found. Time taken: 26 milliseconds
+Feb 23, 2021 8:25:29 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonWithPostsById
+INFO: Finding all posts for person with id=1
+Feb 23, 2021 8:25:29 AM com.github.saintukrainian.cloudcrud.service.PersonService findPersonById
+INFO: Finding person with id=1
+Feb 23, 2021 8:25:29 AM com.github.saintukrainian.cloudcrud.service.PersonService findPersonById
+INFO: Person found. Time taken: 6 milliseconds
