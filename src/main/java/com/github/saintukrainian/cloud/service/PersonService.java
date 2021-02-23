@@ -44,14 +44,26 @@ public class PersonService {
     private final static Logger logger = Logger.getLogger(PersonService.class.getName());
 
 
-    public Optional<Person> findPersonById(int id) {
+    public Person findPersonById(int id) {
         logger.info("Finding person with id=" + id);
-        return personRepository.findById(id);
+        Optional<Person> person = personRepository.findById(id);
+        if(person.isPresent()) {
+            return person.get();
+        } else {
+            logPersonWasNotFoundWithId(id);
+            throw new PersonNotFoundException();
+        }
     }
 
-    public Optional<PersonDetails> findPersonDetailsById(int id) {
+    public PersonDetails findPersonDetailsById(int id) {
         logger.info("Finding person details by id=" + id);
-        return peronsDetailsRepository.findById(id);
+        Optional<PersonDetails> personDetails = peronsDetailsRepository.findById(id);
+        if(personDetails.isPresent()) {
+            return personDetails.get();
+        } else {
+            logger.warning("Person details were not found with id=" + id);
+            throw new PersonDetailsNotFoundException();
+        }
     }
 
     public Iterable<Person> findAllPersons() {
@@ -133,8 +145,18 @@ public class PersonService {
             peronsDetailsRepository.deleteById(id);
             logger.info("Person details were successfully deleted for person with id=" + id);
         } catch (IllegalArgumentException e) {
-            logger.warning("Can't update person details. Person was not found with id=" + id);
+            logger.warning("Can't delete person details. Person was not found with id=" + id);
             throw new PersonDetailsNotFoundException();
+        }
+    }
+
+    public void suppressedDeletePersonDetailsById(int id) {
+        logger.info("Deleting person details for person with id=" + id);
+        try {
+            peronsDetailsRepository.deleteById(id);
+            logger.info("Person details were successfully deleted for person with id=" + id);
+        } catch (IllegalArgumentException e) {
+            logger.warning("Can't delete person details. Person was not found with id=" + id);
         }
     }
 
@@ -168,7 +190,7 @@ public class PersonService {
             logPersonFoundWithId(id);
             return personWithDetails.get(0);
         } else {
-            logPersonFoundWithId(id);
+            logPersonWasNotFoundWithId(id);
             throw new PersonNotFoundException();
         }
     }

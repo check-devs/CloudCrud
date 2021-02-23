@@ -16,8 +16,7 @@ public class PersonDetailsController {
 
     @GetMapping("/{id}")
     public PersonDetails getById(@PathVariable int id) {
-        return personService.findPersonDetailsById(id)
-                            .orElseThrow(PersonDetailsNotFoundException::new);
+        return personService.findPersonDetailsById(id);
     }
 
     @PostMapping("/")

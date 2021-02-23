@@ -2,6 +2,7 @@ package com.github.saintukrainian.cloud.restcontrollers;
 
 import com.github.saintukrainian.cloud.entities.Person;
 import com.github.saintukrainian.cloud.entities.SearchParams;
+import com.github.saintukrainian.cloud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloud.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,7 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public Person getPersonById(@PathVariable int id) {
-        return personService.findPersonById(id)
-                .orElseThrow(IllegalArgumentException::new);
+        return personService.findPersonById(id);
     }
 
     @PostMapping("/")
@@ -38,8 +38,7 @@ public class PersonController {
     @ResponseStatus(code = HttpStatus.OK)
     public HttpStatus deletePerson(@PathVariable int id) {
         personService.deletePersonById(id);
-        personService.findPersonDetailsById(id)
-                .ifPresent(personDetails -> personService.deletePersonDetailsById(id));
+        personService.suppressedDeletePersonDetailsById(id);
         return HttpStatus.OK;
     }
 

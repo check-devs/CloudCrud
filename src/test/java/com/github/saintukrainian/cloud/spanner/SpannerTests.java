@@ -392,7 +392,7 @@ public class SpannerTests extends AbstractTest {
         public void testGetPersonById() {
             when(personRepository.findById(1)).thenReturn(java.util.Optional
                     .of(new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com")));
-            Person person = personService.findPersonById(1).orElse(null);
+            Person person = personService.findPersonById(1);
             assertNotNull(person);
             assertEquals(1, person.getId());
         }
@@ -401,7 +401,7 @@ public class SpannerTests extends AbstractTest {
         public void testGetPersonDetailsById() {
             when(peronsDetailsRepository.findById(1)).thenReturn(java.util.Optional
                     .of(new PersonDetails(1, 1, "some steet", "49543975348")));
-            PersonDetails personDetails = personService.findPersonDetailsById(1).orElse(null);
+            PersonDetails personDetails = personService.findPersonDetailsById(1);
             assertNotNull(personDetails);
             assertEquals(1, personDetails.getUserId());
         }
