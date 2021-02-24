@@ -40,13 +40,21 @@ public class DockerSpannerConfig {
 
 
     static {
-        dockerClientConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
+        DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig.createDefaultConfigBuilder();
+        logger = Logger.getLogger(DockerSpannerConfig.class.getName());
+
+        if(System.getProperty("os.name").contains("Windows")) {
+            builder.withDockerHost("tcp://localhost:2375/")
+                    .withDockerTlsVerify(true)
+                    .withDockerCertPath(System.getenv("HOME") + "/.docker");
+        }
+
+        dockerClientConfig = builder.build();
         dockerHttpClient = new ApacheDockerHttpClient.Builder()
                 .dockerHost(dockerClientConfig.getDockerHost())
                 .sslConfig(dockerClientConfig.getSSLConfig())
                 .build();
         dockerClient = DockerClientImpl.getInstance(dockerClientConfig, dockerHttpClient);
-        logger = Logger.getLogger(DockerSpannerConfig.class.getName());
     }
 
     public void setupDocker() throws InterruptedException {

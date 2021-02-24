@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@PropertySource("classpath:docker-java.properties")
 public class SpannerTests extends AbstractTest {
 
     private static final DockerSpannerConfig dockerSpannerConfig;
