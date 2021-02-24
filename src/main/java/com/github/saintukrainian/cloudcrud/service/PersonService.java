@@ -31,20 +31,14 @@ import java.util.logging.SimpleFormatter;
 
 @Service
 @RequiredArgsConstructor
-@PropertySource("classpath:url.properties")
 public class PersonService {
-
-    @Value("${url.posts}")
-    private String POSTS_URL;
-
-    private static final ObjectMapper mapper = new ObjectMapper();
 
     private final PeronsDetailsRepository peronsDetailsRepository;
     private final PersonRepository personRepository;
     private final SpannerTemplate spannerTemplate;
     private final PostService postService;
 
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     private final static Logger logger;
 
@@ -216,8 +210,9 @@ public class PersonService {
     }
 
 
-    public PersonWithPosts getPersonWithPostsById(int id) throws IOException, InterruptedException, TimeoutException, ExecutionException {
+    public PersonWithPosts getPersonWithPostsById(int id) throws InterruptedException, TimeoutException, ExecutionException {
         logger.info("Finding all posts for person with id=" + id);
+        long time = System.currentTimeMillis();
         if(personRepository.existsById(id)) {
             Future<Person> person = findPersonByIdAsync(id);
             Future<List<Post>> posts = findPostsByPersonIdAsync(id);
@@ -225,6 +220,7 @@ public class PersonService {
             PersonWithPosts personWithPosts = new PersonWithPosts();
             personWithPosts.setFieldsWithPersonInfo(person.get(1000, TimeUnit.MILLISECONDS));
             personWithPosts.setPosts(posts.get(1000, TimeUnit.MILLISECONDS));
+            logger.info("Person with posts method completed in " + (System.currentTimeMillis() - time) + " milliseconds");
             return personWithPosts;
         } else {
             logPersonWasNotFoundWithId(id);
@@ -285,10 +281,12 @@ public class PersonService {
     }
 
     public Future<Person> findPersonByIdAsync(int id) {
+        System.out.println("In findPersonByIdAsync");
         return executorService.submit(() -> findPersonById(id));
     }
 
     public Future<List<Post>> findPostsByPersonIdAsync(int id) {
+        System.out.println("In  findPostsByPersonIdAsync");
         return executorService.submit(() -> postService.getPostsByUserId(id));
     }
 
