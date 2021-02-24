@@ -20,8 +20,10 @@ public class PersonWithPostsController {
     private final PersonService personService;
 
     @GetMapping("/{id}")
-    public PersonWithPosts getPersonWithPostsById(@PathVariable int id) throws IOException, InterruptedException, TimeoutException, ExecutionException {
+    public PersonWithPosts getPersonWithPostsById(@PathVariable int id) throws InterruptedException,
+            TimeoutException, ExecutionException {
+
         return personService.getPersonWithPostsById(id);
     }
-    
+
 }

@@ -19,12 +19,12 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/{id}")
-    public List<Post> getPostsByUserId(@PathVariable int id) throws IllegalArgumentException, IOException, InterruptedException {
+    public List<Post> getPostsByUserId(@PathVariable int id) throws IllegalArgumentException {
         return postService.getPostsByUserId(id);
     }
 
     @GetMapping("/")
-    public List<Post> getPosts() throws IOException, InterruptedException {
+    public List<Post> getPosts() {
         return postService.getAllPosts();
     }
 }

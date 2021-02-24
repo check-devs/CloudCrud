@@ -27,8 +27,8 @@ public class PersonDetailsController {
 
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public HttpStatus updateDetails(@PathVariable int id,@RequestBody PersonDetails personDetails) {
-        personService.updatePersonDetails(id,personDetails);
+    public HttpStatus updateDetails(@PathVariable int id, @RequestBody PersonDetails personDetails) {
+        personService.updatePersonDetails(id, personDetails);
         return HttpStatus.ACCEPTED;
     }
 
