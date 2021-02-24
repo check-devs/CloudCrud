@@ -369,6 +369,7 @@ public class SpannerTests extends AbstractTest {
             Person[] persons = super.mapFromJson(content, Person[].class);
             assertEquals(params.getFirstName(), persons[0].getFirstName());
             assertEquals(1, persons[0].getId());
+            assertEquals("Denys", persons[0].getFirstName());
             assertEquals("Matsenko", persons[0].getLastName());
             assertEquals("idanchik47@gmail.com", persons[0].getEmail());
         }

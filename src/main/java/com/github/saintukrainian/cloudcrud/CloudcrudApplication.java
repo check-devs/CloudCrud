@@ -16,19 +16,19 @@ public class CloudcrudApplication {
 		dockerSpannerConfig = new DockerSpannerConfig();
 	}
 
-	@PostConstruct
-	public void initEmulator() throws InterruptedException {
-		dockerSpannerConfig.setupDocker();
-		dockerSpannerConfig.setupSpanner();
-		dockerSpannerConfig.setupDatabase();
-		dockerSpannerConfig.fillDatabase();
-	}
-
-	@PreDestroy
-	public void cleanupEmulator() {
-		dockerSpannerConfig.closeSpanner();
-		dockerSpannerConfig.stopDocker();
-	}
+//	@PostConstruct
+//	public void initEmulator() throws InterruptedException {
+//		dockerSpannerConfig.setupDocker();
+//		dockerSpannerConfig.setupSpanner();
+//		dockerSpannerConfig.setupDatabase();
+//		dockerSpannerConfig.fillDatabase();
+//	}
+//
+//	@PreDestroy
+//	public void cleanupEmulator() {
+//		dockerSpannerConfig.closeSpanner();
+//		dockerSpannerConfig.stopDocker();
+//	}
 
 
 	public static void main(String[] args) {

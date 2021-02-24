@@ -802,3 +802,17 @@ Feb 24, 2021 7:57:39 AM com.github.saintukrainian.cloudcrud.service.PersonServic
 INFO: Person was found with id=1
 Feb 24, 2021 8:04:06 AM com.github.saintukrainian.cloudcrud.service.PersonService logPersonFoundWithId
 INFO: Person was found with id=1
+Feb 24, 2021 8:11:05 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Finding person with id=1
+Feb 24, 2021 8:11:05 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Person found. Time taken: 5 milliseconds
+Feb 24, 2021 8:11:06 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Finding person with id=1
+Feb 24, 2021 8:11:06 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Person found. Time taken: 8 milliseconds
+Feb 24, 2021 8:11:06 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonWithPostsById
+INFO: Person with posts method completed in 100 milliseconds
+Feb 24, 2021 8:11:07 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Finding person with id=1
+Feb 24, 2021 8:11:07 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Person found. Time taken: 3 milliseconds
