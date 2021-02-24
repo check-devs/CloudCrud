@@ -15,7 +15,7 @@ public class PersonDetailsController {
 
     @GetMapping("/{id}")
     public PersonDetails getById(@PathVariable int id) {
-        return personService.findPersonDetailsById(id);
+        return personService.getPersonDetailsById(id);
     }
 
     @PostMapping("/")

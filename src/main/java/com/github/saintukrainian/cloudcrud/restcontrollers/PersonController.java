@@ -23,7 +23,7 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public Person getPersonById(@PathVariable int id) {
-        return personService.findPersonById(id);
+        return personService.getPersonById(id);
     }
 
     @PostMapping("/")

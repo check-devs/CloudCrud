@@ -304,7 +304,7 @@ public class SpannerTests extends AbstractTest {
         @Test
         public void addPersonDetails() throws Exception {
             PersonDetails personDetails = new PersonDetails();
-            personDetails.setUserId(personService.findLatestPersonEntry().getId());
+            personDetails.setUserId(personService.getLatestPersonEntry().getId());
             personDetails.setAddress("some address");
             personDetails.setPhoneNumber("45894365846");
 
@@ -325,7 +325,7 @@ public class SpannerTests extends AbstractTest {
             PersonDetails personDetails = new PersonDetails();
             personDetails.setAddress("new address");
             personDetails.setPhoneNumber("45894365846");
-            int id = personService.findLatestPersonDetailsEntry().getDetailsId();
+            int id = personService.getLatestPersonDetailsEntry().getDetailsId();
 
             String inputJson = super.mapToJson(personDetails);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PD_URL + id)
@@ -341,7 +341,7 @@ public class SpannerTests extends AbstractTest {
 
         @Test
         public void updatePerson() throws Exception {
-            int userId = personService.findLatestPersonEntry().getId();
+            int userId = personService.getLatestPersonEntry().getId();
             Person person = new Person();
             person.setFirstName("Test");
             person.setLastName("NewTest");
@@ -363,7 +363,7 @@ public class SpannerTests extends AbstractTest {
         public void deletePersonAndDetailsIfExist() throws Exception {
             MvcResult mvcResult;
 
-            Person person = personService.findLatestPersonEntry();
+            Person person = personService.getLatestPersonEntry();
             mvcResult = mvc.perform(MockMvcRequestBuilders.delete(PERSONS_URL + person.getId()))
                     .andReturn();
 
@@ -390,7 +390,7 @@ public class SpannerTests extends AbstractTest {
         public void testGetPersonById() {
             when(personRepository.findById(1)).thenReturn(java.util.Optional
                     .of(new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com")));
-            Person person = personService.findPersonById(1);
+            Person person = personService.getPersonById(1);
             assertNotNull(person);
             assertEquals(1, person.getId());
         }
@@ -399,7 +399,7 @@ public class SpannerTests extends AbstractTest {
         public void testGetPersonDetailsById() {
             when(peronsDetailsRepository.findById(1)).thenReturn(java.util.Optional
                     .of(new PersonDetails(1, 1, "some steet", "49543975348")));
-            PersonDetails personDetails = personService.findPersonDetailsById(1);
+            PersonDetails personDetails = personService.getPersonDetailsById(1);
             assertNotNull(personDetails);
             assertEquals(1, personDetails.getUserId());
         }

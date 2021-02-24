@@ -1,7 +1,5 @@
 package com.github.saintukrainian.cloudcrud.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.saintukrainian.cloudcrud.entities.*;
 import com.github.saintukrainian.cloudcrud.exceptions.BadRequestException;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonDetailsNotFoundException;
@@ -13,15 +11,9 @@ import com.google.cloud.spring.data.spanner.core.SpannerQueryOptions;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
@@ -56,7 +48,7 @@ public class PersonService {
     }
 
 
-    public Person findPersonById(int id) {
+    public Person getPersonById(int id) {
         logger.info("Finding person with id=" + id);
         long time = System.currentTimeMillis();
         Optional<Person> person = personRepository.findById(id);
@@ -69,7 +61,7 @@ public class PersonService {
         }
     }
 
-    public PersonDetails findPersonDetailsById(int id) {
+    public PersonDetails getPersonDetailsById(int id) {
         logger.info("Finding person details by id=" + id);
         Optional<PersonDetails> personDetails = peronsDetailsRepository.findById(id);
         if(personDetails.isPresent()) {
@@ -89,7 +81,7 @@ public class PersonService {
         logger.info("Saving person with firstName=" + person.getFirstName());
         int newUserId;
         if (person.getId() == 0) {
-            newUserId = this.findLatestPersonEntry().getId() + 1;
+            newUserId = this.getLatestPersonEntry().getId() + 1;
             person.setId(newUserId);
         } else {
             logger.warning("Bad request for saving person. ID was present.");
@@ -214,8 +206,8 @@ public class PersonService {
         logger.info("Finding all posts for person with id=" + id);
         long time = System.currentTimeMillis();
         if(personRepository.existsById(id)) {
-            Future<Person> person = findPersonByIdAsync(id);
-            Future<List<Post>> posts = findPostsByPersonIdAsync(id);
+            Future<Person> person = getPersonByIdAsync(id);
+            Future<List<Post>> posts = getPostsByPersonIdAsync(id);
 
             PersonWithPosts personWithPosts = new PersonWithPosts();
             personWithPosts.setFieldsWithPersonInfo(person.get(1000, TimeUnit.MILLISECONDS));
@@ -229,7 +221,7 @@ public class PersonService {
 
     }
 
-    public Person findLatestPersonEntry() throws IndexOutOfBoundsException {
+    public Person getLatestPersonEntry() throws IndexOutOfBoundsException {
         logger.info("Finding latest person entry");
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         String statement = "select * from persons order by id desc limit 1;";
@@ -243,7 +235,7 @@ public class PersonService {
         }
     }
 
-    public PersonDetails findLatestPersonDetailsEntry() throws IndexOutOfBoundsException {
+    public PersonDetails getLatestPersonDetailsEntry() throws IndexOutOfBoundsException {
         logger.info("Finding latest person details entry");
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         String statement = "select * from person_details order by details_id desc limit 1;";
@@ -280,12 +272,12 @@ public class PersonService {
         logger.warning("Person was not found");
     }
 
-    public Future<Person> findPersonByIdAsync(int id) {
+    public Future<Person> getPersonByIdAsync(int id) {
         System.out.println("In findPersonByIdAsync");
-        return executorService.submit(() -> findPersonById(id));
+        return executorService.submit(() -> getPersonById(id));
     }
 
-    public Future<List<Post>> findPostsByPersonIdAsync(int id) {
+    public Future<List<Post>> getPostsByPersonIdAsync(int id) {
         System.out.println("In  findPostsByPersonIdAsync");
         return executorService.submit(() -> postService.getPostsByUserId(id));
     }
