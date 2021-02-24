@@ -11,6 +11,8 @@ import com.google.cloud.spring.data.spanner.core.SpannerQueryOptions;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,6 +24,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 @Service
+@PropertySource("classpath:sql.properties")
 @RequiredArgsConstructor
 public class PersonService {
 
@@ -29,6 +32,22 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final SpannerTemplate spannerTemplate;
     private final PostService postService;
+
+    @Value("${sql.persons-with-details}")
+    private String PERSONS_WITH_DETAILS_SQL;
+
+    @Value("${sql.person-with-details}")
+    private String PERSON_WITH_DETAILS_SQL;
+
+    @Value("${sql.persons-by-first-name}")
+    private String PERSONS_BY_FIRST_NAME_SQL;
+
+    @Value("${sql.latest-person-details}")
+    private String LATEST_PERSON_DETAILS_SQL;
+
+    @Value("${sql.latest-person}")
+    private String LATEST_PERSON_SQL;
+
 
     private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
@@ -52,7 +71,7 @@ public class PersonService {
         logger.info("Finding person with id=" + id);
         long time = System.currentTimeMillis();
         Optional<Person> person = personRepository.findById(id);
-        if(person.isPresent()) {
+        if (person.isPresent()) {
             logger.info("Person found. Time taken: " + (System.currentTimeMillis() - time) + " milliseconds");
             return person.get();
         } else {
@@ -64,7 +83,7 @@ public class PersonService {
     public PersonDetails getPersonDetailsById(int id) {
         logger.info("Finding person details by id=" + id);
         Optional<PersonDetails> personDetails = peronsDetailsRepository.findById(id);
-        if(personDetails.isPresent()) {
+        if (personDetails.isPresent()) {
             return personDetails.get();
         } else {
             logger.warning("Person details were not found with id=" + id);
@@ -168,7 +187,7 @@ public class PersonService {
 
     public List<Person> getAllPersonsByFirstName(String firstName) {
         logger.info("Finding all person by firstName=" + firstName);
-        Statement statement = Statement.newBuilder("SELECT * FROM persons WHERE first_name=@firstName;")
+        Statement statement = Statement.newBuilder(PERSONS_BY_FIRST_NAME_SQL)
                 .bind("firstName")
                 .to(firstName)
                 .build();
@@ -179,19 +198,18 @@ public class PersonService {
     public List<PersonWithDetails> getAllPersonsWithDetails() {
         logger.info("Finding all persons with details");
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        String statement = "select p.id, p.first_name, p.last_name, p.email, pd.details_id, pd.address, pd.phone_number from persons p left join person_details pd on p.id=pd.user_id;";
-        return spannerTemplate.query(PersonWithDetails.class, Statement.of(statement),
+        return spannerTemplate.query(PersonWithDetails.class, Statement.of(PERSONS_WITH_DETAILS_SQL),
                 queryOptions);
     }
 
     public PersonWithDetails getPersonWithDetailsById(int id) throws IllegalArgumentException {
         logger.info("Finding person with details by id=" + id);
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        Statement statement = Statement.newBuilder("select p.id, p.first_name, p.last_name, p.email, pd.details_id, pd.address, pd.phone_number from persons p left join person_details pd on p.id=pd.user_id where p.id=@id;")
-                .bind("id")
+        Statement statement = Statement.newBuilder(PERSON_WITH_DETAILS_SQL).bind("id")
                 .to(id)
                 .build();
-        List<PersonWithDetails> personWithDetails = spannerTemplate.query(PersonWithDetails.class, statement, queryOptions);
+        List<PersonWithDetails> personWithDetails =
+                spannerTemplate.query(PersonWithDetails.class, statement, queryOptions);
         if (CollectionUtils.isNotEmpty(personWithDetails)) {
             logPersonFoundWithId(id);
             return personWithDetails.get(0);
@@ -202,17 +220,19 @@ public class PersonService {
     }
 
 
-    public PersonWithPosts getPersonWithPostsById(int id) throws InterruptedException, TimeoutException, ExecutionException {
+    public PersonWithPosts getPersonWithPostsById(int id) throws InterruptedException,
+            TimeoutException, ExecutionException {
         logger.info("Finding all posts for person with id=" + id);
         long time = System.currentTimeMillis();
-        if(personRepository.existsById(id)) {
+        if (personRepository.existsById(id)) {
             Future<Person> person = getPersonByIdAsync(id);
             Future<List<Post>> posts = getPostsByPersonIdAsync(id);
 
             PersonWithPosts personWithPosts = new PersonWithPosts();
             personWithPosts.setFieldsWithPersonInfo(person.get(1000, TimeUnit.MILLISECONDS));
             personWithPosts.setPosts(posts.get(1000, TimeUnit.MILLISECONDS));
-            logger.info("Person with posts method completed in " + (System.currentTimeMillis() - time) + " milliseconds");
+            logger.info("Person with posts method completed in " +
+                    (System.currentTimeMillis() - time) + " milliseconds");
             return personWithPosts;
         } else {
             logPersonWasNotFoundWithId(id);
@@ -224,8 +244,7 @@ public class PersonService {
     public Person getLatestPersonEntry() throws IndexOutOfBoundsException {
         logger.info("Finding latest person entry");
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        String statement = "select * from persons order by id desc limit 1;";
-        List<Person> person = spannerTemplate.query(Person.class, Statement.of(statement), queryOptions);
+        List<Person> person = spannerTemplate.query(Person.class, Statement.of(LATEST_PERSON_SQL), queryOptions);
         if (CollectionUtils.isNotEmpty(person)) {
             logPersonFound();
             return person.get(0);
@@ -238,8 +257,8 @@ public class PersonService {
     public PersonDetails getLatestPersonDetailsEntry() throws IndexOutOfBoundsException {
         logger.info("Finding latest person details entry");
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        String statement = "select * from person_details order by details_id desc limit 1;";
-        List<PersonDetails> personDetails = spannerTemplate.query(PersonDetails.class, Statement.of(statement), queryOptions);
+        List<PersonDetails> personDetails =
+                spannerTemplate.query(PersonDetails.class, Statement.of(LATEST_PERSON_DETAILS_SQL), queryOptions);
         if (CollectionUtils.isNotEmpty(personDetails)) {
             return personDetails.get(0);
         } else {

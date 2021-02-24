@@ -38,12 +38,11 @@ public class DockerSpannerConfig {
     private static final String projectId = "test-project";
 
 
-
     static {
         DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig.createDefaultConfigBuilder();
         logger = Logger.getLogger(DockerSpannerConfig.class.getName());
 
-        if(System.getProperty("os.name").contains("Windows")) {
+        if (System.getProperty("os.name").contains("Windows")) {
             builder.withDockerHost("tcp://localhost:2375/")
                     .withDockerTlsVerify(true)
                     .withDockerCertPath(System.getenv("HOME") + "/.docker");
@@ -70,9 +69,10 @@ public class DockerSpannerConfig {
                 .awaitCompletion(60, TimeUnit.SECONDS);
         logger.info("Emulator image has been pulled!");
 
+
         // starting emulator container
         logger.info("Starting container >>>>>>>>");
-        dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator:latest").start();
+        ;
         CreateContainerResponse containerResponse = dockerClient.createContainerCmd("gcr.io/cloud-spanner-emulator/emulator:latest")
                 .withPortBindings(PortBinding.parse("9010:9010"), PortBinding.parse("9020:9020"))
                 .exec();
@@ -186,6 +186,7 @@ public class DockerSpannerConfig {
     public void stopDocker() {
         logger.info("Shutting down container >>>>>>>>");
         dockerClient.stopContainerCmd(containerId).exec();
+        dockerClient.removeContainerCmd(containerId).exec();
         logger.info("Container with id=" + containerId + " has been shut down >>>>>>>>");
     }
 

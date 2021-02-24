@@ -10,12 +10,12 @@ import javax.annotation.PreDestroy;
 @SpringBootApplication
 public class CloudcrudApplication {
 
-//	private static final DockerSpannerConfig dockerSpannerConfig;
-//
-//	static {
-//		dockerSpannerConfig = new DockerSpannerConfig();
-//	}
-//
+	private static final DockerSpannerConfig dockerSpannerConfig;
+
+	static {
+		dockerSpannerConfig = new DockerSpannerConfig();
+	}
+
 //	@PostConstruct
 //	public void initEmulator() throws InterruptedException {
 //		dockerSpannerConfig.setupDocker();

@@ -61,7 +61,21 @@ public class SpannerTests extends AbstractTest {
         String content = mvcResult.getResponse().getContentAsString();
         Person[] persons = super.mapFromJson(content, Person[].class);
         Assertions.assertNotNull(persons);
-        assertEquals("Hello", "Hello");
+
+        assertEquals(1, persons[0].getId());
+        assertEquals("Denys", persons[0].getFirstName());
+        assertEquals("Matsenko", persons[0].getLastName());
+        assertEquals("idanchik47@gmail.com", persons[0].getEmail());
+
+        assertEquals(2, persons[1].getId());
+        assertEquals("Max", persons[1].getFirstName());
+        assertEquals("Basov", persons[1].getLastName());
+        assertEquals("scratchy@gmail.com", persons[1].getEmail());
+
+        assertEquals(3, persons[2].getId());
+        assertEquals("Kirill", persons[2].getFirstName());
+        assertEquals("Ikumapaii", persons[2].getLastName());
+        assertEquals("merlodon@gmail.com", persons[2].getEmail());
     }
 
     @Test
@@ -241,6 +255,9 @@ public class SpannerTests extends AbstractTest {
             Person person = personService.getPersonById(1);
             assertNotNull(person);
             assertEquals(1, person.getId());
+            assertEquals(person.getFirstName(), "Denys");
+            assertEquals(person.getLastName(), "Matsenko");
+            assertEquals(person.getEmail(), "idanchik47@gmail.com");
         }
 
         @Test
@@ -250,6 +267,9 @@ public class SpannerTests extends AbstractTest {
             PersonDetails personDetails = personService.getPersonDetailsById(1);
             assertNotNull(personDetails);
             assertEquals(1, personDetails.getUserId());
+            assertEquals(1, personDetails.getDetailsId());
+            assertEquals("49543975348", personDetails.getPhoneNumber());
+            assertEquals("some steet", personDetails.getAddress());
         }
     }
 
@@ -337,6 +357,8 @@ public class SpannerTests extends AbstractTest {
             String content = mvcResult.getResponse().getContentAsString();
             Person[] persons = super.mapFromJson(content, Person[].class);
             assertEquals(params.getFirstName(), persons[0].getFirstName());
+            assertEquals("Matsenko", persons[0].getLastName());
+            assertEquals("idanchik47@gmail.com", persons[0].getEmail());
         }
 
     }
