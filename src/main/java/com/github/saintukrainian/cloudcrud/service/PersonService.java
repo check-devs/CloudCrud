@@ -73,7 +73,6 @@ public class PersonService {
             logger.info("Person found. Time taken: " + (System.currentTimeMillis() - time) + " milliseconds");
             return person.get();
         } else {
-            logPersonWasNotFoundWithId(id);
             throw new PersonNotFoundException();
         }
     }
@@ -109,7 +108,6 @@ public class PersonService {
             person.setId(userId);
             personRepository.save(person);
         } else {
-            logPersonWasNotFoundWithId(userId);
             throw new PersonNotFoundException();
         }
     }
@@ -125,7 +123,6 @@ public class PersonService {
             personDetails.setDetailsId(userId);
             peronsDetailsRepository.save(personDetails);
         } else {
-            logPersonWasNotFoundWithId(userId);
             throw new PersonNotFoundException();
         }
     }
@@ -136,7 +133,6 @@ public class PersonService {
             personDetails.setDetailsId(id);
             peronsDetailsRepository.save(personDetails);
         } else {
-            logPersonWasNotFoundWithId(id);
             throw new PersonNotFoundException();
         }
     }
@@ -145,7 +141,6 @@ public class PersonService {
         try {
             personRepository.deleteById(id);
         } catch (IllegalArgumentException e) {
-            logPersonFoundWithId(id);
             throw new PersonNotFoundException();
         }
     }
@@ -189,10 +184,8 @@ public class PersonService {
                 spannerTemplate.query(PersonWithDetails.class, statement, queryOptions);
 
         if (CollectionUtils.isNotEmpty(personWithDetails)) {
-            logPersonFoundWithId(id);
             return personWithDetails.get(0);
         } else {
-            logPersonWasNotFoundWithId(id);
             throw new PersonNotFoundException();
         }
     }
@@ -214,7 +207,6 @@ public class PersonService {
                     (System.currentTimeMillis() - time) + " milliseconds");
             return personWithPosts;
         } else {
-            logPersonWasNotFoundWithId(id);
             throw new PersonNotFoundException();
         }
 
@@ -225,7 +217,6 @@ public class PersonService {
         List<Person> person = spannerTemplate.query(Person.class, Statement.of(LATEST_PERSON_SQL), queryOptions);
 
         if (CollectionUtils.isNotEmpty(person)) {
-            logPersonFound();
             return person.get(0);
         } else {
             throw new PersonNotFoundException();
@@ -250,17 +241,5 @@ public class PersonService {
 
     public boolean checkIfPersonDetailsExistById(int id) {
         return peronsDetailsRepository.existsById(id);
-    }
-
-    private void logPersonFoundWithId(int personId) {
-        logger.info("Person was found with id=" + personId);
-    }
-
-    private void logPersonFound() {
-        logger.info("Person was found");
-    }
-
-    private void logPersonWasNotFoundWithId(int personId) {
-        logger.warning("Person was not found with id=" + personId);
     }
 }

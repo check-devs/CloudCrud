@@ -62,12 +62,12 @@ public class DockerSpannerConfig {
         System.setProperty("SPANNER_EMULATOR_HOST", "http://localhost:9010/");
 
         // pulling emulator image
-        logger.info("Pulling emulator image...");
-        dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator")
-                .withAuthConfig(new AuthConfig())
-                .exec(new PullImageResultCallback())
-                .awaitCompletion(60, TimeUnit.SECONDS);
-        logger.info("Emulator image has been pulled!");
+//        logger.info("Pulling emulator image...");
+//        dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator")
+//                .withAuthConfig(new AuthConfig())
+//                .exec(new PullImageResultCallback())
+//                .awaitCompletion(60, TimeUnit.SECONDS);
+//        logger.info("Emulator image has been pulled!");
 
 
         // starting emulator container

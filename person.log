@@ -774,3 +774,31 @@ Feb 24, 2021 6:56:21 AM com.github.saintukrainian.cloudcrud.service.PersonServic
 INFO: Updating person details for person with id=0
 Feb 24, 2021 6:56:21 AM com.github.saintukrainian.cloudcrud.service.PersonService updatePersonDetails
 INFO: Person details were successfully updated for person with id=3
+Feb 24, 2021 7:09:58 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Finding person with id=1
+Feb 24, 2021 7:09:58 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Person found. Time taken: 30 milliseconds
+Feb 24, 2021 7:09:58 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonWithPostsById
+INFO: Person with posts method completed in 381 milliseconds
+Feb 24, 2021 7:10:13 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Finding person with id=3
+Feb 24, 2021 7:10:13 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Person found. Time taken: 4 milliseconds
+Feb 24, 2021 7:10:13 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonWithPostsById
+INFO: Person with posts method completed in 100 milliseconds
+Feb 24, 2021 7:32:53 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Finding person with id=1
+Feb 24, 2021 7:32:53 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Person found. Time taken: 78 milliseconds
+Feb 24, 2021 7:34:14 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Finding person with id=3
+Feb 24, 2021 7:34:14 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Person found. Time taken: 4 milliseconds
+Feb 24, 2021 7:52:01 AM com.github.saintukrainian.cloudcrud.service.PersonService logPersonFoundWithId
+INFO: Person was found with id=1
+Feb 24, 2021 7:54:16 AM com.github.saintukrainian.cloudcrud.service.PersonService logPersonFoundWithId
+INFO: Person was found with id=1
+Feb 24, 2021 7:57:39 AM com.github.saintukrainian.cloudcrud.service.PersonService logPersonFoundWithId
+INFO: Person was found with id=1
+Feb 24, 2021 8:04:06 AM com.github.saintukrainian.cloudcrud.service.PersonService logPersonFoundWithId
+INFO: Person was found with id=1
