@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -55,9 +56,10 @@ public class SpannerTests extends AbstractTest {
                 .perform(MockMvcRequestBuilders.get(PERSONS_URL).accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
-        int status = mvcResult.getResponse().getStatus();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        int status = response.getStatus();
         assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
+        String content = response.getContentAsString();
         Person[] persons = super.mapFromJson(content, Person[].class);
         Assertions.assertNotNull(persons);
 
@@ -84,9 +86,10 @@ public class SpannerTests extends AbstractTest {
                 .perform(MockMvcRequestBuilders.get(PERSONS_URL + id).accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
-        int status = mvcResult.getResponse().getStatus();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        int status = response.getStatus();
         assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
+        String content = response.getContentAsString();
         Person person = super.mapFromJson(content, Person.class);
         assertEquals(person.getId(), id);
         assertEquals(person.getFirstName(), "Denys");
@@ -102,9 +105,10 @@ public class SpannerTests extends AbstractTest {
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
-        int status = mvcResult.getResponse().getStatus();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        int status = response.getStatus();
         assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
+        String content = response.getContentAsString();
         PersonWithDetails pwd = super.mapFromJson(content, PersonWithDetails.class);
         assertEquals(pwd.getUserId(), userId);
         assertEquals(pwd.getDetailsId(), userId);
@@ -123,9 +127,10 @@ public class SpannerTests extends AbstractTest {
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
-        int status = mvcResult.getResponse().getStatus();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        int status = response.getStatus();
         assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
+        String content = response.getContentAsString();
         PersonDetails pd = super.mapFromJson(content, PersonDetails.class);
         assertEquals(pd.getUserId(), userId);
         assertEquals(pd.getDetailsId(), userId);
@@ -155,10 +160,10 @@ public class SpannerTests extends AbstractTest {
                     .content(inputJson))
                     .andReturn();
 
-            int status = mvcResult.getResponse().getStatus();
-            String content = mvcResult.getResponse().getContentAsString();
-
+            MockHttpServletResponse response = mvcResult.getResponse();
+            int status = response.getStatus();
             assertEquals(201, status);
+            String content = response.getContentAsString();
             assertEquals(content, "\"CREATED\"");
         }
 
@@ -175,10 +180,11 @@ public class SpannerTests extends AbstractTest {
                     .content(inputJson))
                     .andReturn();
 
-            int status = mvcResult.getResponse().getStatus();
-            String response = mvcResult.getResponse().getContentAsString();
+            MockHttpServletResponse response = mvcResult.getResponse();
+            int status = response.getStatus();
             assertEquals(201, status);
-            assertEquals("\"CREATED\"", response);
+            String content = response.getContentAsString();
+            assertEquals("\"CREATED\"", content);
         }
 
         @Test
@@ -194,10 +200,11 @@ public class SpannerTests extends AbstractTest {
                     .content(inputJson))
                     .andReturn();
 
-            int status = mvcResult.getResponse().getStatus();
-            String response = mvcResult.getResponse().getContentAsString();
+            MockHttpServletResponse response = mvcResult.getResponse();
+            int status = response.getStatus();
             assertEquals(202, status);
-            assertEquals("\"ACCEPTED\"", response);
+            String content = response.getContentAsString();
+            assertEquals("\"ACCEPTED\"", content);
         }
 
         @Test
@@ -214,9 +221,10 @@ public class SpannerTests extends AbstractTest {
                     .content(inputJson))
                     .andReturn();
 
-            int status = mvcResult.getResponse().getStatus();
-            String content = mvcResult.getResponse().getContentAsString();
+            MockHttpServletResponse response = mvcResult.getResponse();
+            int status = response.getStatus();
             assertEquals(202, status);
+            String content = response.getContentAsString();
             assertEquals(content, "\"ACCEPTED\"");
         }
 
@@ -228,8 +236,9 @@ public class SpannerTests extends AbstractTest {
             mvcResult = mvc.perform(MockMvcRequestBuilders.delete(PERSONS_URL + person.getId()))
                     .andReturn();
 
-            assertEquals(200, mvcResult.getResponse().getStatus());
-            assertEquals("\"OK\"", mvcResult.getResponse().getContentAsString());
+            MockHttpServletResponse response = mvcResult.getResponse();
+            assertEquals(200, response.getStatus());
+            assertEquals("\"OK\"", response.getContentAsString());
         }
     }
 
@@ -295,9 +304,10 @@ public class SpannerTests extends AbstractTest {
                             .accept(MediaType.APPLICATION_JSON_VALUE))
                     .andReturn();
 
-            int status = mvcResult.getResponse().getStatus();
+            MockHttpServletResponse response = mvcResult.getResponse();
+            int status = response.getStatus();
             assertEquals(200, status);
-            String content = mvcResult.getResponse().getContentAsString();
+            String content = response.getContentAsString();
             PersonWithPosts pwp = super.mapFromJson(content, PersonWithPosts.class);
             Assertions.assertTrue(pwp.getId() == userId && pwp.getPosts().get(0).getId() == userId);
         }
@@ -309,9 +319,10 @@ public class SpannerTests extends AbstractTest {
                             .accept(MediaType.APPLICATION_JSON_VALUE))
                     .andReturn();
 
-            int status = mvcResult.getResponse().getStatus();
+            MockHttpServletResponse response = mvcResult.getResponse();
+            int status = response.getStatus();
             assertEquals(200, status);
-            String content = mvcResult.getResponse().getContentAsString();
+            String content = response.getContentAsString();
             Post[] posts = super.mapFromJson(content, Post[].class);
             Assertions.assertTrue(posts.length > 0);
         }
@@ -323,9 +334,10 @@ public class SpannerTests extends AbstractTest {
                     .perform(MockMvcRequestBuilders.get(POSTS_URL + userId).accept(MediaType.APPLICATION_JSON_VALUE))
                     .andReturn();
 
-            int status = mvcResult.getResponse().getStatus();
+            MockHttpServletResponse response = mvcResult.getResponse();
+            int status = response.getStatus();
             assertEquals(200, status);
-            String content = mvcResult.getResponse().getContentAsString();
+            String content = response.getContentAsString();
             Post[] posts = super.mapFromJson(content, Post[].class);
             assertEquals(userId, posts[0].getUserId());
         }
