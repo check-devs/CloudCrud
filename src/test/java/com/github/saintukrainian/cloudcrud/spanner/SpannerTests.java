@@ -1,17 +1,16 @@
 package com.github.saintukrainian.cloudcrud.spanner;
 
-import com.github.saintukrainian.cloudcrud.spannerconfig.DockerSpannerConfig;
 import com.github.saintukrainian.cloudcrud.entities.*;
 import com.github.saintukrainian.cloudcrud.repositories.PeronsDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
 import com.github.saintukrainian.cloudcrud.service.PostService;
+import com.github.saintukrainian.cloudcrud.spannerconfig.DockerSpannerConfig;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -357,6 +356,7 @@ public class SpannerTests extends AbstractTest {
             String content = mvcResult.getResponse().getContentAsString();
             Person[] persons = super.mapFromJson(content, Person[].class);
             assertEquals(params.getFirstName(), persons[0].getFirstName());
+            assertEquals(1, persons[0].getId());
             assertEquals("Matsenko", persons[0].getLastName());
             assertEquals("idanchik47@gmail.com", persons[0].getEmail());
         }
