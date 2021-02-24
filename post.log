@@ -70,3 +70,35 @@ Feb 24, 2021 12:20:36 AM com.github.saintukrainian.cloudcrud.service.PostService
 INFO: Finding posts for user with id=3
 Feb 24, 2021 12:20:36 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
 INFO: Posts found. Time taken: 85 milliseconds
+Feb 24, 2021 12:24:06 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Finding posts for user with id=3
+Feb 24, 2021 12:24:06 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Posts found. Time taken: 315 milliseconds
+Feb 24, 2021 12:24:11 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Finding posts for user with id=1
+Feb 24, 2021 12:24:11 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Posts found. Time taken: 88 milliseconds
+Feb 24, 2021 12:41:13 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Finding posts for user with id=1
+Feb 24, 2021 12:41:13 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Posts found. Time taken: 333 milliseconds
+Feb 24, 2021 12:48:18 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Finding posts for user with id=1
+Feb 24, 2021 12:48:18 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Posts found. Time taken: 420 milliseconds
+Feb 24, 2021 12:48:18 AM com.github.saintukrainian.cloudcrud.service.PostService getAllPosts
+INFO: Finding all posts
+Feb 24, 2021 12:48:18 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Finding posts for user with id=1
+Feb 24, 2021 12:48:18 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Posts found. Time taken: 114 milliseconds
+Feb 24, 2021 12:49:56 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Finding posts for user with id=1
+Feb 24, 2021 12:49:57 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Posts found. Time taken: 390 milliseconds
+Feb 24, 2021 12:49:57 AM com.github.saintukrainian.cloudcrud.service.PostService getAllPosts
+INFO: Finding all posts
+Feb 24, 2021 12:49:57 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Finding posts for user with id=1
+Feb 24, 2021 12:49:57 AM com.github.saintukrainian.cloudcrud.service.PostService getPostsByUserId
+INFO: Posts found. Time taken: 88 milliseconds
