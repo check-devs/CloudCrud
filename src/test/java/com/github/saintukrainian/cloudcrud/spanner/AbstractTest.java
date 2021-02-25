@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.saintukrainian.cloudcrud.repositories.PeronsDetailsRepository;
+import com.github.saintukrainian.cloudcrud.repositories.PersonDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public abstract class AbstractTest {
    @Autowired
    PersonRepository personRepository;
    @Autowired
-   PeronsDetailsRepository peronsDetailsRepository;
+   PersonDetailsRepository personDetailsRepository;
    @Autowired
    PersonService personService;
    

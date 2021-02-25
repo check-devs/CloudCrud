@@ -8,6 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * @author Denys Matsenko
+ * <p>
+ * The {@code Person} class describes Person (first name, last name, email and id)
+ */
+
 @Table(name = "persons")
 @AllArgsConstructor
 @NoArgsConstructor

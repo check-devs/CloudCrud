@@ -21,6 +21,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+/**
+ * @author Denys Matsenko
+ * @version 1.0.0
+ * <p>
+ * The {@code DockerSpannerConfig} contains methods for configuring emulator and spanner instance
+ */
 public class DockerSpannerConfig {
 
     private static final DockerClientConfig dockerClientConfig;
@@ -56,6 +62,11 @@ public class DockerSpannerConfig {
         dockerClient = DockerClientImpl.getInstance(dockerClientConfig, dockerHttpClient);
     }
 
+    /**
+     * Method for setting up docker container
+     *
+     * @throws InterruptedException is thrown by docker client
+     */
     public void setupDocker() throws InterruptedException {
 
         // setting up docker
@@ -81,6 +92,9 @@ public class DockerSpannerConfig {
         logger.info("Container with id=" + containerId + " is being executed >>>>>>>>");
     }
 
+    /**
+     * Method for setting up spanner
+     */
     public void setupSpanner() {
         spanner = SpannerOptions.newBuilder()
                 .setProjectId(projectId)
@@ -114,6 +128,9 @@ public class DockerSpannerConfig {
         }
     }
 
+    /**
+     * Method for setting up the database
+     */
     public void setupDatabase() {
         dbId = DatabaseId.of(projectId, instanceId, databaseName);
         DatabaseAdminClient dbAdminClient = spanner.getDatabaseAdminClient();
@@ -151,6 +168,9 @@ public class DockerSpannerConfig {
         }
     }
 
+    /**
+     * Method for filling the database
+     */
     public void fillDatabase() {
         // filling database
         DatabaseClient dbClient = spanner.getDatabaseClient(dbId);
@@ -183,6 +203,9 @@ public class DockerSpannerConfig {
                         });
     }
 
+    /**
+     * Method for stopping docker container
+     */
     public void stopDocker() {
         logger.info("Shutting down container >>>>>>>>");
         dockerClient.stopContainerCmd(containerId).exec();
@@ -190,6 +213,9 @@ public class DockerSpannerConfig {
         logger.info("Container with id=" + containerId + " has been shut down >>>>>>>>");
     }
 
+    /**
+     * Method for closing spanner instance
+     */
     public void closeSpanner() {
         logger.info("Closing Spanner Instance...");
         spanner.close();

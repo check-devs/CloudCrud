@@ -5,6 +5,11 @@ import com.google.cloud.spring.data.spanner.repository.SpannerRepository;
 
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author Denys Matsenko
+ * <p>
+ * The {@code PersonDetailsRepository} interface is a simple spanner repository for {@code Person} entity class
+ */
 @Repository
 public interface PersonRepository extends SpannerRepository<Person, Integer> {
     

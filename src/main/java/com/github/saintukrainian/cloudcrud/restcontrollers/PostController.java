@@ -11,18 +11,38 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author Denys Matsenko
+ * @version 1.0.0
+ * <p>
+ * The {@code PostController} class handles GET requests for {@code Post} entity.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
 
+    /**
+     * The {@code PostService} reference
+     */
     private final PostService postService;
 
+    /**
+     * GET method for getting posts by person id
+     *
+     * @param id person id
+     * @return list of person related posts
+     */
     @GetMapping("/{id}")
-    public List<Post> getPostsByUserId(@PathVariable int id) throws IllegalArgumentException {
+    public List<Post> getPostsByUserId(@PathVariable int id) {
         return postService.getPostsByUserId(id);
     }
 
+    /**
+     * GET method for getting posts
+     *
+     * @return list of posts
+     */
     @GetMapping("/")
     public List<Post> getPosts() {
         return postService.getAllPosts();

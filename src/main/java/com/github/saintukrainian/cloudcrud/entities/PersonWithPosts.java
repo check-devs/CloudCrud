@@ -6,6 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Denys Matsenko
+ * <p>
+ * The {@code PersonWithDetails} class is used to return the persons and their posts
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

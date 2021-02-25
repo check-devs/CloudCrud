@@ -16,6 +16,12 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * @author Denys Matsenko
+ * @version 1.0.0
+ * <p>
+ * The {@code PostService} class is used for sending http requests to a third-party service
+ */
 @Service
 @PropertySource("classpath:url.properties")
 @RequiredArgsConstructor
@@ -43,6 +49,12 @@ public class PostService {
     }
 
 
+    /**
+     * Method for getting posts by person id
+     *
+     * @param id person id
+     * @return list of posts
+     */
     public List<Post> getPostsByUserId(int id) {
         logger.info("Finding posts for user with id=" + id);
         long time = System.currentTimeMillis();
@@ -56,6 +68,11 @@ public class PostService {
         }
     }
 
+    /**
+     * Method for getting all posts
+     *
+     * @return list of posts
+     */
     public List<Post> getAllPosts() {
         logger.info("Finding all posts");
         return List.of(Objects.requireNonNull(restTemplate.getForObject(POSTS_URL, Post[].class)));

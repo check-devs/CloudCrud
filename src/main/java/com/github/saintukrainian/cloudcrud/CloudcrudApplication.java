@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+/**
+ * The {@code CloudcrudApplication} class is a driver class for the CloudCrud application
+ */
 @SpringBootApplication
 public class CloudcrudApplication {
 

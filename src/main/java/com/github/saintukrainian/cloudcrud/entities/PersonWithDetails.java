@@ -7,12 +7,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Denys Matsenko
+ * <p>
+ * The {@code PersonWithDetails} class is used to return the whole description about personality
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class PersonWithDetails {
-    
+
     @Column(name = "id")
     private int userId;
 

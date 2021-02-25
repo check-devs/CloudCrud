@@ -4,7 +4,7 @@ import com.github.saintukrainian.cloudcrud.entities.*;
 import com.github.saintukrainian.cloudcrud.exceptions.BadRequestException;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonDetailsNotFoundException;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
-import com.github.saintukrainian.cloudcrud.repositories.PeronsDetailsRepository;
+import com.github.saintukrainian.cloudcrud.repositories.PersonDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.google.cloud.spanner.Statement;
 import com.google.cloud.spring.data.spanner.core.SpannerQueryOptions;
@@ -24,12 +24,20 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * @author Denys Matsenko
+ * @version 1.0.0
+ * <p>
+ * The {@code PersonService} class is a service for {@code PersonRepository} and {@code PersonDetailsRepository}.<br>
+ * It contains sql statements, spanner template instance and a reference to {@code PostService} class.<br>
+ * It is used for manipulating person related data.
+ */
 @Service
 @PropertySource("classpath:sql.properties")
 @RequiredArgsConstructor
 public class PersonService {
 
-    private final PeronsDetailsRepository peronsDetailsRepository;
+    private final PersonDetailsRepository personDetailsRepository;
     private final PersonRepository personRepository;
     private final SpannerTemplate spannerTemplate;
     private final PostService postService;
@@ -65,6 +73,12 @@ public class PersonService {
     }
 
 
+    /**
+     * Method for getting person by id from repository
+     *
+     * @param id user id
+     * @return {@code Person} instance
+     */
     public Person getPersonById(int id) {
         long time = System.currentTimeMillis();
         Optional<Person> person = personRepository.findById(id);
@@ -77,8 +91,14 @@ public class PersonService {
         }
     }
 
+    /**
+     * Method for getting person details by id from repository
+     *
+     * @param id details id
+     * @return {@code PersonDetails} instance
+     */
     public PersonDetails getPersonDetailsById(int id) {
-        Optional<PersonDetails> personDetails = peronsDetailsRepository.findById(id);
+        Optional<PersonDetails> personDetails = personDetailsRepository.findById(id);
 
         if (personDetails.isPresent()) {
             return personDetails.get();
@@ -87,11 +107,21 @@ public class PersonService {
         }
     }
 
+    /**
+     * Method for getting all persons
+     *
+     * @return persons
+     */
     public Iterable<Person> findAllPersons() {
         return personRepository.findAll();
     }
 
-    public void savePerson(Person person) throws BadRequestException {
+    /**
+     * Method for saving person
+     *
+     * @param person new person
+     */
+    public void savePerson(Person person) {
         int newUserId;
 
         if (person.getId() == 0) {
@@ -103,6 +133,12 @@ public class PersonService {
         personRepository.save(person);
     }
 
+    /**
+     * Method for updating person
+     *
+     * @param userId person id
+     * @param person new person data
+     */
     public void updatePerson(int userId, Person person) {
         if (this.checkIfPersonExistsById(userId)) {
             person.setId(userId);
@@ -112,7 +148,12 @@ public class PersonService {
         }
     }
 
-    public void savePersonDetails(PersonDetails personDetails) throws BadRequestException, PersonNotFoundException {
+    /**
+     * Method for saving person details
+     *
+     * @param personDetails new person details
+     */
+    public void savePersonDetails(PersonDetails personDetails) {
         if (personDetails.getDetailsId() != 0) {
             throw new BadRequestException();
         }
@@ -121,22 +162,33 @@ public class PersonService {
 
         if (this.checkIfPersonExistsById(userId)) {
             personDetails.setDetailsId(userId);
-            peronsDetailsRepository.save(personDetails);
+            personDetailsRepository.save(personDetails);
         } else {
             throw new PersonNotFoundException();
         }
     }
 
+    /**
+     * Method for updating person details
+     *
+     * @param id            details id
+     * @param personDetails new person details data
+     */
     public void updatePersonDetails(int id, PersonDetails personDetails) {
         if (this.checkIfPersonDetailsExistById(id)) {
             personDetails.setUserId(id);
             personDetails.setDetailsId(id);
-            peronsDetailsRepository.save(personDetails);
+            personDetailsRepository.save(personDetails);
         } else {
             throw new PersonNotFoundException();
         }
     }
 
+    /**
+     * Method for deleting person by id
+     *
+     * @param id id of person to be deleted
+     */
     public void deletePersonById(int id) {
         if (checkIfPersonExistsById(id)) {
             personRepository.deleteById(id);
@@ -145,21 +197,37 @@ public class PersonService {
         }
     }
 
+    /**
+     * Method for deleting person details
+     *
+     * @param id details id
+     */
     public void deletePersonDetailsById(int id) {
-        try {
-            peronsDetailsRepository.deleteById(id);
-        } catch (IllegalArgumentException e) {
+        if (checkIfPersonDetailsExistById(id)) {
+            personDetailsRepository.deleteById(id);
+        } else {
             throw new PersonDetailsNotFoundException();
         }
     }
 
+    /**
+     * Suppressed delete of person details (it doesn't throw any exceptions)
+     *
+     * @param id details id
+     */
     public void suppressedDeletePersonDetailsById(int id) {
         try {
-            peronsDetailsRepository.deleteById(id);
-        } catch (IllegalArgumentException e) {
+            personDetailsRepository.deleteById(id);
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
+    /**
+     * Method for getting all person by first name
+     *
+     * @param firstName first name
+     * @return list of persons with the same first name
+     */
     public List<Person> getAllPersonsByFirstName(String firstName) {
         Statement statement = Statement.newBuilder(PERSONS_BY_FIRST_NAME_SQL)
                 .bind("firstName")
@@ -169,13 +237,24 @@ public class PersonService {
         return spannerTemplate.query(Person.class, statement, queryOptions);
     }
 
+    /**
+     * Method for getting all persons with their details
+     *
+     * @return list of persons with details
+     */
     public List<PersonWithDetails> getAllPersonsWithDetails() {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         return spannerTemplate.query(PersonWithDetails.class, Statement.of(PERSONS_WITH_DETAILS_SQL),
                 queryOptions);
     }
 
-    public PersonWithDetails getPersonWithDetailsById(int id) throws IllegalArgumentException {
+    /**
+     * Method for getting a person with details by id
+     *
+     * @param id person id
+     * @return person with details
+     */
+    public PersonWithDetails getPersonWithDetailsById(int id) {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         Statement statement = Statement.newBuilder(PERSON_WITH_DETAILS_SQL).bind("id")
                 .to(id)
@@ -191,7 +270,15 @@ public class PersonService {
     }
 
 
-    public PersonWithPosts getPersonWithPostsById(int id) throws InterruptedException, ExecutionException {
+    /**
+     * Method for getting person with posts by person's id
+     *
+     * @param id person's id
+     * @return person with posts
+     * @throws InterruptedException exception related to {@code CompletableFuture} class
+     * @throws ExecutionException   exception related to {@code CompletableFuture} class
+     */
+    public PersonWithPosts getPersonWithPostsById(int id) throws ExecutionException, InterruptedException {
 
         long time = System.currentTimeMillis();
 
@@ -212,7 +299,12 @@ public class PersonService {
 
     }
 
-    public Person getLatestPersonEntry() throws IndexOutOfBoundsException {
+    /**
+     * Method for getting the latest person in the database
+     *
+     * @return latest person
+     */
+    public Person getLatestPersonEntry() {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         List<Person> person = spannerTemplate.query(Person.class, Statement.of(LATEST_PERSON_SQL), queryOptions);
 
@@ -223,7 +315,12 @@ public class PersonService {
         }
     }
 
-    public PersonDetails getLatestPersonDetailsEntry() throws IndexOutOfBoundsException {
+    /**
+     * Method for getting the latest person details in the database
+     *
+     * @return latest person details
+     */
+    public PersonDetails getLatestPersonDetailsEntry() {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         List<PersonDetails> personDetails =
                 spannerTemplate.query(PersonDetails.class, Statement.of(LATEST_PERSON_DETAILS_SQL), queryOptions);
@@ -235,11 +332,23 @@ public class PersonService {
         }
     }
 
+    /**
+     * Method for checking whether the person exists or not
+     *
+     * @param id person's id
+     * @return true if exists
+     */
     public boolean checkIfPersonExistsById(int id) {
         return personRepository.existsById(id);
     }
 
+    /**
+     * Method for checking whether the person details exist or not
+     *
+     * @param id details id
+     * @return true if they exist
+     */
     public boolean checkIfPersonDetailsExistById(int id) {
-        return peronsDetailsRepository.existsById(id);
+        return personDetailsRepository.existsById(id);
     }
 }

@@ -1,7 +1,7 @@
 package com.github.saintukrainian.cloudcrud.spanner;
 
 import com.github.saintukrainian.cloudcrud.entities.*;
-import com.github.saintukrainian.cloudcrud.repositories.PeronsDetailsRepository;
+import com.github.saintukrainian.cloudcrud.repositories.PersonDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
 import com.github.saintukrainian.cloudcrud.service.PostService;
@@ -249,7 +249,7 @@ public class SpannerTests extends AbstractTest {
         @MockBean
         PersonRepository personRepository;
         @MockBean
-        PeronsDetailsRepository peronsDetailsRepository;
+        PersonDetailsRepository personDetailsRepository;
         @MockBean
         SpannerTemplate spannerTemplate;
 
@@ -270,7 +270,7 @@ public class SpannerTests extends AbstractTest {
 
         @Test
         public void testGetPersonDetailsById() {
-            when(peronsDetailsRepository.findById(1)).thenReturn(java.util.Optional
+            when(personDetailsRepository.findById(1)).thenReturn(java.util.Optional
                     .of(new PersonDetails(1, 1, "some steet", "49543975348")));
             PersonDetails personDetails = personService.getPersonDetailsById(1);
             assertNotNull(personDetails);

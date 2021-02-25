@@ -8,6 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * @author Denys Matsenko
+ * <p>
+ * The {@code PersonDetails} class describes details of person (address, phone number)
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +24,7 @@ public class PersonDetails {
     @PrimaryKey
     @Column(name = "details_id")
     private int detailsId;
-    
+
     @Column(name = "user_id")
     private int userId;
 
