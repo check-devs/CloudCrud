@@ -816,3 +816,7 @@ Feb 24, 2021 8:11:07 AM com.github.saintukrainian.cloudcrud.service.PersonServic
 INFO: Finding person with id=1
 Feb 24, 2021 8:11:07 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
 INFO: Person found. Time taken: 3 milliseconds
+Feb 25, 2021 12:07:36 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Finding person with id=1
+Feb 25, 2021 12:07:36 AM com.github.saintukrainian.cloudcrud.service.PersonService getPersonById
+INFO: Person found. Time taken: 83 milliseconds

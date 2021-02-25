@@ -18,7 +18,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -65,7 +66,6 @@ public class PersonService {
 
 
     public Person getPersonById(int id) {
-        logger.info("Finding person with id=" + id);
         long time = System.currentTimeMillis();
         Optional<Person> person = personRepository.findById(id);
 
@@ -138,9 +138,9 @@ public class PersonService {
     }
 
     public void deletePersonById(int id) {
-        try {
+        if (checkIfPersonExistsById(id)) {
             personRepository.deleteById(id);
-        } catch (IllegalArgumentException e) {
+        } else {
             throw new PersonNotFoundException();
         }
     }
