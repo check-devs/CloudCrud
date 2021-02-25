@@ -91,6 +91,7 @@ public class SpannerTests extends AbstractTest {
     @Test
     public void getPersonWithDetailsById() throws Exception {
         int userId = 1;
+
         MvcResult mvcResult = mvc
                 .perform(MockMvcRequestBuilders.get(PWD_URL + userId)
                         .accept(MediaType.APPLICATION_JSON_VALUE))
@@ -98,16 +99,21 @@ public class SpannerTests extends AbstractTest {
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
-        assertEquals(200, status);
         String content = response.getContentAsString();
+
         PersonWithDetails pwd = super.mapFromJson(content, PersonWithDetails.class);
-        assertEquals(pwd.getUserId(), userId);
-        assertEquals(pwd.getDetailsId(), userId);
-        assertEquals(pwd.getFirstName(), "Denys");
-        assertEquals(pwd.getLastName(), "Matsenko");
-        assertEquals(pwd.getEmail(), "idanchik47@gmail.com");
-        assertEquals(pwd.getAddress(), "Akademika Valtera,14");
-        assertEquals(pwd.getPhoneNumber(), "380669410135");
+        PersonWithDetails personWithDetails = PersonWithDetails.builder()
+                .detailsId(userId)
+                .userId(userId)
+                .address("Akademika Valtera,14")
+                .firstName("Denys")
+                .lastName("Matsenko")
+                .email("idanchik47@gmail.com")
+                .phoneNumber("380669410135")
+                .build();
+
+        assertEquals(200, status);
+        assertEquals(pwd, personWithDetails);
     }
 
     @Test
