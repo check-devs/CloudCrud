@@ -41,8 +41,8 @@ public class ControllerAdvisor {
     }
 
     /**
-     * Handles {@code PersonNotFoundException} exceptions
-     * @param e {@code PersonNotFoundException}
+     * Handles {@code PersonDetailsNotFoundException} exceptions
+     * @param e {@code PersonDetailsNotFoundException}
      * @return HttpStatus.NOT_FOUND
      */
     @ExceptionHandler(PersonDetailsNotFoundException.class)
