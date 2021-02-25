@@ -1,15 +1,15 @@
 # CloudCrud
 
-The CloudCrud project is based on GCP Spanner database and Rest api.
+The **CloudCrud** project is based on **GCP Spanner** database and **REST API**.
 You are able to use this project by sending requests and getting responces.
 
 Using this project, you can retrieve different sets of person's data like their details, 
 personal information or posts that they've posted.
-At the same time you can get person with details or person with posts. 
+<br>__*At the same time you can get person with details or person with posts.*__<br>
 For example, you can use person and posts for outputting different cards with person's data 
 or use person and their details for the profile page or the dashboard.
 
-Shorcuts: 
+*Shorcuts*: 
 
 
           person with details = pwd
@@ -18,7 +18,7 @@ Shorcuts:
           
           person's details = pd
           
-Structure of person:
+*Structure of person*:
 
           {
              "id": 1,
@@ -27,7 +27,7 @@ Structure of person:
              "email": "idanchik47@gmail.com"
           }
           
-Structure of person's details:
+*Structure of person's details*:
 
           {
              "detailsId": 1,
@@ -37,16 +37,16 @@ Structure of person's details:
           }         
           
           
-To retrieve person with posts by id - curl https://cloudcrud.herokuapp.com/pwp/1
+**To retrieve person with posts by id** - curl https://cloudcrud.herokuapp.com/pwp/1
 
-To retrieve person with details by id - curl https://cloudcrud.herokuapp.com/pwd/1
+**To retrieve person with details by id** - curl https://cloudcrud.herokuapp.com/pwd/1
 
-To retrieve a person by id - curl https://cloudcrud.herokuapp.com/persons/1
+**To retrieve a person by id** - curl https://cloudcrud.herokuapp.com/persons/1
 
-To retrieve person's details by id - curl https://cloudcrud.herokuapp.com/pd/1
+**To retrieve person's details by id** - curl https://cloudcrud.herokuapp.com/pd/1
 
-To retrieve person's posts by id - curl https://cloudcrud.herokuapp.com/posts/1
+**To retrieve person's posts by id** - curl https://cloudcrud.herokuapp.com/posts/1
 
-Test endpoints using Swagger UI - https://cloudcrud.herokuapp.com/swagger-ui.html
+**Test endpoints using Swagger UI** - https://cloudcrud.herokuapp.com/swagger-ui.html
 
-# You can manipulate perons' data with different request methods (POST, GET, DELETE, PUT)
+### You can manipulate perons' data with different request methods (POST, GET, DELETE, PUT)
