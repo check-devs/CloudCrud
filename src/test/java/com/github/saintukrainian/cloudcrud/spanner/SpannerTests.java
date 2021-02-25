@@ -1,12 +1,17 @@
 package com.github.saintukrainian.cloudcrud.spanner;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.saintukrainian.cloudcrud.entities.*;
+import com.github.saintukrainian.cloudcrud.exceptions.BadRequestException;
+import com.github.saintukrainian.cloudcrud.exceptions.PersonDetailsNotFoundException;
+import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
 import com.github.saintukrainian.cloudcrud.service.PostService;
 import com.github.saintukrainian.cloudcrud.spannerconfig.DockerSpannerConfig;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
+import org.junit.Rule;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,8 +21,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -89,12 +93,68 @@ public class SpannerTests extends AbstractTest {
     }
 
     @Test
+    public void personNotFound() throws Exception {
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(PERSONS_URL + 10000)
+                                                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                                .andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        assertEquals(404, response.getStatus());
+        assertEquals("\"NOT_FOUND\"", response.getContentAsString());
+    }
+
+    @Test
+    public void personDetailsNotFound() throws Exception {
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(PD_URL + 10000)
+                                                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                                .andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        assertEquals(404, response.getStatus());
+        assertEquals("\"NOT_FOUND\"", response.getContentAsString());
+    }
+
+    @Test
+    public void personWithDetailsNotFound() throws Exception {
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(PWD_URL + 10000)
+                                                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                                .andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        assertEquals(404, response.getStatus());
+        assertEquals("\"NOT_FOUND\"", response.getContentAsString());
+    }
+
+    @Test
+    public void personBadRequest() throws Exception {
+        Person person = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(PERSONS_URL)
+                                                                .content(mapToJson(person))
+                                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                                 .andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        assertEquals(400, response.getStatus());
+        assertEquals("\"BAD_REQUEST\"", response.getContentAsString());
+    }
+
+    @Test
+    public void personDetailsBadRequest() throws Exception {
+        PersonDetails personDetails = new PersonDetails(1,1,"jfjskd", "45849853");
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(PD_URL)
+                                                                .content(mapToJson(personDetails))
+                                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                                .andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        assertEquals(400, response.getStatus());
+        assertEquals("\"BAD_REQUEST\"", response.getContentAsString());
+    }
+
+    @Test
     public void getPersonWithDetailsById() throws Exception {
         int userId = 1;
 
         MvcResult mvcResult = mvc
                 .perform(MockMvcRequestBuilders.get(PWD_URL + userId)
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                                                .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();

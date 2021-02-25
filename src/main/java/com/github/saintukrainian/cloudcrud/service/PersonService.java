@@ -229,7 +229,8 @@ public class PersonService {
      */
     public PersonWithDetails getPersonWithDetailsById(int id) {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        Statement statement = Statement.newBuilder(PERSON_WITH_DETAILS_SQL).bind("id")
+        Statement statement = Statement.newBuilder(PERSON_WITH_DETAILS_SQL)
+                .bind("id")
                 .to(id)
                 .build();
         List<PersonWithDetails> personWithDetails =

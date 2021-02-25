@@ -25,10 +25,11 @@ public class MeasureAspect {
      */
     @Around("@annotation(com.github.saintukrainian.cloudcrud.annotations.MeasureExecutionTime)")
     public Object measure(ProceedingJoinPoint joinPoint) throws Throwable {
-        long startingPoint = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
+        long end = System.currentTimeMillis();
         log.info("Time taken to execute {} : {} milliseconds",
-                joinPoint.getSignature().getName(), (System.currentTimeMillis() - startingPoint));
+                joinPoint.getSignature().getName(), (end - start));
         return proceed;
     }
 }
