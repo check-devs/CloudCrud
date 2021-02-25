@@ -5,7 +5,7 @@ You are able to use this project by sending requests and getting responces.
 
 Using this project, you can retrieve different sets of person's data like their details, 
 personal information or posts that they've posted.
-**At the same time you can get person with details or person with posts.** 
+<br>**At the same time you can get person with details or person with posts.**<br>
 For example, you can use person and posts for outputting different cards with person's data 
 or use person and their details for the profile page or the dashboard.
 
