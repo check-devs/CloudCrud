@@ -15,11 +15,11 @@ import com.google.cloud.NoCredentials;
 import com.google.cloud.spanner.*;
 import com.google.spanner.admin.database.v1.CreateDatabaseMetadata;
 import com.google.spanner.admin.instance.v1.CreateInstanceMetadata;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 /**
  * @author Denys Matsenko
@@ -27,12 +27,12 @@ import java.util.logging.Logger;
  * <p>
  * The {@code DockerSpannerConfig} contains methods for configuring emulator and spanner instance
  */
+@Slf4j
 public class DockerSpannerConfig {
 
     private static final DockerClientConfig dockerClientConfig;
     private static final DockerHttpClient dockerHttpClient;
     private static final DockerClient dockerClient;
-    private static final Logger logger;
     private static String containerId;
     private static Spanner spanner;
     private static DatabaseId dbId;
@@ -46,7 +46,6 @@ public class DockerSpannerConfig {
 
     static {
         DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig.createDefaultConfigBuilder();
-        logger = Logger.getLogger(DockerSpannerConfig.class.getName());
 
         if (System.getProperty("os.name").contains("Windows")) {
             builder.withDockerHost("tcp://localhost:2375/")
@@ -73,23 +72,23 @@ public class DockerSpannerConfig {
         System.setProperty("SPANNER_EMULATOR_HOST", "http://localhost:9010/");
 
 //         pulling emulator image
-        logger.info("Pulling emulator image...");
+        log.info("Pulling emulator image...");
         dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator")
                 .withAuthConfig(new AuthConfig())
                 .exec(new PullImageResultCallback())
                 .awaitCompletion(60, TimeUnit.SECONDS);
-        logger.info("Emulator image has been pulled!");
+        log.info("Emulator image has been pulled!");
 
 
         // starting emulator container
-        logger.info("Starting container >>>>>>>>");
+        log.info("Starting container >>>>>>>>");
         ;
         CreateContainerResponse containerResponse = dockerClient.createContainerCmd("gcr.io/cloud-spanner-emulator/emulator:latest")
                 .withPortBindings(PortBinding.parse("9010:9010"), PortBinding.parse("9020:9020"))
                 .exec();
         containerId = containerResponse.getId();
         dockerClient.startContainerCmd(containerId).exec();
-        logger.info("Container with id=" + containerId + " is being executed >>>>>>>>");
+        log.info("Container with id=" + containerId + " is being executed >>>>>>>>");
     }
 
     /**
@@ -102,7 +101,7 @@ public class DockerSpannerConfig {
                 .setCredentials(NoCredentials.getInstance())
                 .build()
                 .getService();
-        logger.info(System.getProperty("SPANNER_EMULATOR_HOST"));
+        log.info(System.getProperty("SPANNER_EMULATOR_HOST"));
         InstanceAdminClient instanceAdminClient = spanner.getInstanceAdminClient();
 
         // Set Instance configuration
@@ -119,12 +118,12 @@ public class DockerSpannerConfig {
         try {
             // Wait for the createInstance operation to finish.
             Instance instance = operation.get();
-            logger.info("Instance " + instance.getId() + " was successfully created");
+            log.info("Instance " + instance.getId() + " was successfully created");
         } catch (ExecutionException e) {
-            logger.warning(
+            log.warn(
                     "Error: Creating instance " + instanceInfo.getId() + " failed with error message " + e.getMessage());
         } catch (InterruptedException e) {
-            logger.warning("Error: Waiting for createInstance operation to finish was interrupted");
+            log.warn("Error: Waiting for createInstance operation to finish was interrupted");
         }
     }
 
@@ -157,7 +156,7 @@ public class DockerSpannerConfig {
         try {
             // Initiate the request which returns an OperationFuture.
             Database db = op.get();
-            logger.info("Created database [" + db.getId() + "]");
+            log.info("Created database [" + db.getId() + "]");
         } catch (ExecutionException e) {
             // If the operation failed during execution, expose the cause.
             throw (SpannerException) e.getCause();
@@ -184,7 +183,7 @@ public class DockerSpannerConfig {
                                             + "(2, 'Max', 'Basov', 'scratchy@gmail.com'), "
                                             + "(3, 'Kirill', 'Ikumapaii', 'merlodon@gmail.com')";
                             long rowCount = transaction.executeUpdate(Statement.of(sql));
-                            logger.info(rowCount + " records inserted.\n");
+                            log.info(rowCount + " records inserted.\n");
                             return null;
                         });
 
@@ -198,7 +197,7 @@ public class DockerSpannerConfig {
                                             + "(2, 2, 'Saltovka, 16', '35849856895'), "
                                             + "(3, 3, 'Moskalevka, 17', '454567856784')";
                             long rowCount = transaction.executeUpdate(Statement.of(sql));
-                            logger.info(rowCount + " records inserted.\n");
+                            log.info(rowCount + " records inserted.\n");
                             return null;
                         });
     }
@@ -207,18 +206,18 @@ public class DockerSpannerConfig {
      * Method for stopping docker container
      */
     public void stopDocker() {
-        logger.info("Shutting down container >>>>>>>>");
+        log.info("Shutting down container >>>>>>>>");
         dockerClient.stopContainerCmd(containerId).exec();
         dockerClient.removeContainerCmd(containerId).exec();
-        logger.info("Container with id=" + containerId + " has been shut down >>>>>>>>");
+        log.info("Container with id=" + containerId + " has been shut down >>>>>>>>");
     }
 
     /**
      * Method for closing spanner instance
      */
     public void closeSpanner() {
-        logger.info("Closing Spanner Instance...");
+        log.info("Closing Spanner Instance...");
         spanner.close();
-        logger.info("Spanner Instance has been closed!");
+        log.info("Spanner Instance has been closed!");
     }
 }
