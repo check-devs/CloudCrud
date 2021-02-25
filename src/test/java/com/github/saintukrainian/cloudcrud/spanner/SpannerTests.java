@@ -63,20 +63,13 @@ public class SpannerTests extends AbstractTest {
         Person[] persons = super.mapFromJson(content, Person[].class);
         Assertions.assertNotNull(persons);
 
-        assertEquals(1, persons[0].getId());
-        assertEquals("Denys", persons[0].getFirstName());
-        assertEquals("Matsenko", persons[0].getLastName());
-        assertEquals("idanchik47@gmail.com", persons[0].getEmail());
+        Person person1 = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
+        Person person2 = new Person(2, "Max", "Basov", "scratchy@gmail.com");
+        Person person3 = new Person(3, "Kirill", "Ikumapaii", "merlodon@gmail.com");
 
-        assertEquals(2, persons[1].getId());
-        assertEquals("Max", persons[1].getFirstName());
-        assertEquals("Basov", persons[1].getLastName());
-        assertEquals("scratchy@gmail.com", persons[1].getEmail());
-
-        assertEquals(3, persons[2].getId());
-        assertEquals("Kirill", persons[2].getFirstName());
-        assertEquals("Ikumapaii", persons[2].getLastName());
-        assertEquals("merlodon@gmail.com", persons[2].getEmail());
+        assertEquals(person1, persons[0]);
+        assertEquals(person2, persons[1]);
+        assertEquals(person3, persons[2]);
     }
 
     @Test
@@ -91,10 +84,8 @@ public class SpannerTests extends AbstractTest {
         assertEquals(200, status);
         String content = response.getContentAsString();
         Person person = super.mapFromJson(content, Person.class);
-        assertEquals(person.getId(), id);
-        assertEquals(person.getFirstName(), "Denys");
-        assertEquals(person.getLastName(), "Matsenko");
-        assertEquals(person.getEmail(), "idanchik47@gmail.com");
+        Person personToBeEqualTo = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
+        assertEquals(person, personToBeEqualTo);
     }
 
     @Test
@@ -261,11 +252,9 @@ public class SpannerTests extends AbstractTest {
             when(personRepository.findById(1)).thenReturn(java.util.Optional
                     .of(new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com")));
             Person person = personService.getPersonById(1);
+            Person personToBeEqualTo = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
             assertNotNull(person);
-            assertEquals(1, person.getId());
-            assertEquals(person.getFirstName(), "Denys");
-            assertEquals(person.getLastName(), "Matsenko");
-            assertEquals(person.getEmail(), "idanchik47@gmail.com");
+            assertEquals(person, personToBeEqualTo);
         }
 
         @Test
@@ -367,11 +356,8 @@ public class SpannerTests extends AbstractTest {
             assertEquals(200, status);
             String content = mvcResult.getResponse().getContentAsString();
             Person[] persons = super.mapFromJson(content, Person[].class);
-            assertEquals(params.getFirstName(), persons[0].getFirstName());
-            assertEquals(1, persons[0].getId());
-            assertEquals("Denys", persons[0].getFirstName());
-            assertEquals("Matsenko", persons[0].getLastName());
-            assertEquals("idanchik47@gmail.com", persons[0].getEmail());
+            Person person = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
+            assertEquals(person, persons[0]);
         }
 
     }

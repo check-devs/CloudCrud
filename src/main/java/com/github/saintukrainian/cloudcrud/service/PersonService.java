@@ -1,5 +1,6 @@
 package com.github.saintukrainian.cloudcrud.service;
 
+import com.github.saintukrainian.cloudcrud.annotations.MeasureExecutionTime;
 import com.github.saintukrainian.cloudcrud.entities.*;
 import com.github.saintukrainian.cloudcrud.exceptions.BadRequestException;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonDetailsNotFoundException;
@@ -57,21 +58,6 @@ public class PersonService {
     @Value("${sql.latest-person}")
     private String LATEST_PERSON_SQL;
 
-    private final static Logger logger;
-
-    static {
-        logger = Logger.getLogger(PersonService.class.getName());
-        try {
-            FileHandler fileHandler = new FileHandler("person.log", true);
-            SimpleFormatter simpleFormatter = new SimpleFormatter();
-            fileHandler.setFormatter(simpleFormatter);
-            logger.addHandler(fileHandler);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
     /**
      * Method for getting person by id from repository
@@ -79,16 +65,11 @@ public class PersonService {
      * @param id user id
      * @return {@code Person} instance
      */
+    @MeasureExecutionTime
     public Person getPersonById(int id) {
-        long time = System.currentTimeMillis();
         Optional<Person> person = personRepository.findById(id);
 
-        if (person.isPresent()) {
-            logger.info("Person found. Time taken: " + (System.currentTimeMillis() - time) + " milliseconds");
-            return person.get();
-        } else {
-            throw new PersonNotFoundException();
-        }
+        return person.orElseThrow(PersonNotFoundException::new);
     }
 
     /**
@@ -100,11 +81,7 @@ public class PersonService {
     public PersonDetails getPersonDetailsById(int id) {
         Optional<PersonDetails> personDetails = personDetailsRepository.findById(id);
 
-        if (personDetails.isPresent()) {
-            return personDetails.get();
-        } else {
-            throw new PersonDetailsNotFoundException();
-        }
+        return personDetails.orElseThrow(PersonDetailsNotFoundException::new);
     }
 
     /**
@@ -278,10 +255,8 @@ public class PersonService {
      * @throws InterruptedException exception related to {@code CompletableFuture} class
      * @throws ExecutionException   exception related to {@code CompletableFuture} class
      */
+    @MeasureExecutionTime
     public PersonWithPosts getPersonWithPostsById(int id) throws ExecutionException, InterruptedException {
-
-        long time = System.currentTimeMillis();
-
         if (personRepository.existsById(id)) {
             CompletableFuture<Person> person = CompletableFuture.supplyAsync(() -> getPersonById(id));
             CompletableFuture<List<Post>> posts = CompletableFuture.supplyAsync(() -> postService.getPostsByUserId(id));
@@ -290,8 +265,6 @@ public class PersonService {
             personWithPosts.setFieldsWithPersonInfo(person.get());
             personWithPosts.setPosts(posts.get());
 
-            logger.info("Person with posts method completed in " +
-                    (System.currentTimeMillis() - time) + " milliseconds");
             return personWithPosts;
         } else {
             throw new PersonNotFoundException();

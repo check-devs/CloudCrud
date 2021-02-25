@@ -5,6 +5,8 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author Denys Matsenko
  * <p>
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class PersonServiceAspect {
-
 
     // Get methods
 
@@ -35,7 +36,8 @@ public class PersonServiceAspect {
      */
     @AfterReturning(pointcut = "execution(com.github.saintukrainian.cloudcrud.entities.* com.github.saintukrainian.cloudcrud.service.PersonService.get*(int))")
     public void afterGetEntity(JoinPoint joinPoint) {
-        log.info("Found with id={}, using {} method", joinPoint.getArgs()[0], joinPoint.getSignature().getName());
+        log.info("Found with id={}, using {} method.",
+                joinPoint.getArgs()[0], joinPoint.getSignature().getName());
     }
 
     /**
@@ -146,6 +148,5 @@ public class PersonServiceAspect {
     public void entityCantBeSaved(JoinPoint joinPoint) {
         log.error("Entity can't be saved {}. Method: {}", joinPoint.getArgs()[0], joinPoint.getSignature().getName());
     }
-
 
 }
