@@ -189,10 +189,7 @@ public class PersonService {
      * @param id details id
      */
     public void suppressedDeletePersonDetailsById(int id) {
-        try {
-            personDetailsRepository.deleteById(id);
-        } catch (IllegalArgumentException ignored) {
-        }
+        personDetailsRepository.deleteById(id);
     }
 
     /**
