@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,11 +62,12 @@ public class PersonService {
      * @param id user id
      * @return {@code Person} instance
      */
+    @Async
     @MeasureExecutionTime
-    public Person getPersonById(int id) {
+    public CompletableFuture<Person> getPersonById(int id) {
         Optional<Person> person = personRepository.findById(id);
 
-        return person.orElseThrow(PersonNotFoundException::new);
+        return CompletableFuture.completedFuture(person.orElseThrow(PersonNotFoundException::new));
     }
 
     /**
@@ -252,12 +254,10 @@ public class PersonService {
     @MeasureExecutionTime
     public PersonWithPosts getPersonWithPostsById(int id) throws ExecutionException, InterruptedException {
         if (personRepository.existsById(id)) {
-            CompletableFuture<Person> person = CompletableFuture.supplyAsync(() -> getPersonById(id));
-            CompletableFuture<List<Post>> posts = CompletableFuture.supplyAsync(() -> postService.getPostsByUserId(id));
             PersonWithPosts personWithPosts = new PersonWithPosts();
 
-            personWithPosts.setFieldsWithPersonInfo(person.get());
-            personWithPosts.setPosts(posts.get());
+            personWithPosts.setFieldsWithPersonInfo(getPersonById(id).get());
+            personWithPosts.setPosts(postService.getPostsByUserId(id).get());
 
             return personWithPosts;
         } else {

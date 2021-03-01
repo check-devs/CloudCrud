@@ -1,16 +1,19 @@
 package com.github.saintukrainian.cloudcrud.service;
 
+import com.github.saintukrainian.cloudcrud.annotations.MeasureExecutionTime;
 import com.github.saintukrainian.cloudcrud.entities.Post;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Denys Matsenko
@@ -36,10 +39,17 @@ public class PostService {
      * @param id person id
      * @return list of posts
      */
-    public List<Post> getPostsByUserId(int id) {
-        long time = System.currentTimeMillis();
+    @Async
+    @MeasureExecutionTime
+    public CompletableFuture<List<Post>> getPostsByUserId(int id) {
         if (personRepository.existsById(id)) {
-            return List.of(Objects.requireNonNull(restTemplate.getForObject(POSTS_URL + "?userId=" + id, Post[].class)));
+            return CompletableFuture.completedFuture(
+                    List.of(
+                            Objects.requireNonNull(
+                                    restTemplate.getForObject(POSTS_URL + "?userId=" + id, Post[].class)
+                            )
+                    )
+            );
         } else {
             throw new PersonNotFoundException();
         }

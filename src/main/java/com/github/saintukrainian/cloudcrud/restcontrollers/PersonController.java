@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Denys Matsenko
@@ -42,8 +43,8 @@ public class PersonController {
      * @return person
      */
     @GetMapping("/{id}")
-    public Person getPersonById(@PathVariable int id) {
-        return personService.getPersonById(id);
+    public Person getPersonById(@PathVariable int id) throws ExecutionException, InterruptedException {
+        return personService.getPersonById(id).get();
     }
 
     /**
