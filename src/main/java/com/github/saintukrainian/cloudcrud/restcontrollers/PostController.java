@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * @author Denys Matsenko
@@ -34,8 +33,8 @@ public class PostController {
      * @return list of person related posts
      */
     @GetMapping("/{id}")
-    public List<Post> getPostsByUserId(@PathVariable int id) throws ExecutionException, InterruptedException {
-        return postService.getPostsByUserId(id).get();
+    public List<Post> getPostsByUserId(@PathVariable int id) {
+        return postService.getPostsByUserId(id);
     }
 
     /**

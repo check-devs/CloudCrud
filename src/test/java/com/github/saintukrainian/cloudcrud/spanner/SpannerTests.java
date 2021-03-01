@@ -16,8 +16,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.concurrent.ExecutionException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -312,10 +310,10 @@ public class SpannerTests extends AbstractTest {
         PersonService personService;
 
         @Test
-        public void testGetPersonById() throws ExecutionException, InterruptedException {
+        public void testGetPersonById() {
             when(personRepository.findById(1)).thenReturn(java.util.Optional
                     .of(new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com")));
-            Person person = personService.getPersonById(1).get();
+            Person person = personService.getPersonById(1);
             Person personToBeEqualTo = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
             assertNotNull(person);
             assertEquals(person, personToBeEqualTo);

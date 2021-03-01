@@ -7,13 +7,11 @@ import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Denys Matsenko
@@ -40,13 +38,11 @@ public class PostService {
      * @return list of posts
      */
     @MeasureExecutionTime
-    public CompletableFuture<List<Post>> getPostsByUserId(int id) {
+    public List<Post> getPostsByUserId(int id) {
         if (personRepository.existsById(id)) {
-            return CompletableFuture.completedFuture(
-                    List.of(
-                            Objects.requireNonNull(
-                                    restTemplate.getForObject(POSTS_URL + "?userId=" + id, Post[].class)
-                            )
+            return List.of(
+                    Objects.requireNonNull(
+                            restTemplate.getForObject(POSTS_URL + "?userId=" + id, Post[].class)
                     )
             );
         } else {

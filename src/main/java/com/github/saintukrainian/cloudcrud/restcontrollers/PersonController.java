@@ -43,8 +43,8 @@ public class PersonController {
      * @return person
      */
     @GetMapping("/{id}")
-    public Person getPersonById(@PathVariable int id) throws ExecutionException, InterruptedException {
-        return personService.getPersonById(id).get();
+    public Person getPersonById(@PathVariable int id) {
+        return personService.getPersonById(id);
     }
 
     /**

@@ -64,10 +64,10 @@ public class PersonService {
      * @return {@code Person} instance
      */
     @MeasureExecutionTime
-    public CompletableFuture<Person> getPersonById(int id) {
+    public Person getPersonById(int id) {
         Optional<Person> person = personRepository.findById(id);
 
-        return CompletableFuture.completedFuture(person.orElseThrow(PersonNotFoundException::new));
+        return person.orElseThrow(PersonNotFoundException::new);
     }
 
     /**
