@@ -39,6 +39,7 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final SpannerTemplate spannerTemplate;
     private final PostService postService;
+    private final AsyncServiceCalls asyncServiceCalls;
 
     @Value("${sql.persons-with-details}")
     private String PERSONS_WITH_DETAILS_SQL;
@@ -62,7 +63,6 @@ public class PersonService {
      * @param id user id
      * @return {@code Person} instance
      */
-    @Async
     @MeasureExecutionTime
     public CompletableFuture<Person> getPersonById(int id) {
         Optional<Person> person = personRepository.findById(id);
@@ -256,8 +256,8 @@ public class PersonService {
         if (personRepository.existsById(id)) {
             PersonWithPosts personWithPosts = new PersonWithPosts();
 
-            personWithPosts.setFieldsWithPersonInfo(getPersonById(id).get());
-            personWithPosts.setPosts(postService.getPostsByUserId(id).get());
+            personWithPosts.setFieldsWithPersonInfo(asyncServiceCalls.getPersonById(id).get());
+            personWithPosts.setPosts(asyncServiceCalls.getPostsByUserId(id).get());
 
             return personWithPosts;
         } else {

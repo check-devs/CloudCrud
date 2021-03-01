@@ -1,6 +1,7 @@
 package com.github.saintukrainian.cloudcrud.service;
 
 import com.github.saintukrainian.cloudcrud.annotations.MeasureExecutionTime;
+import com.github.saintukrainian.cloudcrud.entities.Person;
 import com.github.saintukrainian.cloudcrud.entities.Post;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
@@ -8,37 +9,54 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Denys Matsenko
  * @version 1.0.0
  * <p>
- * The {@code PostService} class is used for sending http requests to a third-party service
+ * The {@code AsyncServiceCalls} class is used to send the specific PostService or PersonService methods asynchronously
  */
-@Service
-@PropertySource("classpath:url.properties")
+@Component
 @RequiredArgsConstructor
-public class PostService {
+@PropertySource("classpath:url.properties")
+public class AsyncServiceCalls {
+
+    private final PersonRepository personRepository;
+    private final PostService postService;
+    private final RestTemplate restTemplate;
 
     @Value("${url.posts}")
     private String POSTS_URL;
 
-    private final RestTemplate restTemplate;
-    private final PersonRepository personRepository;
-
 
     /**
-     * Method for getting posts by person id
+     * Method for getting person by id from repository asynchronously
      *
-     * @param id person id
-     * @return list of posts
+     * @param id user id
+     * @return {@code CompletableFuture} instance with {@code Person} class param.
      */
+    @Async
+    @MeasureExecutionTime
+    public CompletableFuture<Person> getPersonById(int id) {
+        Optional<Person> person = personRepository.findById(id);
+
+        return CompletableFuture.completedFuture(person.orElseThrow(PersonNotFoundException::new));
+    }
+
+    /**
+     * Method for getting posts by person id from remote service asynchronously
+     *
+     * @param id user id
+     * @return {@code CompletableFuture} instance with the list of posts.
+     */
+    @Async
     @MeasureExecutionTime
     public CompletableFuture<List<Post>> getPostsByUserId(int id) {
         if (personRepository.existsById(id)) {
@@ -52,14 +70,5 @@ public class PostService {
         } else {
             throw new PersonNotFoundException();
         }
-    }
-
-    /**
-     * Method for getting all posts
-     *
-     * @return list of posts
-     */
-    public List<Post> getAllPosts() {
-        return List.of(Objects.requireNonNull(restTemplate.getForObject(POSTS_URL, Post[].class)));
     }
 }
