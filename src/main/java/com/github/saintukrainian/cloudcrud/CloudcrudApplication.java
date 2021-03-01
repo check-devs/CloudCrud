@@ -3,6 +3,7 @@ package com.github.saintukrainian.cloudcrud;
 import com.github.saintukrainian.cloudcrud.spannerconfig.DockerSpannerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -11,6 +12,7 @@ import javax.annotation.PreDestroy;
  * The {@code CloudcrudApplication} class is a driver class for the CloudCrud application
  */
 @SpringBootApplication
+@EnableAsync
 public class CloudcrudApplication {
 
 	private static final DockerSpannerConfig dockerSpannerConfig;
