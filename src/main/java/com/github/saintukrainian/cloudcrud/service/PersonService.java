@@ -5,6 +5,7 @@ import com.github.saintukrainian.cloudcrud.entities.*;
 import com.github.saintukrainian.cloudcrud.exceptions.BadRequestException;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonDetailsNotFoundException;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
+import com.github.saintukrainian.cloudcrud.exceptions.ThreadExecutionException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.google.cloud.spanner.Statement;
@@ -15,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -262,8 +262,8 @@ public class PersonService {
             CompletableFuture<List<Post>> futurePosts = asyncServiceCalls.getPostsByUserId(id);
             CompletableFuture<Void> combined = CompletableFuture.allOf(futurePerson, futurePosts)
                     .handle((s, t) -> {
-//                        throw new
-                        return null;
+                        log.error(t.getMessage());
+                        throw new ThreadExecutionException();
                     });
 
             combined.get();
