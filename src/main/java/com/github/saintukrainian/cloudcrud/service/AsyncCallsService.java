@@ -26,7 +26,7 @@ import java.util.concurrent.CompletableFuture;
 @Component
 @RequiredArgsConstructor
 @PropertySource("classpath:url.properties")
-public class AsyncServiceCalls {
+public class AsyncCallsService {
 
     private final PersonRepository personRepository;
     private final PostService postService;

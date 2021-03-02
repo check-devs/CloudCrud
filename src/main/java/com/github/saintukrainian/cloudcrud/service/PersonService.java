@@ -41,7 +41,7 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final SpannerTemplate spannerTemplate;
     private final PostService postService;
-    private final AsyncServiceCalls asyncServiceCalls;
+    private final AsyncCallsService asyncCallsService;
 
     @Value("${sql.persons-with-details}")
     private String PERSONS_WITH_DETAILS_SQL;
@@ -258,8 +258,8 @@ public class PersonService {
         if (personRepository.existsById(id)) {
             PersonWithPosts personWithPosts = new PersonWithPosts();
 
-            CompletableFuture<Person> futurePerson = asyncServiceCalls.getPersonById(id);
-            CompletableFuture<List<Post>> futurePosts = asyncServiceCalls.getPostsByUserId(id);
+            CompletableFuture<Person> futurePerson = asyncCallsService.getPersonById(id);
+            CompletableFuture<List<Post>> futurePosts = asyncCallsService.getPostsByUserId(id);
             CompletableFuture<Void> combined = CompletableFuture.allOf(futurePerson, futurePosts)
                     .handle((s, t) -> {
                         log.error(t.getMessage());
