@@ -11,6 +11,7 @@ import com.google.cloud.spanner.Statement;
 import com.google.cloud.spring.data.spanner.core.SpannerQueryOptions;
 import com.google.cloud.spring.data.spanner.core.SpannerTemplate;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -31,6 +32,7 @@ import java.util.concurrent.ExecutionException;
  * It is used for manipulating person related data.
  */
 @Service
+@Slf4j
 @PropertySource("classpath:sql.properties")
 @RequiredArgsConstructor
 public class PersonService {
@@ -256,8 +258,18 @@ public class PersonService {
         if (personRepository.existsById(id)) {
             PersonWithPosts personWithPosts = new PersonWithPosts();
 
-            personWithPosts.setFieldsWithPersonInfo(asyncServiceCalls.getPersonById(id).get());
-            personWithPosts.setPosts(asyncServiceCalls.getPostsByUserId(id).get());
+            CompletableFuture<Person> futurePerson = asyncServiceCalls.getPersonById(id);
+            CompletableFuture<List<Post>> futurePosts = asyncServiceCalls.getPostsByUserId(id);
+            CompletableFuture<Void> combined = CompletableFuture.allOf(futurePerson, futurePosts)
+                    .handle((s, t) -> {
+//                        throw new
+                        return null;
+                    });
+
+            combined.get();
+
+            personWithPosts.setFieldsWithPersonInfo(futurePerson.join());
+            personWithPosts.setPosts(futurePosts.join());
 
             return personWithPosts;
         } else {

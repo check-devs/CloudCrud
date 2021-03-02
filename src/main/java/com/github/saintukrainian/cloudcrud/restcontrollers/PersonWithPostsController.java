@@ -27,11 +27,12 @@ public class PersonWithPostsController {
     private final PersonService personService;
 
     /**
-     * GET method for
+     * GET method for getting person with posts by person id
+     *
      * @param id person id
      * @return person with posts
      * @throws InterruptedException is thrown by {@code CompletableFuture} class
-     * @throws ExecutionException is thrown by {@code CompletableFuture} class
+     * @throws ExecutionException   is thrown by {@code CompletableFuture} class
      */
     @GetMapping("/{id}")
     public PersonWithPosts getPersonWithPostsById(@PathVariable int id) throws ExecutionException, InterruptedException {

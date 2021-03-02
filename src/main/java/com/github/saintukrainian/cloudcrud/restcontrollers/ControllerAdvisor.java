@@ -20,6 +20,7 @@ public class ControllerAdvisor {
 
     /**
      * Handles {@code PersonNotFoundException} exceptions
+     *
      * @param e {@code PersonNotFoundException}
      * @return HttpStatus.NOT_FOUND
      */
@@ -31,6 +32,7 @@ public class ControllerAdvisor {
 
     /**
      * Handles {@code BadRequestException} exceptions
+     *
      * @param e {@code BadRequestException}
      * @return HttpStatus.BAD_REQUEST
      */
@@ -42,6 +44,7 @@ public class ControllerAdvisor {
 
     /**
      * Handles {@code PersonDetailsNotFoundException} exceptions
+     *
      * @param e {@code PersonDetailsNotFoundException}
      * @return HttpStatus.NOT_FOUND
      */

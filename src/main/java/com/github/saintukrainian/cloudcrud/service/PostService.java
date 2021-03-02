@@ -40,11 +40,7 @@ public class PostService {
     @MeasureExecutionTime
     public List<Post> getPostsByUserId(int id) {
         if (personRepository.existsById(id)) {
-            return List.of(
-                    Objects.requireNonNull(
-                            restTemplate.getForObject(POSTS_URL + "?userId=" + id, Post[].class)
-                    )
-            );
+            return List.of(Objects.requireNonNull(restTemplate.getForObject(POSTS_URL + "?userId=" + id, Post[].class)));
         } else {
             throw new PersonNotFoundException();
         }
