@@ -6,6 +6,7 @@ import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,7 +22,6 @@ import java.util.Objects;
  */
 @Service
 @PropertySource("classpath:url.properties")
-@RequiredArgsConstructor
 public class PostService {
 
     @Value("${url.posts}")
@@ -29,6 +29,11 @@ public class PostService {
 
     private final RestTemplate restTemplate;
     private final PersonRepository personRepository;
+
+    public PostService(RestTemplateBuilder restTemplateBuilder, PersonRepository personRepository) {
+        this.restTemplate = restTemplateBuilder.build();
+        this.personRepository = personRepository;
+    }
 
 
     /**

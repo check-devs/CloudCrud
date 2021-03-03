@@ -40,7 +40,6 @@ public class PersonService {
     private final PersonDetailsRepository personDetailsRepository;
     private final PersonRepository personRepository;
     private final SpannerTemplate spannerTemplate;
-    private final PostService postService;
     private final AsyncCallsService asyncCallsService;
 
     @Value("${sql.persons-with-details}")

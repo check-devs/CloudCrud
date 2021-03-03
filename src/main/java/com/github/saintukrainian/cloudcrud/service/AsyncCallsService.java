@@ -7,6 +7,7 @@ import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -24,13 +25,16 @@ import java.util.concurrent.CompletableFuture;
  * The {@code AsyncServiceCalls} class is used to send the specific PostService or PersonService methods asynchronously
  */
 @Component
-@RequiredArgsConstructor
 @PropertySource("classpath:url.properties")
 public class AsyncCallsService {
 
     private final PersonRepository personRepository;
-    private final PostService postService;
     private final RestTemplate restTemplate;
+
+    public AsyncCallsService(RestTemplateBuilder restTemplateBuilder, PersonRepository personRepository) {
+        this.restTemplate = restTemplateBuilder.build();
+        this.personRepository = personRepository;
+    }
 
     @Value("${url.posts}")
     private String POSTS_URL;
