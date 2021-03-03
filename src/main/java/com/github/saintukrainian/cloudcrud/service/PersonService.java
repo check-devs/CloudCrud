@@ -261,8 +261,7 @@ public class PersonService {
             CompletableFuture<List<Post>> futurePosts = asyncCallsService.getPostsByUserId(id);
             CompletableFuture<Void> combined = CompletableFuture.allOf(futurePerson, futurePosts)
                     .handle((s, t) -> {
-
-                        if(t != null) {
+                        if (t != null) {
                             log.error(t.getMessage());
                             throw new ThreadExecutionException();
                         }
