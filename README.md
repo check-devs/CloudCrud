@@ -11,24 +11,24 @@ or use person and their details for the profile page or the dashboard.
 
 *Shorcuts*: 
 
-
+```
           person with details = pwd
 
           person with posts = pwp
           
           person's details = pd
-          
+```
 *Structure of person*:
-
+```
           {
              "id": 1,
              "firstName": "Denys",
              "lastName": "Matsenko",
              "email": "idanchik47@gmail.com"
           }
-          
+```          
 *Structure of person's details*:
-
+```
           {
              "detailsId": 1,
              "userId": 1,
@@ -36,7 +36,7 @@ or use person and their details for the profile page or the dashboard.
              "phoneNumber": "3548590348",
           }         
           
-          
+ ```
 **To retrieve person with posts by id** - curl https://cloudcrud.herokuapp.com/pwp/1
 
 **To retrieve person with details by id** - curl https://cloudcrud.herokuapp.com/pwd/1
