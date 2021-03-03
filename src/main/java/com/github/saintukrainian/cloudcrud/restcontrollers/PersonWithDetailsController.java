@@ -14,7 +14,8 @@ import java.util.List;
  * @author Denys Matsenko
  * @version 1.0.0
  * <p>
- * The {@code PersonWithDetailsController} class handles GET requests for getting {@code PersonWithDetails}
+ * The {@code PersonWithDetailsController} class handles GET requests
+ * for getting {@code PersonWithDetails}
  */
 @RestController
 @RequiredArgsConstructor

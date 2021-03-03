@@ -22,10 +22,9 @@ public class PersonDetailsControllerTest extends AbstractTest {
     @Test
     public void getPersonDetailsById() throws Exception {
         int userId = 1;
-        MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.get(PD_URL + userId)
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get(PD_URL + userId)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
@@ -48,8 +47,7 @@ public class PersonDetailsControllerTest extends AbstractTest {
         String inputJson = super.mapToJson(personDetails);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(PD_URL)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(inputJson))
-                .andReturn();
+                .content(inputJson)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
@@ -66,10 +64,10 @@ public class PersonDetailsControllerTest extends AbstractTest {
         int id = personService.getLatestPersonDetailsEntry().getDetailsId();
 
         String inputJson = super.mapToJson(personDetails);
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PD_URL + id)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(inputJson))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.put(PD_URL + id)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(inputJson)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
@@ -80,9 +78,9 @@ public class PersonDetailsControllerTest extends AbstractTest {
 
     @Test
     public void personDetailsNotFound() throws Exception {
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(PD_URL + 10000)
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get(PD_URL + 10000)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         assertEquals(404, response.getStatus());
         assertEquals("\"NOT_FOUND\"", response.getContentAsString());
@@ -90,12 +88,12 @@ public class PersonDetailsControllerTest extends AbstractTest {
 
     @Test
     public void personDetailsBadRequest() throws Exception {
-        PersonDetails personDetails = new PersonDetails(1,1,"jfjskd", "45849853");
+        PersonDetails personDetails = new PersonDetails(1, 1, "jfjskd",
+                "45849853");
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(PD_URL)
                 .content(mapToJson(personDetails))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+                .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         assertEquals(400, response.getStatus());
         assertEquals("\"BAD_REQUEST\"", response.getContentAsString());

@@ -57,7 +57,6 @@ public class PersonService {
     @Value("${sql.latest-person}")
     private String LATEST_PERSON_SQL;
 
-
     /**
      * Method for getting person by id from repository
      *
@@ -78,7 +77,8 @@ public class PersonService {
      * @return {@code PersonDetails} instance
      */
     public PersonDetails getPersonDetailsById(int id) {
-        Optional<PersonDetails> personDetails = personDetailsRepository.findById(id);
+        Optional<PersonDetails> personDetails = personDetailsRepository
+                .findById(id);
 
         return personDetails.orElseThrow(PersonDetailsNotFoundException::new);
     }
@@ -203,9 +203,7 @@ public class PersonService {
      */
     public List<Person> getAllPersonsByFirstName(String firstName) {
         Statement statement = Statement.newBuilder(PERSONS_BY_FIRST_NAME_SQL)
-                .bind("firstName")
-                .to(firstName)
-                .build();
+                .bind("firstName").to(firstName).build();
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         return spannerTemplate.query(Person.class, statement, queryOptions);
     }
@@ -217,8 +215,8 @@ public class PersonService {
      */
     public List<PersonWithDetails> getAllPersonsWithDetails() {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        return spannerTemplate.query(PersonWithDetails.class, Statement.of(PERSONS_WITH_DETAILS_SQL),
-                queryOptions);
+        return spannerTemplate.query(PersonWithDetails.class,
+                Statement.of(PERSONS_WITH_DETAILS_SQL), queryOptions);
     }
 
     /**
@@ -230,11 +228,9 @@ public class PersonService {
     public PersonWithDetails getPersonWithDetailsById(int id) {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
         Statement statement = Statement.newBuilder(PERSON_WITH_DETAILS_SQL)
-                .bind("id")
-                .to(id)
-                .build();
-        List<PersonWithDetails> personWithDetails =
-                spannerTemplate.query(PersonWithDetails.class, statement, queryOptions);
+                .bind("id").to(id).build();
+        List<PersonWithDetails> personWithDetails = spannerTemplate
+                .query(PersonWithDetails.class, statement, queryOptions);
 
         if (CollectionUtils.isNotEmpty(personWithDetails)) {
             return personWithDetails.get(0);
@@ -242,7 +238,6 @@ public class PersonService {
             throw new PersonNotFoundException();
         }
     }
-
 
     /**
      * Method for getting person with posts by person's id
@@ -253,14 +248,17 @@ public class PersonService {
      * @throws ExecutionException   exception related to {@code CompletableFuture} class
      */
     @MeasureExecutionTime
-    public PersonWithPosts getPersonWithPostsById(int id) throws ExecutionException, InterruptedException {
+    public PersonWithPosts getPersonWithPostsById(int id)
+            throws ExecutionException, InterruptedException {
         if (personRepository.existsById(id)) {
             PersonWithPosts personWithPosts = new PersonWithPosts();
 
-            CompletableFuture<Person> futurePerson = asyncCallsService.getPersonById(id);
-            CompletableFuture<List<Post>> futurePosts = asyncCallsService.getPostsByUserId(id);
-            CompletableFuture<Void> combined = CompletableFuture.allOf(futurePerson, futurePosts)
-                    .handle((s, t) -> {
+            CompletableFuture<Person> futurePerson = asyncCallsService
+                    .getPersonById(id);
+            CompletableFuture<List<Post>> futurePosts = asyncCallsService
+                    .getPostsByUserId(id);
+            CompletableFuture<Void> combined = CompletableFuture
+                    .allOf(futurePerson, futurePosts).handle((s, t) -> {
                         if (t != null) {
                             log.error(t.getMessage());
                             throw new ThreadExecutionException();
@@ -287,7 +285,9 @@ public class PersonService {
      */
     public Person getLatestPersonEntry() {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        List<Person> person = spannerTemplate.query(Person.class, Statement.of(LATEST_PERSON_SQL), queryOptions);
+        List<Person> person = spannerTemplate
+                .query(Person.class, Statement.of(LATEST_PERSON_SQL),
+                        queryOptions);
 
         if (CollectionUtils.isNotEmpty(person)) {
             return person.get(0);
@@ -303,8 +303,9 @@ public class PersonService {
      */
     public PersonDetails getLatestPersonDetailsEntry() {
         SpannerQueryOptions queryOptions = new SpannerQueryOptions();
-        List<PersonDetails> personDetails =
-                spannerTemplate.query(PersonDetails.class, Statement.of(LATEST_PERSON_DETAILS_SQL), queryOptions);
+        List<PersonDetails> personDetails = spannerTemplate
+                .query(PersonDetails.class,
+                        Statement.of(LATEST_PERSON_DETAILS_SQL), queryOptions);
 
         if (CollectionUtils.isNotEmpty(personDetails)) {
             return personDetails.get(0);

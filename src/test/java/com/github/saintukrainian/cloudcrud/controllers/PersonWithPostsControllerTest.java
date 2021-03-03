@@ -23,16 +23,16 @@ public class PersonWithPostsControllerTest extends AbstractTest {
     @Test
     public void getPersonWithPostsByUserId() throws Exception {
         int userId = 1;
-        MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.get(PWP_URL + userId)
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get(PWP_URL + userId)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
         assertEquals(200, status);
         String content = response.getContentAsString();
         PersonWithPosts pwp = super.mapFromJson(content, PersonWithPosts.class);
-        Assertions.assertTrue(pwp.getId() == userId && pwp.getPosts().get(0).getId() == userId);
+        Assertions.assertTrue(pwp.getId() == userId
+                && pwp.getPosts().get(0).getId() == userId);
     }
 }

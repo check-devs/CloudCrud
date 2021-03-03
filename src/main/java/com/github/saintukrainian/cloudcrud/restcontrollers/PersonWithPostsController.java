@@ -35,7 +35,8 @@ public class PersonWithPostsController {
      * @throws ExecutionException   is thrown by {@code CompletableFuture} class
      */
     @GetMapping("/{id}")
-    public PersonWithPosts getPersonWithPostsById(@PathVariable int id) throws ExecutionException, InterruptedException {
+    public PersonWithPosts getPersonWithPostsById(@PathVariable int id)
+            throws ExecutionException, InterruptedException {
         return personService.getPersonWithPostsById(id);
     }
 

@@ -30,11 +30,11 @@ public class PostService {
     private final RestTemplate restTemplate;
     private final PersonRepository personRepository;
 
-    public PostService(RestTemplateBuilder restTemplateBuilder, PersonRepository personRepository) {
+    public PostService(RestTemplateBuilder restTemplateBuilder,
+            PersonRepository personRepository) {
         this.restTemplate = restTemplateBuilder.build();
         this.personRepository = personRepository;
     }
-
 
     /**
      * Method for getting posts by person id
@@ -45,7 +45,8 @@ public class PostService {
     @MeasureExecutionTime
     public List<Post> getPostsByUserId(int id) {
         if (personRepository.existsById(id)) {
-            return List.of(Objects.requireNonNull(restTemplate.getForObject(POSTS_URL + "?userId=" + id, Post[].class)));
+            return List.of(Objects.requireNonNull(restTemplate
+                    .getForObject(POSTS_URL + "?userId=" + id, Post[].class)));
         } else {
             throw new PersonNotFoundException();
         }
@@ -57,6 +58,7 @@ public class PostService {
      * @return list of posts
      */
     public List<Post> getAllPosts() {
-        return List.of(Objects.requireNonNull(restTemplate.getForObject(POSTS_URL, Post[].class)));
+        return List.of(Objects.requireNonNull(
+                restTemplate.getForObject(POSTS_URL, Post[].class)));
     }
 }

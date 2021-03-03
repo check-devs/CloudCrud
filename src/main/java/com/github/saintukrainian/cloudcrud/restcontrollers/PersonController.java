@@ -82,7 +82,8 @@ public class PersonController {
      */
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public HttpStatus updatePerson(@PathVariable("id") int userId, @RequestBody Person updatedPerson) {
+    public HttpStatus updatePerson(@PathVariable("id") int userId,
+            @RequestBody Person updatedPerson) {
         personService.updatePerson(userId, updatedPerson);
         return HttpStatus.ACCEPTED;
     }
@@ -94,8 +95,10 @@ public class PersonController {
      * @return list of persons
      */
     @PostMapping("/search")
-    public List<Person> getPersonsByFirstName(@RequestBody SearchParams searchParams) {
-        return personService.getAllPersonsByFirstName(searchParams.getFirstName());
+    public List<Person> getPersonsByFirstName(
+            @RequestBody SearchParams searchParams) {
+        return personService
+                .getAllPersonsByFirstName(searchParams.getFirstName());
     }
 
 }

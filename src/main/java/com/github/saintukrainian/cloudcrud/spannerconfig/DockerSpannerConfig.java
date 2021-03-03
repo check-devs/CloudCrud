@@ -43,9 +43,9 @@ public class DockerSpannerConfig {
     private static final String databaseName = "cloudcrud-testdb";
     private static final String projectId = "test-project";
 
-
     static {
-        DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig.createDefaultConfigBuilder();
+        DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig
+                .createDefaultConfigBuilder();
 
         if (System.getProperty("os.name").contains("Windows")) {
             builder.withDockerHost("tcp://localhost:2375/")
@@ -56,9 +56,9 @@ public class DockerSpannerConfig {
         dockerClientConfig = builder.build();
         dockerHttpClient = new ApacheDockerHttpClient.Builder()
                 .dockerHost(dockerClientConfig.getDockerHost())
-                .sslConfig(dockerClientConfig.getSSLConfig())
-                .build();
-        dockerClient = DockerClientImpl.getInstance(dockerClientConfig, dockerHttpClient);
+                .sslConfig(dockerClientConfig.getSSLConfig()).build();
+        dockerClient = DockerClientImpl
+                .getInstance(dockerClientConfig, dockerHttpClient);
     }
 
     /**
@@ -71,7 +71,7 @@ public class DockerSpannerConfig {
         // setting up docker
         System.setProperty("SPANNER_EMULATOR_HOST", "http://localhost:9010/");
 
-//         pulling emulator image
+        //         pulling emulator image
         log.info("Pulling emulator image...");
         dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator")
                 .withAuthConfig(new AuthConfig())
@@ -79,51 +79,52 @@ public class DockerSpannerConfig {
                 .awaitCompletion(60, TimeUnit.SECONDS);
         log.info("Emulator image has been pulled!");
 
-
         // starting emulator container
         log.info("Starting container >>>>>>>>");
         ;
-        CreateContainerResponse containerResponse = dockerClient.createContainerCmd("gcr.io/cloud-spanner-emulator/emulator:latest")
-                .withPortBindings(PortBinding.parse("9010:9010"), PortBinding.parse("9020:9020"))
-                .exec();
+        CreateContainerResponse containerResponse = dockerClient
+                .createContainerCmd(
+                        "gcr.io/cloud-spanner-emulator/emulator:latest")
+                .withPortBindings(PortBinding.parse("9010:9010"),
+                        PortBinding.parse("9020:9020")).exec();
         containerId = containerResponse.getId();
         dockerClient.startContainerCmd(containerId).exec();
-        log.info("Container with id=" + containerId + " is being executed >>>>>>>>");
+        log.info("Container with id=" + containerId
+                + " is being executed >>>>>>>>");
     }
 
     /**
      * Method for setting up spanner
      */
     public void setupSpanner() {
-        spanner = SpannerOptions.newBuilder()
-                .setProjectId(projectId)
+        spanner = SpannerOptions.newBuilder().setProjectId(projectId)
                 .setEmulatorHost(System.getProperty("SPANNER_EMULATOR_HOST"))
-                .setCredentials(NoCredentials.getInstance())
-                .build()
+                .setCredentials(NoCredentials.getInstance()).build()
                 .getService();
         log.info(System.getProperty("SPANNER_EMULATOR_HOST"));
-        InstanceAdminClient instanceAdminClient = spanner.getInstanceAdminClient();
+        InstanceAdminClient instanceAdminClient = spanner
+                .getInstanceAdminClient();
 
         // Set Instance configuration
 
         // Create an InstanceInfo object that will be used to create the instance.
-        InstanceInfo instanceInfo =
-                InstanceInfo.newBuilder(InstanceId.of(projectId, instanceId))
-                        .setInstanceConfigId(InstanceConfigId.of(projectId, configId))
-                        .setNodeCount(nodeCount)
-                        .setDisplayName(instanceId)
-                        .build();
-        OperationFuture<Instance, CreateInstanceMetadata> operation =
-                instanceAdminClient.createInstance(instanceInfo);
+        InstanceInfo instanceInfo = InstanceInfo
+                .newBuilder(InstanceId.of(projectId, instanceId))
+                .setInstanceConfigId(InstanceConfigId.of(projectId, configId))
+                .setNodeCount(nodeCount).setDisplayName(instanceId).build();
+        OperationFuture<Instance, CreateInstanceMetadata> operation = instanceAdminClient
+                .createInstance(instanceInfo);
         try {
             // Wait for the createInstance operation to finish.
             Instance instance = operation.get();
-            log.info("Instance " + instance.getId() + " was successfully created");
+            log.info("Instance " + instance.getId()
+                    + " was successfully created");
         } catch (ExecutionException e) {
-            log.warn(
-                    "Error: Creating instance " + instanceInfo.getId() + " failed with error message " + e.getMessage());
+            log.warn("Error: Creating instance " + instanceInfo.getId()
+                    + " failed with error message " + e.getMessage());
         } catch (InterruptedException e) {
-            log.warn("Error: Waiting for createInstance operation to finish was interrupted");
+            log.warn(
+                    "Error: Waiting for createInstance operation to finish was interrupted");
         }
     }
 
@@ -134,24 +135,21 @@ public class DockerSpannerConfig {
         dbId = DatabaseId.of(projectId, instanceId, databaseName);
         DatabaseAdminClient dbAdminClient = spanner.getDatabaseAdminClient();
 
-
         // creating database
-        OperationFuture<Database, CreateDatabaseMetadata> op =
-                dbAdminClient.createDatabase(
-                        dbId.getInstanceId().getInstance(),
-                        dbId.getDatabase(),
-                        Arrays.asList(
-                                "CREATE TABLE persons (" +
-                                        "id INT64, first_name STRING(MAX), " +
-                                        "last_name STRING(MAX), " +
-                                        "email STRING(MAX)" +
-                                        ") PRIMARY KEY (id)",
-                                "CREATE TABLE person_details (" +
-                                        "details_id INT64, " +
-                                        "user_id INT64, " +
-                                        "address STRING(MAX), p" +
-                                        "hone_number STRING(MAX)" +
-                                        ") PRIMARY KEY (details_id)"));
+        OperationFuture<Database, CreateDatabaseMetadata> op = dbAdminClient
+                .createDatabase(dbId.getInstanceId().getInstance(),
+                        dbId.getDatabase(), Arrays.asList(
+                                "CREATE TABLE persons ("
+                                        + "id INT64, first_name STRING(MAX), "
+                                        + "last_name STRING(MAX), "
+                                        + "email STRING(MAX)"
+                                        + ") PRIMARY KEY (id)",
+                                "CREATE TABLE person_details ("
+                                        + "details_id INT64, "
+                                        + "user_id INT64, "
+                                        + "address STRING(MAX), p"
+                                        + "hone_number STRING(MAX)"
+                                        + ") PRIMARY KEY (details_id)"));
 
         try {
             // Initiate the request which returns an OperationFuture.
@@ -173,33 +171,31 @@ public class DockerSpannerConfig {
     public void fillDatabase() {
         // filling database
         DatabaseClient dbClient = spanner.getDatabaseClient(dbId);
-        dbClient
-                .readWriteTransaction()
-                .run(
-                        (TransactionRunner.TransactionCallable<Void>) transaction -> {
-                            String sql =
-                                    "INSERT INTO persons (id, first_name, last_name, email) VALUES "
-                                            + "(1, 'Denys', 'Matsenko', 'idanchik47@gmail.com'), "
-                                            + "(2, 'Max', 'Basov', 'scratchy@gmail.com'), "
-                                            + "(3, 'Kirill', 'Ikumapaii', 'merlodon@gmail.com')";
-                            long rowCount = transaction.executeUpdate(Statement.of(sql));
-                            log.info(rowCount + " records inserted.\n");
-                            return null;
-                        });
+        dbClient.readWriteTransaction()
+                .run((TransactionRunner.TransactionCallable<Void>) transaction -> {
+                    String sql =
+                            "INSERT INTO persons (id, first_name, last_name, email) VALUES "
+                                    + "(1, 'Denys', 'Matsenko', 'idanchik47@gmail.com'), "
+                                    + "(2, 'Max', 'Basov', 'scratchy@gmail.com'), "
+                                    + "(3, 'Kirill', 'Ikumapaii', 'merlodon@gmail.com')";
+                    long rowCount = transaction
+                            .executeUpdate(Statement.of(sql));
+                    log.info(rowCount + " records inserted.\n");
+                    return null;
+                });
 
-        dbClient
-                .readWriteTransaction()
-                .run(
-                        (TransactionRunner.TransactionCallable<Void>) transaction -> {
-                            String sql =
-                                    "INSERT INTO person_details(details_id, user_id, address, phone_number) VALUES "
-                                            + "(1, 1, 'Akademika Valtera,14', '380669410135'), "
-                                            + "(2, 2, 'Saltovka, 16', '35849856895'), "
-                                            + "(3, 3, 'Moskalevka, 17', '454567856784')";
-                            long rowCount = transaction.executeUpdate(Statement.of(sql));
-                            log.info(rowCount + " records inserted.\n");
-                            return null;
-                        });
+        dbClient.readWriteTransaction()
+                .run((TransactionRunner.TransactionCallable<Void>) transaction -> {
+                    String sql =
+                            "INSERT INTO person_details(details_id, user_id, address, phone_number) VALUES "
+                                    + "(1, 1, 'Akademika Valtera,14', '380669410135'), "
+                                    + "(2, 2, 'Saltovka, 16', '35849856895'), "
+                                    + "(3, 3, 'Moskalevka, 17', '454567856784')";
+                    long rowCount = transaction
+                            .executeUpdate(Statement.of(sql));
+                    log.info(rowCount + " records inserted.\n");
+                    return null;
+                });
     }
 
     /**
@@ -209,7 +205,8 @@ public class DockerSpannerConfig {
         log.info("Shutting down container >>>>>>>>");
         dockerClient.stopContainerCmd(containerId).exec();
         dockerClient.removeContainerCmd(containerId).exec();
-        log.info("Container with id=" + containerId + " has been shut down >>>>>>>>");
+        log.info("Container with id=" + containerId
+                + " has been shut down >>>>>>>>");
     }
 
     /**

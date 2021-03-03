@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 /**
  * @author Denys Matsenko
  * <p>
- * The {@code PersonWithDetails} class is used to return the whole description about personality
+ * The {@code PersonWithDetails} class is used to return
+ * the whole description about personality
  */
 @Data
 @AllArgsConstructor

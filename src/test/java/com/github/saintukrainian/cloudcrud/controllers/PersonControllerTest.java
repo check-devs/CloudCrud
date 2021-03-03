@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class PersonControllerTest extends AbstractTest{
+public class PersonControllerTest extends AbstractTest {
 
     @BeforeEach
     public void init() {
@@ -23,9 +23,9 @@ public class PersonControllerTest extends AbstractTest{
 
     @Test
     public void getPersonsList() throws Exception {
-        MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.get(PERSONS_URL).accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get(PERSONS_URL)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
@@ -34,31 +34,32 @@ public class PersonControllerTest extends AbstractTest{
         Person[] persons = super.mapFromJson(content, Person[].class);
         Assertions.assertNotNull(persons);
 
-        Person person1 = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
+        Person person1 = new Person(1, "Denys", "Matsenko",
+                "idanchik47@gmail.com");
         Person person2 = new Person(2, "Max", "Basov", "scratchy@gmail.com");
-//        Person person3 = new Person(3, "Kirill", "Ikumapaii", "merlodon@gmail.com");
+        //        Person person3 = new Person(3, "Kirill", "Ikumapaii", "merlodon@gmail.com");
 
         assertEquals(person1, persons[0]);
         assertEquals(person2, persons[1]);
-//        assertEquals(person3, persons[2]);
+        //        assertEquals(person3, persons[2]);
     }
 
     @Test
     public void getPersonById() throws Exception {
         int id = 1;
-        MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.get(PERSONS_URL + id).accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get(PERSONS_URL + id)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
         assertEquals(200, status);
         String content = response.getContentAsString();
         Person person = super.mapFromJson(content, Person.class);
-        Person personToBeEqualTo = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
+        Person personToBeEqualTo = new Person(1, "Denys", "Matsenko",
+                "idanchik47@gmail.com");
         assertEquals(person, personToBeEqualTo);
     }
-
 
     @Test
     public void addPerson() throws Exception {
@@ -68,10 +69,10 @@ public class PersonControllerTest extends AbstractTest{
         person.setEmail("test@gmail.com");
 
         String inputJson = super.mapToJson(person);
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(PERSONS_URL)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(inputJson))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.post(PERSONS_URL)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(inputJson)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
@@ -89,10 +90,10 @@ public class PersonControllerTest extends AbstractTest{
         person.setEmail("test@gmail.com");
 
         String inputJson = super.mapToJson(person);
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(PERSONS_URL + userId)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(inputJson))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.put(PERSONS_URL + userId)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(inputJson)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
@@ -104,17 +105,17 @@ public class PersonControllerTest extends AbstractTest{
     @Test
     public void getPersonByQueryParamFirstName() throws Exception {
         SearchParams params = new SearchParams("Denys");
-        MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.post(PERSONS_URL + "search")
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.post(PERSONS_URL + "search")
                         .content(mapToJson(params))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
         Person[] persons = super.mapFromJson(content, Person[].class);
-        Person person = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
+        Person person = new Person(1, "Denys", "Matsenko",
+                "idanchik47@gmail.com");
         assertEquals(person, persons[0]);
     }
 
@@ -123,7 +124,8 @@ public class PersonControllerTest extends AbstractTest{
         MvcResult mvcResult;
 
         Person person = personService.getLatestPersonEntry();
-        mvcResult = mvc.perform(MockMvcRequestBuilders.delete(PERSONS_URL + person.getId()))
+        mvcResult = mvc.perform(
+                MockMvcRequestBuilders.delete(PERSONS_URL + person.getId()))
                 .andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -133,9 +135,9 @@ public class PersonControllerTest extends AbstractTest{
 
     @Test
     public void personNotFound() throws Exception {
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(PERSONS_URL + 10000)
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get(PERSONS_URL + 10000)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         assertEquals(404, response.getStatus());
         assertEquals("\"NOT_FOUND\"", response.getContentAsString());
@@ -143,9 +145,9 @@ public class PersonControllerTest extends AbstractTest{
 
     @Test
     public void personWithDetailsNotFound() throws Exception {
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(PWD_URL + 10000)
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get(PWD_URL + 10000)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         assertEquals(404, response.getStatus());
         assertEquals("\"NOT_FOUND\"", response.getContentAsString());
@@ -153,12 +155,13 @@ public class PersonControllerTest extends AbstractTest{
 
     @Test
     public void personBadRequest() throws Exception {
-        Person person = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(PERSONS_URL)
-                .content(mapToJson(person))
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        Person person = new Person(1, "Denys", "Matsenko",
+                "idanchik47@gmail.com");
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.post(PERSONS_URL)
+                        .content(mapToJson(person))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         assertEquals(400, response.getStatus());
         assertEquals("\"BAD_REQUEST\"", response.getContentAsString());

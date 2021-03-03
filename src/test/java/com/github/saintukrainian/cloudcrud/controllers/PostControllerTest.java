@@ -24,10 +24,8 @@ public class PostControllerTest extends AbstractTest {
 
     @Test
     public void getPostsList() throws Exception {
-        MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.get(POSTS_URL)
-                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(POSTS_URL)
+                .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
@@ -40,9 +38,9 @@ public class PostControllerTest extends AbstractTest {
     @Test
     public void getPostsByUserId() throws Exception {
         int userId = 1;
-        MvcResult mvcResult = mvc
-                .perform(MockMvcRequestBuilders.get(POSTS_URL + userId).accept(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get(POSTS_URL + userId)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();

@@ -22,7 +22,8 @@ import java.util.concurrent.CompletableFuture;
  * @author Denys Matsenko
  * @version 1.0.0
  * <p>
- * The {@code AsyncServiceCalls} class is used to send the specific PostService or PersonService methods asynchronously
+ * The {@code AsyncServiceCalls} class is used to send the specific PostService
+ * or PersonService methods asynchronously
  */
 @Component
 @PropertySource("classpath:url.properties")
@@ -31,14 +32,14 @@ public class AsyncCallsService {
     private final PersonRepository personRepository;
     private final RestTemplate restTemplate;
 
-    public AsyncCallsService(RestTemplateBuilder restTemplateBuilder, PersonRepository personRepository) {
+    public AsyncCallsService(RestTemplateBuilder restTemplateBuilder,
+            PersonRepository personRepository) {
         this.restTemplate = restTemplateBuilder.build();
         this.personRepository = personRepository;
     }
 
     @Value("${url.posts}")
     private String POSTS_URL;
-
 
     /**
      * Method for getting person by id from repository asynchronously
@@ -51,7 +52,8 @@ public class AsyncCallsService {
     public CompletableFuture<Person> getPersonById(int id) {
         Optional<Person> person = personRepository.findById(id);
 
-        return CompletableFuture.completedFuture(person.orElseThrow(PersonNotFoundException::new));
+        return CompletableFuture.completedFuture(
+                person.orElseThrow(PersonNotFoundException::new));
     }
 
     /**
@@ -64,7 +66,10 @@ public class AsyncCallsService {
     @MeasureExecutionTime
     public CompletableFuture<List<Post>> getPostsByUserId(int id) {
         if (personRepository.existsById(id)) {
-            return CompletableFuture.completedFuture(List.of(Objects.requireNonNull(restTemplate.getForObject(POSTS_URL + "?userId=" + id, Post[].class))));
+            return CompletableFuture.completedFuture(List.of(Objects
+                    .requireNonNull(restTemplate
+                            .getForObject(POSTS_URL + "?userId=" + id,
+                                    Post[].class))));
         } else {
             throw new PersonNotFoundException();
         }
