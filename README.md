@@ -36,16 +36,16 @@ or use person and their details for the profile page or the dashboard.
              "phoneNumber": "3548590348",
           }      
  ```
-**To retrieve person with posts by id** - ``sh curl https://cloudcrud.herokuapp.com/pwp/1``
+**To retrieve person with posts by id** - ``curl https://cloudcrud.herokuapp.com/pwp/1``
 
-**To retrieve person with details by id** - ``sh curl https://cloudcrud.herokuapp.com/pwd/1``
+**To retrieve person with details by id** - ``curl https://cloudcrud.herokuapp.com/pwd/1``
 
-**To retrieve a person by id** - ``sh curl https://cloudcrud.herokuapp.com/persons/1``
+**To retrieve a person by id** - ``curl https://cloudcrud.herokuapp.com/persons/1``
 
-**To retrieve person's details by id** - ``sh curl https://cloudcrud.herokuapp.com/pd/1``
+**To retrieve person's details by id** - ``curl https://cloudcrud.herokuapp.com/pd/1``
 
-**To retrieve person's posts by id** - ``sh curl https://cloudcrud.herokuapp.com/posts/1``
+**To retrieve person's posts by id** - ``curl https://cloudcrud.herokuapp.com/posts/1``
 
-**Test endpoints using Swagger UI** - ``sh https://cloudcrud.herokuapp.com/swagger-ui.html``
+**Test endpoints using Swagger UI** - ``https://cloudcrud.herokuapp.com/swagger-ui.html``
 
 ### You can manipulate perons' data with different request methods (POST, GET, DELETE, PUT)
