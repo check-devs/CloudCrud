@@ -9,9 +9,8 @@ jobs:
   code-style:
     runs-on: ubuntu-latest
     steps:
-      - name: Build with Maven
-        run: mvn -B verify pmd:pmd
       - uses: jwgmeligmeyling/pmd-github-action@master
+        run: mvn -B verify pmd:pmd
         with:
           path: '**/pmd.xml'
   build:
