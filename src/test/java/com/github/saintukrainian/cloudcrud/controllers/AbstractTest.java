@@ -2,6 +2,7 @@ package com.github.saintukrainian.cloudcrud.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.saintukrainian.cloudcrud.CloudCrudApplicationTestContext;
 import com.github.saintukrainian.cloudcrud.repositories.PersonDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
@@ -15,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 
-@SpringBootTest
+@SpringBootTest(classes = CloudCrudApplicationTestContext.class)
 @WebAppConfiguration
 public abstract class AbstractTest {
 

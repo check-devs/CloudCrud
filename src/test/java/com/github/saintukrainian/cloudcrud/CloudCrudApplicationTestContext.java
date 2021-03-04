@@ -1,12 +1,13 @@
 package com.github.saintukrainian.cloudcrud;
 
 import com.github.saintukrainian.cloudcrud.spannerconfig.DockerSpannerConfig;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-@Configuration
+@TestConfiguration
 public class CloudCrudApplicationTestContext {
 
   private final DockerSpannerConfig dockerSpannerConfig;
