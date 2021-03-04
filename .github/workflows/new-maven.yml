@@ -9,11 +9,11 @@ jobs:
   code-style:
     runs-on: ubuntu-latest
     steps:
-    - name: Checking code style
-      run: mvn -B verify pmd:pmd
-    - uses: jwgmeligmeyling/pmd-github-action@master
-      with:
-        path: '**/pmd.xml'
+      - name: Checking code style
+        run: mvn -B verify pmd:pmd
+      - uses: jwgmeligmeyling/pmd-github-action@master
+        with:
+          path: '**/pmd.xml'
   build:
 
     runs-on: ubuntu-latest
