@@ -6,13 +6,6 @@ name: Java CI 11
 on: [ push, pull_request ]
 
 jobs:
-  code-style:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: jwgmeligmeyling/pmd-github-action@master
-        run: mvn -B verify pmd:pmd
-        with:
-          path: '**/pmd.xml'
   build:
     runs-on: ubuntu-latest
     steps:
@@ -22,5 +15,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Build with Maven
+        run: mvn -B verify pmd:pmd
+      - uses: jwgmeligmeyling/pmd-github-action@master
+        with:
+          path: '**/pmd.xml'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
