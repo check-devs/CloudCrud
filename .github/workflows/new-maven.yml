@@ -5,9 +5,9 @@ name: Java CI 11
 
 on:
   push:
-    branches: [ feature/cloud_crud ]
+    branches: [ refactoring/tests ]
   pull_request:
-    branches: [ feature/cloud_crud ]
+    branches: [ refactoring/tests ]
 
 jobs:
   build:
