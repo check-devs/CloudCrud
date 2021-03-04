@@ -6,14 +6,15 @@ name: Java CI 11
 on: [ push, pull_request ]
 
 jobs:
-  code-check:
+  checkstyle:
+    name: runner / checkstyle
     runs-on: ubuntu-latest
     steps:
-      - name: Build with Maven
-        run: mvn -B verify pmd:pmd
-      - uses: jwgmeligmeyling/pmd-github-action@master
+      - uses: actions/checkout@v2
+      - uses: dbelyaev/action-checkstyle@master
         with:
-          path: '**/pmd.xml'
+          reporter: github-pr-review
+          level: warning
   build:
     runs-on: ubuntu-latest
     steps:
