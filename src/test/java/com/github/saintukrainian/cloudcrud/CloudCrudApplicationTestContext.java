@@ -9,24 +9,23 @@ import javax.annotation.PreDestroy;
 @Configuration
 public class CloudCrudApplicationTestContext {
 
-    private final DockerSpannerConfig dockerSpannerConfig;
+  private final DockerSpannerConfig dockerSpannerConfig;
 
-    {
-        dockerSpannerConfig = new DockerSpannerConfig();
-    }
+  {
+    dockerSpannerConfig = new DockerSpannerConfig();
+  }
 
-    @PostConstruct
-    public void contextLoads() throws InterruptedException {
-        dockerSpannerConfig.setupDocker();
-        dockerSpannerConfig.setupSpanner();
-        dockerSpannerConfig.setupDatabase();
-        dockerSpannerConfig.fillDatabase();
-    }
+  @PostConstruct
+  public void contextLoads() throws InterruptedException {
+    dockerSpannerConfig.setupDocker();
+    dockerSpannerConfig.setupSpanner();
+    dockerSpannerConfig.setupDatabase();
+    dockerSpannerConfig.fillDatabase();
+  }
 
-    @PreDestroy
-    public void contextCloses() {
-        dockerSpannerConfig.closeSpanner();
-        dockerSpannerConfig.stopDocker();
-    }
-
+  @PreDestroy
+  public void contextCloses() {
+    dockerSpannerConfig.closeSpanner();
+    dockerSpannerConfig.stopDocker();
+  }
 }

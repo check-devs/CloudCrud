@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Denys Matsenko
- * <p>
- * The {@code PersonWithDetails} class is used to return
- * the whole description about personality
+ *     <p>The {@code PersonWithDetails} class is used to return the whole description about
+ *     personality
  */
 @Data
 @AllArgsConstructor
@@ -19,24 +18,24 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PersonWithDetails {
 
-    @Column(name = "id")
-    private int userId;
+  @Column(name = "id")
+  private int userId;
 
-    @Column(name = "details_id")
-    private int detailsId;
+  @Column(name = "details_id")
+  private int detailsId;
 
-    @Column(name = "first_name")
-    private String firstName;
+  @Column(name = "first_name")
+  private String firstName;
 
-    @Column(name = "last_name")
-    private String lastName;
+  @Column(name = "last_name")
+  private String lastName;
 
-    @Column(name = "email")
-    private String email;
+  @Column(name = "email")
+  private String email;
 
-    @Column(name = "address")
-    private String address;
+  @Column(name = "address")
+  private String address;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
+  @Column(name = "phone_number")
+  private String phoneNumber;
 }
