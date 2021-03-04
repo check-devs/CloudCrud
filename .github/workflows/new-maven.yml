@@ -3,11 +3,7 @@
 
 name: Java CI 11
 
-on:
-  push:
-    branches: [ feature/cloud_crud ]
-  pull_request:
-    branches: [ feature/cloud_crud ]
+on: [push, pull_request]
 
 jobs:
   build:
