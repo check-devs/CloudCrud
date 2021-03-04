@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checking code style
-        run: mvn -B verify pmd:pmd
       - uses: jwgmeligmeyling/pmd-github-action@master
+        run: mvn -B verify pmd:pmd
         with:
           path: '**/pmd.xml'
   build:
