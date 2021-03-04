@@ -15,9 +15,7 @@ jobs:
         with:
           path: '**/pmd.xml'
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Build with Maven
       - uses: actions/checkout@v2
