@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>cloudcrud - Checkstyle report</title>
+    <link>https://spring.io/projects/spring-boot/cloudcrud</link>
+    <description>cloudcrud - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2021</copyright>
+    <item>
+      <title>File: 30,
+             Errors: 0,
+             Warnings: 649,
+             Infos: 0
+      </title>
+            <link>https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.aspects.MeasureAspect.java">com/github/saintukrainian/cloudcrud/aspects/MeasureAspect.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.entities.PersonDetails.java">com/github/saintukrainian/cloudcrud/entities/PersonDetails.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.entities.PersonWithDetails.java">com/github/saintukrainian/cloudcrud/entities/PersonWithDetails.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.restcontrollers.PersonWithDetailsController.java">com/github/saintukrainian/cloudcrud/restcontrollers/PersonWithDetailsController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.entities.PersonWithPosts.java">com/github/saintukrainian/cloudcrud/entities/PersonWithPosts.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.repositories.PersonDetailsRepository.java">com/github/saintukrainian/cloudcrud/repositories/PersonDetailsRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.swagger.SwaggerConfig.java">com/github/saintukrainian/cloudcrud/swagger/SwaggerConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.entities.Post.java">com/github/saintukrainian/cloudcrud/entities/Post.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException.java">com/github/saintukrainian/cloudcrud/exceptions/PersonNotFoundException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#application.properties">application.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.exceptions.PersonDetailsNotFoundException.java">com/github/saintukrainian/cloudcrud/exceptions/PersonDetailsNotFoundException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.restcontrollers.ControllerAdvisor.java">com/github/saintukrainian/cloudcrud/restcontrollers/ControllerAdvisor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  22
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.spannerconfig.DockerSpannerConfig.java">com/github/saintukrainian/cloudcrud/spannerconfig/DockerSpannerConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  114
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.CloudCrudApplication.java">com/github/saintukrainian/cloudcrud/CloudCrudApplication.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  52
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#log4j.properties">log4j.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#sql.properties">sql.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.service.PersonService.java">com/github/saintukrainian/cloudcrud/service/PersonService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  185
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#url.properties">url.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.exceptions.BadRequestException.java">com/github/saintukrainian/cloudcrud/exceptions/BadRequestException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.restcontrollers.PersonWithPostsController.java">com/github/saintukrainian/cloudcrud/restcontrollers/PersonWithPostsController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.service.PostService.java">com/github/saintukrainian/cloudcrud/service/PostService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.entities.SearchParams.java">com/github/saintukrainian/cloudcrud/entities/SearchParams.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.restcontrollers.PersonDetailsController.java">com/github/saintukrainian/cloudcrud/restcontrollers/PersonDetailsController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.restcontrollers.PostController.java">com/github/saintukrainian/cloudcrud/restcontrollers/PostController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.exceptions.ThreadExecutionException.java">com/github/saintukrainian/cloudcrud/exceptions/ThreadExecutionException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.repositories.PersonRepository.java">com/github/saintukrainian/cloudcrud/repositories/PersonRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.annotations.MeasureExecutionTime.java">com/github/saintukrainian/cloudcrud/annotations/MeasureExecutionTime.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.restcontrollers.PersonController.java">com/github/saintukrainian/cloudcrud/restcontrollers/PersonController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  39
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.entities.Person.java">com/github/saintukrainian/cloudcrud/entities/Person.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/cloudcrud/checkstyle.html#com.github.saintukrainian.cloudcrud.service.AsyncCallsService.java">com/github/saintukrainian/cloudcrud/service/AsyncCallsService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  34
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
