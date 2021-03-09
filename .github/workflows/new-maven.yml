@@ -3,12 +3,7 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    types:
-      - assigned
-      - reopened
-      - edited
-      - opened
+  [pull_request]
 jobs:
   build:
     name: Build
