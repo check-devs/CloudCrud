@@ -26,6 +26,7 @@
         <lombok.version>1.18.18</lombok.version>
         <sonar.projectKey>check-devs_CloudCrud</sonar.projectKey>
         <sonar.organization>check-devs</sonar.organization>
+        <sonar.sources>cloudcrud/src/main/java/com/github/saintukrainian/cloudcrud</sonar.sources>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <checkstyle.version>3.1.1</checkstyle.version>
     </properties>
