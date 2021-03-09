@@ -24,7 +24,7 @@
 		<lombok.version>1.18.18</lombok.version>
 		<sonar.projectKey>check-devs_CloudCrud</sonar.projectKey>
 		<sonar.organization>check-devs</sonar.organization>
-		<sonar.working.directory>${project.basedir}/src/main/java</sonar.working.directory>
+		<sonar.working.directory>${project.basedir}</sonar.working.directory>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
