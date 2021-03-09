@@ -24,6 +24,10 @@
         <apache-commons.version>4.4</apache-commons.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.18</lombok.version>
+        <sonar.projectKey>check-devs_CloudCrud</sonar.projectKey>
+        <sonar.organization>check-devs</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <checkstyle.version>3.1.1</checkstyle.version>
     </properties>
     <dependencies>
         <dependency>
@@ -149,30 +153,13 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.14.0</version>
-                <configuration>
-                    <sourceEncoding>utf-8</sourceEncoding>
-                    <linkXRef>false</linkXRef>
-                    <targetJdk>11</targetJdk>
-                    <outputDirectory>reports</outputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>pmd</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>${checkstyle.version}</version>
                 <configuration>
                     <outputDirectory>reports</outputDirectory>
                     <configLocation>google_checks.xml</configLocation>
+                    <failOnViolation>true</failOnViolation>
+                    <failsOnError>true</failsOnError>
                 </configuration>
                 <executions>
                     <execution>
