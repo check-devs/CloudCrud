@@ -4,6 +4,11 @@ on:
     branches:
       - master
   pull_request:
+    types:
+      - assigned
+      - reopened
+      - edited
+      - opened
 jobs:
   build:
     name: Build
