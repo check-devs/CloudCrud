@@ -27,7 +27,6 @@
         <sonar.projectKey>check-devs_CloudCrud</sonar.projectKey>
         <sonar.organization>check-devs</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.sources>${project.basedir}/src/main/java/com/github/saintukrainian/cloudcrud</sonar.sources>
         <checkstyle.version>3.1.1</checkstyle.version>
     </properties>
     <dependencies>
