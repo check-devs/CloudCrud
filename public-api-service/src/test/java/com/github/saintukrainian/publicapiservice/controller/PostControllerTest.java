@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
@@ -13,9 +14,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@PropertySource("classpath: url.properties")
 public class PostControllerTest extends AbstractTest {
 
-  private static final String POSTS_URL = "http://localhost:8082/posts/";
+  private String POSTS_URL = "http://localhost:8082/posts/";
 
   @BeforeEach
   public void init() {

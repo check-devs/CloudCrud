@@ -6,9 +6,9 @@ import com.github.saintukrainian.cloudcrud.CloudCrudApplicationTestContext;
 import com.github.saintukrainian.cloudcrud.repositories.PersonDetailsRepository;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import com.github.saintukrainian.cloudcrud.service.PersonService;
-import com.github.saintukrainian.cloudcrud.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -21,14 +21,13 @@ import java.io.IOException;
 public abstract class AbstractTest {
 
   protected MockMvc mvc;
-  protected static final String PERSONS_URL = "http://localhost:8080/persons/";
-  protected static final String PWD_URL = "http://localhost:8080/pwd/";
-  protected static final String PD_URL = "http://localhost:8080/pd/";
+  protected static final String PERSONS_URL = "http://localhost:8081/persons/";
+  protected static final String PWD_URL = "http://localhost:8081/pwd/";
+  protected static final String PD_URL = "http://localhost:8081/pd/";
 
   @Autowired PersonRepository personRepository;
   @Autowired PersonDetailsRepository personDetailsRepository;
   @Autowired PersonService personService;
-  @Autowired PostService postService;
 
   @Autowired WebApplicationContext webApplicationContext;
 

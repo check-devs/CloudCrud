@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PersonWithPostsControllerTest extends AbstractTest {
 
-  private static final String PWP_URL = "http://localhost:8080/pwp/";
+  private static final String PWP_URL = "http://localhost:8081/pwp/";
 
   @BeforeEach
   public void init() {
