@@ -5,6 +5,7 @@ import com.github.saintukrainian.cloudcrud.entities.Person;
 import com.github.saintukrainian.cloudcrud.entities.Post;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.PropertySource;
@@ -24,6 +25,7 @@ import java.util.concurrent.CompletableFuture;
  *     PersonService methods asynchronously
  */
 @Component
+@RequiredArgsConstructor
 @PropertySource("classpath:url.properties")
 public class AsyncCallsService {
 
@@ -32,12 +34,6 @@ public class AsyncCallsService {
 
   @Value("${service.post.url}")
   private String POSTS_URL;
-
-  public AsyncCallsService(
-      RestTemplateBuilder restTemplateBuilder, PersonRepository personRepository) {
-    this.restTemplate = restTemplateBuilder.build();
-    this.personRepository = personRepository;
-  }
 
 
   /**
