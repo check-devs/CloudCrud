@@ -1,6 +1,9 @@
 package com.github.saintukrainian.cloudcrud;
 
 import com.github.saintukrainian.cloudcrud.spannerconfig.DockerSpannerConfig;
+import com.github.saintukrainian.cloudcrud.spannerconfig.SpannerRemoteConfig;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -12,46 +15,56 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.concurrent.Executor;
 
-/**
- * The {@code CloudCrudApplication} class is a driver class for the CloudCrud application
- */
+/** The {@code CloudCrudApplication} class is a driver class for the CloudCrud application */
 @SpringBootApplication
 @EnableAsync
 @EnableEurekaClient
+@RequiredArgsConstructor
+@Slf4j
 public class CloudCrudApplication {
 
-	private static final DockerSpannerConfig dockerSpannerConfig;
+  private static final DockerSpannerConfig dockerSpannerConfig;
+  private final SpannerRemoteConfig spannerRemoteConfig;
 
-	static {
-		dockerSpannerConfig = new DockerSpannerConfig();
-	}
+  static {
+    dockerSpannerConfig = new DockerSpannerConfig();
+  }
 
-	@PostConstruct
-	public void initEmulator() throws InterruptedException {
-		dockerSpannerConfig.setupDocker();
-		dockerSpannerConfig.setupSpanner();
-		dockerSpannerConfig.setupDatabase();
-		dockerSpannerConfig.fillDatabase();
-	}
+  @PostConstruct
+  public void initEmulator() throws InterruptedException {
+    dockerSpannerConfig.setupDocker();
 
-	@PreDestroy
-	public void cleanupEmulator() {
-		dockerSpannerConfig.closeSpanner();
-		dockerSpannerConfig.stopDocker();
-	}
+    dockerSpannerConfig.setupSpanner(
+        spannerRemoteConfig.getProjectId(),
+        spannerRemoteConfig.getInstanceId(),
+        spannerRemoteConfig.getConfigId());
 
-	@Bean
-	public Executor taskExecutor() {
-		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(3);
-		executor.setMaxPoolSize(6);
-		executor.setQueueCapacity(3);
-		executor.setThreadNamePrefix("CloudCrud-");
-		executor.initialize();
-		return executor;
-	}
+    dockerSpannerConfig.setupDatabase(
+        spannerRemoteConfig.getProjectId(),
+        spannerRemoteConfig.getInstanceId(),
+        spannerRemoteConfig.getDatabaseName());
 
-	public static void main(String[] args) {
-		SpringApplication.run(CloudCrudApplication.class, args);
-	}
+    dockerSpannerConfig.fillDatabase();
+  }
+
+  @PreDestroy
+  public void cleanupEmulator() {
+    dockerSpannerConfig.closeSpanner();
+    dockerSpannerConfig.stopDocker();
+  }
+
+  @Bean
+  public Executor taskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(3);
+    executor.setMaxPoolSize(6);
+    executor.setQueueCapacity(3);
+    executor.setThreadNamePrefix("CloudCrud-");
+    executor.initialize();
+    return executor;
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(CloudCrudApplication.class, args);
+  }
 }

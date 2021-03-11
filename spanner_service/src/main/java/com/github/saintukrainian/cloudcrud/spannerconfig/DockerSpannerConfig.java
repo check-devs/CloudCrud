@@ -37,11 +37,7 @@ public class DockerSpannerConfig {
     private static Spanner spanner;
     private static DatabaseId dbId;
 
-    private static final String configId = "emulator-config";
     private static final int nodeCount = 1;
-    private static final String instanceId = "test-instance";
-    private static final String databaseName = "cloudcrud-testdb";
-    private static final String projectId = "test-project";
 
 
     static {
@@ -94,7 +90,7 @@ public class DockerSpannerConfig {
     /**
      * Method for setting up spanner
      */
-    public void setupSpanner() {
+    public void setupSpanner(String projectId, String instanceId, String configId) {
         spanner = SpannerOptions.newBuilder()
                 .setProjectId(projectId)
                 .setEmulatorHost(System.getProperty("SPANNER_EMULATOR_HOST"))
@@ -130,7 +126,7 @@ public class DockerSpannerConfig {
     /**
      * Method for setting up the database
      */
-    public void setupDatabase() {
+    public void setupDatabase(String projectId, String instanceId, String databaseName) {
         dbId = DatabaseId.of(projectId, instanceId, databaseName);
         DatabaseAdminClient dbAdminClient = spanner.getDatabaseAdminClient();
 
