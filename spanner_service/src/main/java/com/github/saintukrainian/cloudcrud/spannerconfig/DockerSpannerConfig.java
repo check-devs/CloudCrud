@@ -16,6 +16,7 @@ import com.google.cloud.spanner.*;
 import com.google.spanner.admin.database.v1.CreateDatabaseMetadata;
 import com.google.spanner.admin.instance.v1.CreateInstanceMetadata;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit;
  * The {@code DockerSpannerConfig} contains methods for configuring emulator and spanner instance
  */
 @Slf4j
+@Configuration
 public class DockerSpannerConfig {
 
     private static final DockerClientConfig dockerClientConfig;

@@ -21,9 +21,9 @@ import java.io.IOException;
 public abstract class AbstractTest {
 
   protected MockMvc mvc;
-  protected static final String PERSONS_URL = "http://localhost:8081/persons/";
-  protected static final String PWD_URL = "http://localhost:8081/pwd/";
-  protected static final String PD_URL = "http://localhost:8081/pd/";
+  protected static final String PERSONS_URL = "http://person-service/persons/";
+  protected static final String PWD_URL = "http://person-service/pwd/";
+  protected static final String PD_URL = "http://person-service/pd/";
 
   @Autowired PersonRepository personRepository;
   @Autowired PersonDetailsRepository personDetailsRepository;
