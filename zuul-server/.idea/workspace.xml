@@ -5,28 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a9f094f-5f29-47a7-b77d-0874f2ba019c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../central-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../central-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../central-service/src/main/java/com/github/saintukrainian/CentralServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../central-service/src/main/java/com/github/saintukrainian/CentralServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../central-service/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../central-service/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/src/main/java/com/github/saintukrainian/discoveryclient/DiscoveryClientApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-client/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/src/main/java/com/github/saintukrainian/discoveryclient/DiscoveryClientApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-server/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,10 +25,15 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
@@ -87,7 +74,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1615557154887</updated>
-      <workItem from="1615557156031" duration="458000" />
+      <workItem from="1615557156031" duration="2164000" />
     </task>
     <servers />
   </component>
