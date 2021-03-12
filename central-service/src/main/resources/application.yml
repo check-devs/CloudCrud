@@ -1,0 +1,14 @@
+zuul:
+  routes:
+    post-service:
+      path: /post-service/**
+    person-service:
+      path: /person-service/**
+ribbon:
+  eureka:
+    enabled: true
+person-service:
+  listOfServers: http://localhost:8081
+
+post-service:
+  listOfServers: http://localhost:8082
