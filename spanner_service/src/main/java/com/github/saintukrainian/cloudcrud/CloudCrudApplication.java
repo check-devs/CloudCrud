@@ -30,28 +30,28 @@ public class CloudCrudApplication {
     dockerSpannerConfig = new DockerSpannerConfig();
   }
 
-//  @PostConstruct
-//  public void initEmulator() throws InterruptedException {
-//    dockerSpannerConfig.setupDocker();
-//
-//    dockerSpannerConfig.setupSpanner(
-//        spannerRemoteConfig.getProjectId(),
-//        spannerRemoteConfig.getInstanceId(),
-//        spannerRemoteConfig.getConfigId());
-//
-//    dockerSpannerConfig.setupDatabase(
-//        spannerRemoteConfig.getProjectId(),
-//        spannerRemoteConfig.getInstanceId(),
-//        spannerRemoteConfig.getDatabaseName());
-//
-//    dockerSpannerConfig.fillDatabase();
-//  }
-//
-//  @PreDestroy
-//  public void cleanupEmulator() {
-//    dockerSpannerConfig.closeSpanner();
-//    dockerSpannerConfig.stopDocker();
-//  }
+  @PostConstruct
+  public void initEmulator() throws InterruptedException {
+    dockerSpannerConfig.setupDocker();
+
+    dockerSpannerConfig.setupSpanner(
+        spannerRemoteConfig.getProjectId(),
+        spannerRemoteConfig.getInstanceId(),
+        spannerRemoteConfig.getConfigId());
+
+    dockerSpannerConfig.setupDatabase(
+        spannerRemoteConfig.getProjectId(),
+        spannerRemoteConfig.getInstanceId(),
+        spannerRemoteConfig.getDatabaseName());
+
+    dockerSpannerConfig.fillDatabase();
+  }
+
+  @PreDestroy
+  public void cleanupEmulator() {
+    dockerSpannerConfig.closeSpanner();
+    dockerSpannerConfig.stopDocker();
+  }
 
   @Bean
   public Executor taskExecutor() {

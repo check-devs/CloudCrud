@@ -7,8 +7,8 @@ zuul:
 ribbon:
   eureka:
     enabled: true
-person-service:
-  listOfServers: http://localhost:8081
-
-post-service:
-  listOfServers: http://localhost:8082
+#person-service:
+#  listOfServers: http://localhost:8081
+#
+#post-service:
+#  listOfServers: http://localhost:8082
