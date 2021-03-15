@@ -1,4 +1,4 @@
-package com.github.saintukrainian;
+package com.mynotes.spring.cloud.zuul;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

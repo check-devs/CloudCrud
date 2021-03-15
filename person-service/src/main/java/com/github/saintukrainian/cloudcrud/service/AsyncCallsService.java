@@ -29,10 +29,6 @@ import java.util.concurrent.CompletableFuture;
 public class AsyncCallsService {
 
   private final PersonRepository personRepository;
-//  private final RestTemplate restTemplate;
-//
-//  @Value("${service.post.url}")
-//  private String POSTS_URL;
   private final PostServiceClient postServiceClient;
 
 
