@@ -7,7 +7,6 @@ import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -30,10 +29,11 @@ import java.util.concurrent.CompletableFuture;
 public class AsyncCallsService {
 
   private final PersonRepository personRepository;
-  private final RestTemplate restTemplate;
-
-  @Value("${service.post.url}")
-  private String POSTS_URL;
+//  private final RestTemplate restTemplate;
+//
+//  @Value("${service.post.url}")
+//  private String POSTS_URL;
+  private final PostServiceClient postServiceClient;
 
 
   /**
@@ -60,8 +60,7 @@ public class AsyncCallsService {
   @MeasureExecutionTime
   public CompletableFuture<List<Post>> getPostsByUserId(int id) {
     if (personRepository.existsById(id)) {
-      return CompletableFuture.completedFuture(
-          List.of(Objects.requireNonNull(restTemplate.getForObject(POSTS_URL + id, Post[].class))));
+      return CompletableFuture.completedFuture(postServiceClient.getPostsByUserId(id));
     } else {
       throw new PersonNotFoundException();
     }

@@ -4,7 +4,6 @@ import com.github.saintukrainian.cloudcrud.spannerconfig.DockerSpannerConfig;
 import com.github.saintukrainian.cloudcrud.spannerconfig.SpannerRemoteConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
