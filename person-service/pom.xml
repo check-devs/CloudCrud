@@ -15,7 +15,7 @@
     <name>cloudcrud</name>
     <description>Simple CRUD project</description>
     <properties>
-        <java.version>15</java.version>
+        <java.version>11</java.version>
         <spring-cloud-gcp.version>2.0.0</spring-cloud-gcp.version>
         <spring-cloud.version>2020.0.1</spring-cloud.version>
         <docker-java.version>3.2.5</docker-java.version>

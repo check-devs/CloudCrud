@@ -2,6 +2,8 @@ package com.github.saintukrainian.cloudcrud.spannerconfig;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.command.PullImageResultCallback;
+import com.github.dockerjava.api.model.AuthConfig;
 import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
@@ -18,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Denys Matsenko
@@ -40,6 +43,7 @@ public class DockerSpannerConfig {
 
 
     static {
+        System.setProperty("SPANNER_EMULATOR_HOST", "http://host.docker.internal:9010/");
         DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig.createDefaultConfigBuilder();
 
         if (System.getProperty("os.name").contains("Windows")) {
@@ -64,14 +68,13 @@ public class DockerSpannerConfig {
     public void setupDocker() throws InterruptedException {
 
         // setting up docker
-        System.setProperty("SPANNER_EMULATOR_HOST", "http://localhost:9010/");
 
 //         pulling emulator image
         log.info("Pulling emulator image...");
-//        dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator")
-//                .withAuthConfig(new AuthConfig())
-//                .exec(new PullImageResultCallback())
-//                .awaitCompletion(60, TimeUnit.SECONDS);
+        dockerClient.pullImageCmd("gcr.io/cloud-spanner-emulator/emulator")
+                .withAuthConfig(new AuthConfig())
+                .exec(new PullImageResultCallback())
+                .awaitCompletion(60, TimeUnit.SECONDS);
         log.info("Emulator image has been pulled!");
 
 
@@ -90,6 +93,9 @@ public class DockerSpannerConfig {
      * Method for setting up spanner
      */
     public void setupSpanner(String projectId, String instanceId, String configId) {
+        projectId = projectId == null ? "test-project" : projectId;
+        instanceId = instanceId == null ? "test-instance" : instanceId;
+        configId = configId == null ? "emulator-config" : configId;
         spanner = SpannerOptions.newBuilder()
                 .setProjectId(projectId)
                 .setEmulatorHost(System.getProperty("SPANNER_EMULATOR_HOST"))
@@ -126,6 +132,9 @@ public class DockerSpannerConfig {
      * Method for setting up the database
      */
     public void setupDatabase(String projectId, String instanceId, String databaseName) {
+        projectId = projectId == null ? "test-project" : projectId;
+        instanceId = instanceId == null ? "test-instance" : instanceId;
+        databaseName = databaseName == null ? "test-db" : databaseName;
         dbId = DatabaseId.of(projectId, instanceId, databaseName);
         DatabaseAdminClient dbAdminClient = spanner.getDatabaseAdminClient();
 

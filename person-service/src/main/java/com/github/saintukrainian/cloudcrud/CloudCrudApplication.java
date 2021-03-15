@@ -34,7 +34,7 @@ public class CloudCrudApplication {
 
   @PostConstruct
   public void initEmulator() throws InterruptedException {
-    dockerSpannerConfig.setupDocker();
+//    dockerSpannerConfig.setupDocker();
 
     dockerSpannerConfig.setupSpanner(
         spannerRemoteConfig.getProjectId(),

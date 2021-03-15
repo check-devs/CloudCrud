@@ -6,14 +6,11 @@ import com.github.saintukrainian.cloudcrud.entities.Post;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
 import com.github.saintukrainian.cloudcrud.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 

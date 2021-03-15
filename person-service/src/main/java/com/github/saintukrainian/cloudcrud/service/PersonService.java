@@ -2,6 +2,7 @@ package com.github.saintukrainian.cloudcrud.service;
 
 import com.github.saintukrainian.cloudcrud.annotations.MeasureExecutionTime;
 import com.github.saintukrainian.cloudcrud.entities.*;
+import com.github.saintukrainian.cloudcrud.entities.PersonWithDetails;
 import com.github.saintukrainian.cloudcrud.exceptions.BadRequestException;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonDetailsNotFoundException;
 import com.github.saintukrainian.cloudcrud.exceptions.PersonNotFoundException;
