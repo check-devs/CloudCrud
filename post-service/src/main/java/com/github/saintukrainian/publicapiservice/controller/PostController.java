@@ -3,7 +3,6 @@ package com.github.saintukrainian.publicapiservice.controller;
 import com.github.saintukrainian.publicapiservice.entities.Post;
 import com.github.saintukrainian.publicapiservice.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
