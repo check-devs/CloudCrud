@@ -35,3 +35,9 @@ services:
       - post-service
     ports:
       - "8080:8080"
+  bigquery-service:
+    image: bigquery-service
+    depends_on:
+      - eureka-server
+    ports:
+    - "8083:8083"
