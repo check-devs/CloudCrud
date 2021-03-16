@@ -25,7 +25,7 @@ public class PersonControllerTest extends AbstractTest {
   public void getPersonsList() throws Exception {
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.get(PERSONS_URL).accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.get(PERSONS_URL).accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
 
     MockHttpServletResponse response = mvcResult.getResponse();
@@ -49,8 +49,8 @@ public class PersonControllerTest extends AbstractTest {
     int id = 1;
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.get(PERSONS_URL + id)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.get(PERSONS_URL + id)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
 
     MockHttpServletResponse response = mvcResult.getResponse();
@@ -72,9 +72,9 @@ public class PersonControllerTest extends AbstractTest {
     String inputJson = super.mapToJson(person);
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.post(PERSONS_URL)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content(inputJson))
+            MockMvcRequestBuilders.post(PERSONS_URL)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(inputJson))
             .andReturn();
 
     MockHttpServletResponse response = mvcResult.getResponse();
@@ -95,9 +95,9 @@ public class PersonControllerTest extends AbstractTest {
     String inputJson = super.mapToJson(person);
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.put(PERSONS_URL + userId)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content(inputJson))
+            MockMvcRequestBuilders.put(PERSONS_URL + userId)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(inputJson))
             .andReturn();
 
     MockHttpServletResponse response = mvcResult.getResponse();
@@ -112,10 +112,10 @@ public class PersonControllerTest extends AbstractTest {
     SearchParams params = new SearchParams("Denys");
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.post(PERSONS_URL + "search")
-                    .content(mapToJson(params))
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.post(PERSONS_URL + "search")
+                .content(mapToJson(params))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     int status = mvcResult.getResponse().getStatus();
     assertEquals(200, status);
@@ -142,8 +142,8 @@ public class PersonControllerTest extends AbstractTest {
   public void personNotFound() throws Exception {
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.get(PERSONS_URL + 10000)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.get(PERSONS_URL + 10000)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     MockHttpServletResponse response = mvcResult.getResponse();
     assertEquals(404, response.getStatus());
@@ -154,8 +154,8 @@ public class PersonControllerTest extends AbstractTest {
   public void personWithDetailsNotFound() throws Exception {
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.get(PWD_URL + 10000)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.get(PWD_URL + 10000)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     MockHttpServletResponse response = mvcResult.getResponse();
     assertEquals(404, response.getStatus());
@@ -167,10 +167,10 @@ public class PersonControllerTest extends AbstractTest {
     Person person = new Person(1, "Denys", "Matsenko", "idanchik47@gmail.com");
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.post(PERSONS_URL)
-                    .content(mapToJson(person))
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.post(PERSONS_URL)
+                .content(mapToJson(person))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     MockHttpServletResponse response = mvcResult.getResponse();
     assertEquals(400, response.getStatus());

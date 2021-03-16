@@ -3,12 +3,12 @@ services:
   emulator:
     image: gcr.io/cloud-spanner-emulator/emulator
     ports:
-    - "9010:9010"
-    - "9020:9020"
+      - "9010:9010"
+      - "9020:9020"
   eureka-server:
     image: eureka-server
     ports:
-    - "8761:8761"
+      - "8761:8761"
   person-service:
     image: person-service
     depends_on:
@@ -16,22 +16,22 @@ services:
       - eureka-server
       - config-service
     ports:
-    - "8081:8081"
+      - "8081:8081"
   post-service:
     image: post-service
     depends_on:
       - eureka-server
       - config-service
     ports:
-    - "8082:8082"
+      - "8082:8082"
   config-service:
     image: config-server
     ports:
-    - "8888:8888"
+      - "8888:8888"
   zuul-server:
     image: zuul-server
     depends_on:
       - person-service
       - post-service
     ports:
-    - "8080:8080"
+      - "8080:8080"

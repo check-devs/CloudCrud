@@ -1,15 +1,15 @@
 # CloudCrud
 
-The **CloudCrud** project is based on **GCP Spanner** database and **REST API**.
-You are able to use this project by sending requests and getting responces.
+The **CloudCrud** project is based on **GCP Spanner** database and **REST API**. You are able to use this project by
+sending requests and getting responces.
 
-Using this project, you can retrieve different sets of person's data like their details, 
-personal information or posts that they've posted.
+Using this project, you can retrieve different sets of person's data like their details, personal information or posts
+that they've posted.
 <br>__*At the same time you can get person with details or person with posts.*__<br>
-For example, you can use person and posts for outputting different cards with person's data 
-or use person and their details for the profile page or the dashboard.
+For example, you can use person and posts for outputting different cards with person's data or use person and their
+details for the profile page or the dashboard.
 
-*Shorcuts*: 
+*Shorcuts*:
 
 ```
           person with details = pwd
@@ -18,7 +18,9 @@ or use person and their details for the profile page or the dashboard.
           
           person's details = pd
 ```
+
 *Structure of person*:
+
 ```json
           {
              "id": 1,
@@ -27,7 +29,9 @@ or use person and their details for the profile page or the dashboard.
              "email": "idanchik47@gmail.com"
           }
 ```     
+
 *Structure of person's details*:
+
 ```json
           {
              "detailsId": 1,
@@ -36,6 +40,7 @@ or use person and their details for the profile page or the dashboard.
              "phoneNumber": "3548590348",
           }      
  ```
+
 **To retrieve person with posts by id** - ``curl https://cloudcrud.herokuapp.com/pwp/1``
 
 **To retrieve person with details by id** - ``curl https://cloudcrud.herokuapp.com/pwd/1``

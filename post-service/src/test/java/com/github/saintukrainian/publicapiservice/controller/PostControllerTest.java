@@ -43,8 +43,8 @@ public class PostControllerTest extends AbstractTest {
     int userId = 1;
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.get(POSTS_URL + userId)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.get(POSTS_URL + userId)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
 
     MockHttpServletResponse response = mvcResult.getResponse();

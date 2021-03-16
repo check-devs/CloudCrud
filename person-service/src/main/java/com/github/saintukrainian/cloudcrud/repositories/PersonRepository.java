@@ -7,10 +7,8 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author Denys Matsenko
- * <p>
- * The {@code PersonRepository} interface is a simple spanner repository for {@code Person} entity class
+ *     <p>The {@code PersonRepository} interface is a simple spanner repository for {@code Person}
+ *     entity class
  */
 @Repository
-public interface PersonRepository extends SpannerRepository<Person, Integer> {
-    
-}
+public interface PersonRepository extends SpannerRepository<Person, Integer> {}

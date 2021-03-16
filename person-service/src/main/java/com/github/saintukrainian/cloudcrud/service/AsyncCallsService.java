@@ -28,7 +28,6 @@ public class AsyncCallsService {
   private final PersonRepository personRepository;
   private final PostServiceClient postServiceClient;
 
-
   /**
    * Method for getting person by id from repository asynchronously
    *

@@ -25,8 +25,8 @@ public class PersonWithDetailsControllerTest extends AbstractTest {
 
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.get(PWD_URL + userId)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.get(PWD_URL + userId)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
 
     MockHttpServletResponse response = mvcResult.getResponse();
@@ -53,8 +53,8 @@ public class PersonWithDetailsControllerTest extends AbstractTest {
   public void personWithDetailsNotFound() throws Exception {
     MvcResult mvcResult =
         mvc.perform(
-                MockMvcRequestBuilders.get(PWD_URL + 10000)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            MockMvcRequestBuilders.get(PWD_URL + 10000)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     MockHttpServletResponse response = mvcResult.getResponse();
     assertEquals(404, response.getStatus());

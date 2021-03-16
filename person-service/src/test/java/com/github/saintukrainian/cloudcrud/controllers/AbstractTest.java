@@ -24,11 +24,15 @@ public abstract class AbstractTest {
   protected static final String PWD_URL = "http://person-service/pwd/";
   protected static final String PD_URL = "http://person-service/pd/";
 
-  @Autowired PersonRepository personRepository;
-  @Autowired PersonDetailsRepository personDetailsRepository;
-  @Autowired PersonService personService;
+  @Autowired
+  PersonRepository personRepository;
+  @Autowired
+  PersonDetailsRepository personDetailsRepository;
+  @Autowired
+  PersonService personService;
 
-  @Autowired WebApplicationContext webApplicationContext;
+  @Autowired
+  WebApplicationContext webApplicationContext;
 
   protected void setUp() {
     mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
