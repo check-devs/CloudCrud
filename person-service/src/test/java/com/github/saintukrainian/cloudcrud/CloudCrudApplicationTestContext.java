@@ -17,7 +17,6 @@ public class CloudCrudApplicationTestContext {
 
   @PostConstruct
   public void contextLoads() throws InterruptedException {
-    System.out.println(spannerRemoteConfig.toString());
     dockerSpannerConfig.setupDocker();
 
     dockerSpannerConfig.setupSpanner(
