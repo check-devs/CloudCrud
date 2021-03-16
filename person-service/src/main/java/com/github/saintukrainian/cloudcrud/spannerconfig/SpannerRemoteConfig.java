@@ -6,13 +6,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Getter
+@Setter
 @ConfigurationProperties("spanner")
 public class SpannerRemoteConfig {
-  @Getter @Setter private String instanceId;
+  private String instanceId;
 
-  @Getter @Setter private String projectId;
+  private String projectId;
 
-  @Getter @Setter private String databaseName;
+  private String databaseName;
 
-  @Getter @Setter private String configId;
+  private String configId;
 }
