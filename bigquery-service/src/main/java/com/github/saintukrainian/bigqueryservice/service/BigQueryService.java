@@ -5,9 +5,11 @@ import com.google.cloud.bigquery.Job;
 import com.google.cloud.bigquery.JobId;
 import com.google.cloud.bigquery.JobInfo;
 import com.google.cloud.bigquery.QueryJobConfiguration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.UUID;
 
+@PropertySource("classpath:sql.properties")
 public class BigQueryService {
 
   protected JobId getRandomJobId() {
