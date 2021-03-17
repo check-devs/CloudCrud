@@ -1,8 +1,13 @@
 package com.github.saintukrainian.bigqueryservice.entities;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@Builder
 public class Hospital {
   private String providerId;
   private String hospitalName;
