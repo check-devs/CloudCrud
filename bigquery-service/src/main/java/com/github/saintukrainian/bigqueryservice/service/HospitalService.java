@@ -1,9 +1,8 @@
 package com.github.saintukrainian.bigqueryservice.service;
 
+import com.github.saintukrainian.bigqueryservice.configs.BigQueryAuthentication;
 import com.github.saintukrainian.bigqueryservice.entities.Hospital;
 import com.github.saintukrainian.bigqueryservice.mapper.BigQueryMapper;
-import com.github.saintukrainian.bigqueryservice.mapper.HospitalMapper;
-import com.google.cloud.bigquery.FieldValueList;
 import com.google.cloud.bigquery.Job;
 import com.google.cloud.bigquery.QueryJobConfiguration;
 import com.google.cloud.bigquery.TableResult;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -28,7 +26,6 @@ public class HospitalService extends BigQueryService {
   private String HOSPITALS_MAX_10;
 
   public List<Hospital> getHospitals() throws InterruptedException {
-
     QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(HOSPITALS_MAX_10).build();
     Job queryJob = getConfiguredJob(queryConfig);
     queryJob = queryJob.waitFor();

@@ -42,7 +42,7 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
+			<groupId>com.google.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter</artifactId>
 		</dependency>
 		<dependency>
@@ -68,14 +68,14 @@
 			<dependency>
 				<groupId>com.google.cloud</groupId>
 				<artifactId>libraries-bom</artifactId>
-				<version>13.4.0</version>
+				<version>19.1.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-gcp-dependencies</artifactId>
-				<version>1.2.3.RELEASE</version>
+				<version>1.2.4.BUILD-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

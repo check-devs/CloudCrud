@@ -13,6 +13,7 @@ public class BigQueryAuthentication {
     throw new AssertionError();
   }
 
+  // in progress
   public static BigQuery getBigQuery() {
     if (bigQuery == null) {
       bigQuery =
