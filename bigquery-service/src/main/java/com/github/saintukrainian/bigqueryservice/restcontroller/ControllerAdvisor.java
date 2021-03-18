@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ControllerAdvisor {
 
-  @ExceptionHandler
+  @ExceptionHandler(InterruptedException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public String serverError(InterruptedException e) {
     return "Internal server error";
