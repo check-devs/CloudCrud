@@ -24,7 +24,7 @@ public class LondoCrimeController {
   }
 
   @GetMapping("/most-criminal-category/{year}")
-  public LondonCrime getTheMostCriminalCategoryByYear(@PathVariable int year) throws InterruptedException {
+  public List<LondonCrime> getTheMostCriminalCategoryByYear(@PathVariable int year) throws InterruptedException {
     return londonCrimeService.getTheMostCriminalCategoryByYear(year);
   }
 }

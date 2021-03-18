@@ -1,8 +1,12 @@
 package com.github.saintukrainian.bigqueryservice.service;
 
 import com.github.saintukrainian.bigqueryservice.entities.LondonCrime;
+import com.github.saintukrainian.bigqueryservice.mapper.BigQueryMapper;
 import com.google.cloud.bigquery.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class LondonCrimeService extends BigQueryService {
+
+  @Qualifier("londonCrimeMapper")
+  private final BigQueryMapper<LondonCrime> bigQueryMapper;
 
   @Value("${sql.london-crimes.by.year.limit-10}")
   private String LONDON_CRIMES_MAX_10;
@@ -20,77 +28,29 @@ public class LondonCrimeService extends BigQueryService {
   private String LONDON_CRIME_MOST_POPULAR;
 
   public List<LondonCrime> getLondonCrimesByYear(int year) throws InterruptedException {
-    List<LondonCrime> crimesByYear = new ArrayList<>();
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(LONDON_CRIMES_MAX_10)
             .addNamedParameter("year", QueryParameterValue.int64(year))
             .build();
-
-    // Create a job ID so that we can safely retry.
     Job queryJob = getConfiguredJob(queryConfig);
-
     queryJob = queryJob.waitFor();
-
-    if (queryJob == null) {
-      throw new RuntimeException("Job no longer exists");
-    } else if (queryJob.getStatus().getError() != null) {
-      throw new RuntimeException(queryJob.getStatus().getError().toString());
-    }
+    throwExceptionIfJobIsNull(queryJob);
     TableResult result = queryJob.getQueryResults();
 
-    for (FieldValueList row : result.iterateAll()) {
-      LondonCrime londonCrime =
-          LondonCrime.builder()
-              .borough(row.get("borough").getStringValue())
-              .lsoaCode(row.get("lsoa_code").getStringValue())
-              .year((int) row.get("year").getLongValue())
-              .minorCategoryName(row.get("minor_category").getStringValue())
-              .majorCategoryName(row.get("major_category").getStringValue())
-              .value((int) row.get("value").getLongValue())
-              .totalNumberOfMinorCrime(
-                  row.get("total_number_of_crime_by_minor_category").getLongValue())
-              .totalNumberOfMajorCrime(
-                  row.get("total_number_of_crime_by_major_category").getLongValue())
-              .build();
-      crimesByYear.add(londonCrime);
-      log.info(londonCrime.toString());
-    }
-
-    return crimesByYear;
+    return bigQueryMapper.mapValuesFromRowsToList(result);
   }
 
-  public LondonCrime getTheMostCriminalCategoryByYear(int year) throws InterruptedException {
+  public List<LondonCrime> getTheMostCriminalCategoryByYear(int year) throws InterruptedException {
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(LONDON_CRIME_MOST_POPULAR)
             .addNamedParameter("year", QueryParameterValue.int64(year))
             .build();
 
-    // Create a job ID so that we can safely retry.
     Job queryJob = getConfiguredJob(queryConfig);
-
     queryJob = queryJob.waitFor();
-
     throwExceptionIfJobIsNull(queryJob);
-
     TableResult result = queryJob.getQueryResults();
 
-    LondonCrime londonCrime = null;
-    for (FieldValueList row : result.iterateAll()) {
-      londonCrime =
-          LondonCrime.builder()
-              .borough(row.get("borough").getStringValue())
-              .lsoaCode(row.get("lsoa_code").getStringValue())
-              .year((int) row.get("year").getLongValue())
-              .minorCategoryName(row.get("minor_category").getStringValue())
-              .majorCategoryName(row.get("major_category").getStringValue())
-              .value((int) row.get("value").getLongValue())
-              .totalNumberOfMinorCrime(
-                  row.get("total_number_of_crime_by_minor_category").getLongValue())
-              .totalNumberOfMajorCrime(
-                  row.get("total_number_of_crime_by_major_category").getLongValue())
-              .build();
-      log.info(londonCrime.toString());
-    }
-    return londonCrime;
+    return bigQueryMapper.mapValuesFromRowsToList(result);
   }
 }
