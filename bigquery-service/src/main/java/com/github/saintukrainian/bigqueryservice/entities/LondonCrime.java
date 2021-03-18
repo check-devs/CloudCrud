@@ -1,12 +1,10 @@
 package com.github.saintukrainian.bigqueryservice.entities;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @ToString
 @Builder
 public class LondonCrime {
