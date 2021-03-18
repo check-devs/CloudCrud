@@ -60,7 +60,7 @@ public class LondonCrimeService extends BigQueryService {
     return crimesByYear;
   }
 
-  public LondonCrime getTheMostCriminal(int year) throws InterruptedException {
+  public LondonCrime getTheMostCriminalCategoryByYear(int year) throws InterruptedException {
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(LONDON_CRIME_MOST_POPULAR)
             .addNamedParameter("year", QueryParameterValue.int64(year))

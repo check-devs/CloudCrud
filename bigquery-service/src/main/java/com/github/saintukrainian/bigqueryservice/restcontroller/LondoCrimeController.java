@@ -23,8 +23,8 @@ public class LondoCrimeController {
     return londonCrimeService.getLondonCrimesByYear(year);
   }
 
-  @GetMapping("/most-criminal/{year}")
-  public LondonCrime getTheMostCriminal(@PathVariable int year) throws InterruptedException {
-    return londonCrimeService.getTheMostCriminal(year);
+  @GetMapping("/most-criminal-category/{year}")
+  public LondonCrime getTheMostCriminalCategoryByYear(@PathVariable int year) throws InterruptedException {
+    return londonCrimeService.getTheMostCriminalCategoryByYear(year);
   }
 }
