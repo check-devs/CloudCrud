@@ -9,14 +9,14 @@ import lombok.*;
 @Builder
 public class LondonCrime {
 
-  private int year;
+  private Integer year;
   private String minorCategoryName;
   private String majorCategoryName;
   private String borough;
-  private int month;
-  private int value;
+  private Integer month;
+  private Integer value;
   private String lsoaCode;
-  private long totalNumberOfMinorCrime;
-  private long totalNumberOfMajorCrime;
+  private Long totalNumberOfMinorCrime;
+  private Long totalNumberOfMajorCrime;
 
 }
