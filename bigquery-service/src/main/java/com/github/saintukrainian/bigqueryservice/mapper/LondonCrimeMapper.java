@@ -24,6 +24,7 @@ public class LondonCrimeMapper implements BigQueryMapper<LondonCrime>{
               .year((int) row.get("year").getLongValue())
               .minorCategoryName(row.get("minor_category").getStringValue())
               .majorCategoryName(row.get("major_category").getStringValue())
+              .month((int) row.get("month").getLongValue())
               .value((int) row.get("value").getLongValue())
               .totalNumberOfMinorCrime(
                   row.get("total_number_of_crime_by_minor_category").getLongValue())
