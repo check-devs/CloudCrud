@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/london-crimes")
 @RequiredArgsConstructor
-public class LondoCrimeController {
+public class LondonCrimeController {
 
   private final LondonCrimeService londonCrimeService;
 

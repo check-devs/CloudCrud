@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Class for querying data from BigQuery
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -25,6 +28,12 @@ public class LondonCrimeService extends BigQueryService {
   @Value("${sql.london-crimes.by.popularity.year.limit-1}")
   private String LONDON_CRIME_MOST_POPULAR;
 
+  /**
+   * Getting London crimes by specific year
+   * @param year input year
+   * @return list of London crimes
+   * @throws InterruptedException is thrown by library
+   */
   public List<LondonCrime> getLondonCrimesByYear(int year) throws InterruptedException {
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(LONDON_CRIMES_MAX_10)
@@ -38,6 +47,12 @@ public class LondonCrimeService extends BigQueryService {
     return bigQueryMapper.mapValuesFromRowsToList(result);
   }
 
+  /**
+   * Getting the most criminal category by year
+   * @param year input year
+   * @return list of one item
+   * @throws InterruptedException is thrown by library
+   */
   public List<LondonCrime> getTheMostCriminalCategoryByYear(int year) throws InterruptedException {
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(LONDON_CRIME_MOST_POPULAR)

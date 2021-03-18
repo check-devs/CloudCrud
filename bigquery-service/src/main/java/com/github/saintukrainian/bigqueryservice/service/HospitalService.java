@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Class for querying data from BigQuery
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -25,6 +28,11 @@ public class HospitalService extends BigQueryService {
   @Value("${sql.hospitals.limit-10}")
   private String HOSPITALS_MAX_10;
 
+  /**
+   * Getting hospitals
+   * @return list of hospitals
+   * @throws InterruptedException is thrown by library
+   */
   public List<Hospital> getHospitals() throws InterruptedException {
     QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(HOSPITALS_MAX_10).build();
     Job queryJob = getConfiguredJob(queryConfig);
