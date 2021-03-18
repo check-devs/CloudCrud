@@ -21,8 +21,7 @@ public class HospitalService extends BigQueryService {
 
   public List<Hospital> getHospitals() throws InterruptedException {
 
-    QueryJobConfiguration queryConfig =
-        QueryJobConfiguration.newBuilder(HOSPITALS_MAX_10).setUseLegacySql(false).build();
+    QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(HOSPITALS_MAX_10).build();
 
     // Create a job ID so that we can safely retry.
     Job queryJob = getConfiguredJob(queryConfig);

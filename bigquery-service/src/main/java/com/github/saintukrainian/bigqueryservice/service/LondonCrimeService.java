@@ -24,7 +24,6 @@ public class LondonCrimeService extends BigQueryService {
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(LONDON_CRIMES_MAX_10)
             .addNamedParameter("year", QueryParameterValue.int64(year))
-            .setUseLegacySql(false)
             .build();
 
     // Create a job ID so that we can safely retry.
@@ -64,7 +63,6 @@ public class LondonCrimeService extends BigQueryService {
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(LONDON_CRIME_MOST_POPULAR)
             .addNamedParameter("year", QueryParameterValue.int64(year))
-            .setUseLegacySql(false)
             .build();
 
     // Create a job ID so that we can safely retry.
@@ -73,7 +71,7 @@ public class LondonCrimeService extends BigQueryService {
     queryJob = queryJob.waitFor();
 
     throwExceptionIfJobIsNull(queryJob);
-    
+
     TableResult result = queryJob.getQueryResults();
 
     LondonCrime londonCrime = null;
