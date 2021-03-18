@@ -3,8 +3,6 @@ package com.github.saintukrainian.bigqueryservice;
 //import com.google.cloud.bigquery.BigQuery;
 //import com.google.cloud.bigquery.BigQueryOptions;
 import com.github.saintukrainian.bigqueryservice.configs.BigQueryAuthentication;
-import com.google.cloud.bigquery.BigQuery;
-import com.google.cloud.bigquery.BigQueryOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -7,16 +7,14 @@ import com.google.cloud.bigquery.QueryJobConfiguration;
 import com.google.cloud.bigquery.TableResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Slf4j
 @Service
-public class HospitalService extends BigQueryService{
+public class HospitalService extends BigQueryService {
 
   @Value("${sql.hospitals.limit-10}")
   private String HOSPITALS_MAX_10;
@@ -31,11 +29,8 @@ public class HospitalService extends BigQueryService{
 
     queryJob = queryJob.waitFor();
 
-    if (queryJob == null) {
-      throw new RuntimeException("Job no longer exists");
-    } else if (queryJob.getStatus().getError() != null) {
-      throw new RuntimeException(queryJob.getStatus().getError().toString());
-    }
+    throwExceptionIfJobIsNull(queryJob);
+
     TableResult result = queryJob.getQueryResults();
 
     List<Hospital> simpleEntities = new ArrayList<>();
@@ -51,6 +46,5 @@ public class HospitalService extends BigQueryService{
       log.info(hospital.toString());
     }
     return simpleEntities;
-
   }
 }

@@ -4,7 +4,6 @@ import com.github.saintukrainian.bigqueryservice.entities.LondonCrime;
 import com.google.cloud.bigquery.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -73,11 +72,8 @@ public class LondonCrimeService extends BigQueryService {
 
     queryJob = queryJob.waitFor();
 
-    if (queryJob == null) {
-      throw new RuntimeException("Job no longer exists");
-    } else if (queryJob.getStatus().getError() != null) {
-      throw new RuntimeException(queryJob.getStatus().getError().toString());
-    }
+    throwExceptionIfJobIsNull(queryJob);
+    
     TableResult result = queryJob.getQueryResults();
 
     LondonCrime londonCrime = null;

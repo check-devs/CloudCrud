@@ -20,4 +20,12 @@ public class BigQueryService {
     return BigQueryAuthentication.getBigQuery()
         .create(JobInfo.newBuilder(queryJobConfiguration).setJobId(getRandomJobId()).build());
   }
+
+  protected void throwExceptionIfJobIsNull(Job queryJob) {
+    if (queryJob == null) {
+      throw new RuntimeException("Job no longer exists");
+    } else if (queryJob.getStatus().getError() != null) {
+      throw new RuntimeException(queryJob.getStatus().getError().toString());
+    }
+  }
 }
